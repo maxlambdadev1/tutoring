@@ -1,4 +1,4 @@
-<p align="center"><a href="https://alchemytuition.com.au" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTNot1_49scxxiwKNgwW9zEFaqrADSrYjZV6_ALZ_3MyV-fX5I7cLcLl0MuxfniLAhGNY&usqp=CAU" width="400" alt="Alchemy Logo"></a></p>
+<p align="center"><a href="https://alchemytuition.com.au" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTNot1_49scxxiwKNgwW9zEFaqrADSrYjZV6_ALZ_3MyV-fX5I7cLcLl0MuxfniLAhGNY&usqp=CAU" width="250" alt="Alchemy Logo"></a></p>
 
 
 ## About Tutoring App
