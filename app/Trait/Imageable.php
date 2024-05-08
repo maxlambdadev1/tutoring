@@ -1,7 +1,8 @@
 <?php
-namespace App\Helper;
 
-Trait Imageable 
+namespace App\Trait;
+
+trait Imageable
 {
     public function storeProfileImage($request)
     {
