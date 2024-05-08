@@ -1,0 +1,93 @@
+<ul class="side-nav">
+
+    <li class="side-nav-item">
+        <a href="{{route('admin.dashboard')}}" class="side-nav-link" wire:navigate>
+            <i class="uil uil-home-alt"></i>
+            <span> Home </span>
+        </a>
+    </li>
+
+    @can('action-owner')
+        <li class="side-nav-title side-nav-item">Owner</li>
+
+        <li class="side-nav-item">
+            <a href="#" class="side-nav-link">
+                <i class="mdi mdi-crowd"></i>
+                <span> Team members </span>
+            </a>
+        </li>
+
+        <li class="side-nav-item">
+            <a href="#" class="side-nav-link">
+                <i class="uil uil-user-plus"></i>
+                <span> Add member </span>
+            </a>
+        </li>
+
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sidebarSetting" aria-expanded="false" aria-controls="sidebarSetting" class="side-nav-link">
+                <i class="uil uil-bright"></i>
+                <span> Setting </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarSetting">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="#">State & Grade</a>
+                    </li>
+                    <li>
+                        <a href="#">Subjects</a>
+                    </li>
+                    <li>
+                        <a href="#">Session types</a>
+                    </li>
+                    <li>
+                        <a href="#">Availabilities</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </li>
+    @endcan
+
+    @can('action-manager')
+        <li class="side-nav-title side-nav-item">Manager</li>
+
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sidebarLeads" aria-expanded="false" aria-controls="sidebarLeads" class="side-nav-link">
+                <i class="uil uil-map-pin-alt"></i>
+                <span> Leads </span>
+                <span class="badge bg-danger text-white ms-3 mt-0">New</span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarLeads">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="#">Current Leads</a>
+                    </li>
+                    <li>
+                        <a href="#">Deleted Leads</a>
+                    </li>
+                    <li>
+                        <a href="#">Add Leads</a>
+                    </li>
+                    <li>
+                        <a href="#">Lead Map</a>
+                    </li>
+                    <li>
+                        <a href="#">Welcome Calls</a>
+                    </li>
+                    <li>
+                        <a href="#">Find Tutor</a>
+                    </li>
+                    <li>
+                        <a href="#">Replacement Tutors</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    @endcan
+
+    <li class="side-nav-title side-nav-item">Collaborator</li>
+    
+</ul>
