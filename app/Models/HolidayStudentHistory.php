@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class HolidayStudentHistory extends Model
+{
+    use HasFactory;
+
+    protected $table = 'alchemy_holiday_student_history';
+
+    protected $fillable = [
+        'holiday_id',
+        'author',
+        'comment',
+        'date',
+    ];
+}
