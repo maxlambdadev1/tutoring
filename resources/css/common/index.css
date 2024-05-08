@@ -1,0 +1,28 @@
+.text-sm {
+    font-size: 14px;
+}
+
+.bootstrap-timepicker-widget.timepicker-orient-top {
+    bottom: auto!important;
+    top: calc(1.5em + 0.9rem + 2px)!important;
+}
+.dripicons-plus {
+    cursor: pointer;
+}
+.custom-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.avail_hours {
+    padding: 5px 3px;
+    background-color: var(--ct-input-border-color);
+    cursor: pointer;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 5px;
+}
+.avail_hours.active {
+    background-color: var(--ct-primary);
+    color: #fff;
+}

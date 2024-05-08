@@ -1,0 +1,55 @@
+ul {
+    padding: 0;
+    list-style-type: none;
+}
+li.item {
+    color: white;
+    display: inline-block;
+    padding: 0 6px;
+}
+.availabilities_list li.item, .ignore_tutors_list li.item {
+    padding-left: 0;
+}
+.availabilities_list li button, .ignore_tutors_list li button {
+    border: none;
+    border-right: 1px solid white;
+    color: white;
+    background-color: #727cf5;
+}
+.was-validated .form-select:invalid + div, .form-select.is-invalid + div {
+    border-color: #fa5c7c !important;
+}
+.was-validated .form-select:valid + div {
+    border-color: #0acf97 !important;
+}
+.availabilities_list, .ignore_tutors_list {
+    min-height: 100px;
+}
+.availabilities_wrapper {
+    border: 1px solid var(--ct-input-border-color);
+    padding: 10px 5px;
+}
+
+.hidden {
+    display: none !important;
+}
+.details {
+    text-align: left !important;
+}
+.nav-item a.nav-link:hover {
+    border-bottom: 2px solid var(--ct-primary);
+}
+.nav-item a.active:hover {
+    border: none;
+}
+.other-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+table tr .table-sticky-right {
+    position: sticky;
+    right: 0;
+    z-index: 1;
+    background-color: #fff !important;
+}

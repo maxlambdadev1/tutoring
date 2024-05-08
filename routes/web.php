@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,14 +14,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
+Route::get('/', function() {
+    return redirect('login');
+})->name('welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+// Route::view('/', 'welcome');
 
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
+// Route::view('dashboard', 'dashboard')
+//     ->middleware(['auth', 'verified'])
+//     ->name('dashboard');
 
-require __DIR__.'/auth.php';
+// Route::view('profile', 'profile')
+//     ->middleware(['auth'])
+//     ->name('profile');
+
+// require __DIR__.'/auth.php';
+
+
+// ----- ADMIN -----
+Route::domain(env('ADMIN'))->group(base_path('routes/sub/admin.php'));
+
+// ----- TUTOR -----
+Route::domain(env('TUTOR'))->group(base_path('routes/sub/tutor.php'));
+
+// ----- PARENT ----
+Route::domain(env('PARENT'))->group(base_path('routes/sub/parent.php'));
+
+// ----- RECRUITER ----
+Route::domain(env('RECRUITER'))->group(base_path('routes/sub/recruiter.php'));
