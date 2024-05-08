@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new #[Layout('admin.layouts.guest')] class extends Component
+new #[Layout('tutor.layouts.guest')] class extends Component
 {
     public LoginForm $form;
 
@@ -26,7 +26,11 @@ new #[Layout('admin.layouts.guest')] class extends Component
 }; ?>
 
 <div>
+    <!-- title-->
+    <h4 class="mt-0">Sign In</h4>
+    <p class="text-muted mb-4">Enter your email address and password to access account.</p>
     <!-- Session Status -->
+    
     <x-auth-session-status class="mb-4" :status="session('status')" />
     <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
     <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
@@ -42,6 +46,10 @@ new #[Layout('admin.layouts.guest')] class extends Component
 
         <!-- Password -->
         <div class="mt-4">
+            @if (Route::has('tutor.password.request'))
+                <a href="{{ route('tutor.password.request') }}" class="text-muted float-end" wire:navigate><small>Forgot your password?</small></a>
+            @endif
+
             <label for="password" class="form-label">{{ __('Password') }}</label>
             <div class="input-group input-group-merge">
                 <input wire:model="form.password" type="password" id="password" class="form-control @error('form.password') is-invalid @enderror" name="password" placeholder="Enter your password" required autocomplete="current-password">
@@ -59,14 +67,8 @@ new #[Layout('admin.layouts.guest')] class extends Component
             </div>
         </div>
 
-        {{-- @if (Route::has('password.request'))
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
-                {{ __('Forgot your password?') }}
-            </a>
-        @endif --}}
-
-        <div class="mb-3 mb-0 text-center">
-            <button class="btn btn-primary" type="submit"> {{ __('Login') }} </button>
+        <div class="d-grid mb-3 mb-0 text-center mt-3">
+            <button class="btn btn-primary" type="submit"><i class="mdi mdi-login"></i> {{ __('Login') }} </button>
         </div>
     </form>
 </div>

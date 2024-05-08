@@ -7,59 +7,68 @@
         
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{asset('template/images/favicon.ico')}}">
-        @vite('resources/css/app.css')
         <!-- App css -->
         <link href="{{asset('template/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('template/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style"/>
+        @vite('resources/css/app.css')
 
     </head>
     
-    <body class="loading authentication-bg" data-layout-config='{"darkMode":false}'>
-        <div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-xxl-4 col-lg-5">
-                        <div class="card">
+    <body class="authentication-bg pb-0" data-layout-config='{"darkMode":false}'>
 
-                            <!-- Logo -->
-                            <div class="card-header pt-4 pb-4 text-center bg-primary">
-                                <a href="/" wire:navigate>
-                                    <img src="template/images/logo.png" alt="" height="40">
-                                </a>
-                            </div>
+        <div class="auth-fluid">
+            <!--Auth fluid left content -->
+            <div class="auth-fluid-form-box">
+                <div class="align-items-center d-flex h-100">
+                    <div class="card-body">
 
-                            <div class="card-body p-4">
-                                
-                                <div class="text-center w-75 m-auto">
-                                    <h4 class="text-dark-50 text-center pb-0 fw-bold">{{__('Sign In')}}</h4>
-                                    <p class="text-muted mb-4">{{__('Enter your email address and password to access admin panel.')}}</p>
-                                </div>
-                                <div>
-                                    {{ $slot }}
-                                </div>
-                            </div> <!-- end card-body -->
+                        <!-- Logo -->
+                        <div class="auth-brand text-center text-lg-start">
+                            <a href="/" class="logo-dark text-center" wire:navigate>
+                                <img src="template/images/logo-dark.jpg" alt="" height="50">
+                            </a>
+                            <a href="/" class="logo-light text-center" wire:navigate>
+                                <img src="template/images/logo.png" alt="" height="50">
+                            </a>
                         </div>
-                        <!-- end card -->
-                    </div> <!-- end col -->
-                </div>
-                <!-- end row -->
+
+                        <div>
+                            {{ $slot }}
+                        </div>
+
+                        <!-- Footer-->
+                        <footer class="footer footer-alt">
+                            <p class="text-muted">Don't have an account? <a href="#" class="text-muted ms-1"><b>Apply now!</b></a></p>
+                        </footer>
+
+                    </div> <!-- end .card-body -->
+                </div> <!-- end .align-items-center.d-flex.h-100-->
             </div>
-            <!-- end container -->
+            <!-- end auth-fluid-form-box-->
+
+            <!-- Auth fluid right content -->
+            <div class="auth-fluid-right text-center">
+                <div class="auth-user-testimonial">
+                    <h2 class="mb-3">I love the Alchemy!</h2>
+                    <p class="lead"><i class="mdi mdi-format-quote-open"></i> AlchemyTuition is a great place! I love it very much . <i class="mdi mdi-format-quote-close"></i>
+                    </p>
+                    <p>
+                        - Nic Rothquel
+                    </p>
+                </div> <!-- end auth-user-testimonial-->
+            </div>
+            <!-- end Auth fluid right content -->
         </div>
-        <!-- end page -->
+        <!-- end auth-fluid-->
 
-        <footer class="footer footer-alt">
-            2006 - {{date('Y')}} &copy; {{ config('app.name', 'AlchemyTuition') }}
-        </footer>
-
-        <!-- template bundle -->
+        <!-- bundle -->
         <script src="{{asset('vendor/jquery/jquery-3.6.0.min.js')}}"></script>
-        @vite('resources/js/app.js')
+        {{-- <script src="{{asset('js/app.js')}}"></script> --}}
         <script src="{{asset('vendor/select2/select2.min.js')}}"></script>
         <script src="{{asset('vendor/simplebar.min.js')}}"></script>
         <script src="{{asset('vendor/moment.min.js')}}"></script>
         <script src="{{asset('template/js/app.min.js')}}"></script>
-        
+
     </body>
 </html>
 

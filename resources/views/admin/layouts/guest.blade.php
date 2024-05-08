@@ -7,10 +7,10 @@
         
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{asset('template/images/favicon.ico')}}">
-        @vite('resources/css/app.css')
         <!-- App css -->
         <link href="{{asset('template/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('template/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style"/>
+        @vite('resources/css/app.css')
 
     </head>
     

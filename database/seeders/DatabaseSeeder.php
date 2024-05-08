@@ -21,8 +21,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             RoleSeeder::class,
-            AdminRoleSeeder::class,            
+            AdminRoleSeeder::class,
             AdminSeeder::class,
         ]);
+
+        \App\Models\Admin::factory(11)->create();
+        \App\Models\Tutor::factory(11)->create();
+        \App\Models\User::factory(10)->create();
     }
 }

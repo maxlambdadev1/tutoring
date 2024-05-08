@@ -6,7 +6,7 @@ use App\Models\Admin;
 
 new class extends Component
 {
-    public $admin;
+    public $tutor;
     /**
      * Log the current user out of the application.
      */
@@ -19,7 +19,7 @@ new class extends Component
 
     public function mount()
     {
-        $this->admin = auth()->user()->admin;
+        $this->tutor = auth()->user()->tutor;
     }
 }; ?>
 
@@ -227,17 +227,17 @@ new class extends Component
             <a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
                 aria-expanded="false">
                 <span class="account-user-avatar"> 
-                    <img src="{{asset($admin->getPhoto())}}" alt="user-image" class="rounded-circle">
+                    <img src="{{asset($tutor->getPhoto())}}" alt="user-image" class="rounded-circle">
                 </span>
                 <span>
-                    <span class="account-user-name">{{$admin->admin_name}}</span>
-                    <span class="account-position">{{$admin->admin_role->name}}</span>
+                    <span class="account-user-name">{{$tutor->getFullName()}}</span>
+                    <span class="account-position">Tutor</span>
                 </span>
             </a>
             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
                 <!-- item-->
                 <div class=" dropdown-header noti-title">
-                    <h6 class="text-overflow m-0">Welcome {{$admin->admin_name}}!</h6>
+                    <h6 class="text-overflow m-0">Welcome {{$tutor->first_name}}!</h6>
                 </div>
 
                 <!-- item-->
