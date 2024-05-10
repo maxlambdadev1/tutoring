@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('author', 100);
             $table->text('comment');
             $table->string('date', 100); 
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

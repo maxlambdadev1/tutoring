@@ -17,6 +17,7 @@ return new class extends Migration
             $table->json('grades');
             $table->string('name')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

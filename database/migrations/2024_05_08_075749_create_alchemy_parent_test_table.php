@@ -32,6 +32,7 @@ return new class extends Migration
             $table->integer('mailchimp_inactive_status');
             $table->integer('5_sessions_podium_review');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

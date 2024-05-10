@@ -19,8 +19,8 @@ return new class extends Migration
             $table->float('offer_amount');
             $table->float('online_offer_amount');
             $table->string('offer_type', 100);
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

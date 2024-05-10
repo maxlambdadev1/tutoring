@@ -39,6 +39,7 @@ return new class extends Migration
             $table->string('create_time', 100)->default('0');
             $table->text('last_updated'); 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

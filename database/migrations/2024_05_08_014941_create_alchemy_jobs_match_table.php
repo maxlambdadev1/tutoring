@@ -27,8 +27,8 @@ return new class extends Migration
             $table->integer('reminder3')->default(0);
             $table->integer('reminder4')->default(0);
             $table->string('last_updated', 100);
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

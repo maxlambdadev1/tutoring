@@ -18,8 +18,8 @@ return new class extends Migration
             $table->mediumText('date')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->tinyInteger('reminder')->default(0);
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

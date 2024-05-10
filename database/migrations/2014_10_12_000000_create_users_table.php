@@ -21,6 +21,7 @@ return new class extends Migration
             $table->tinyInteger('active')->default(1)->comment('0:blocked, 1:active, 2:pending');    // 0:blocked, 1:active, 2:pending
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

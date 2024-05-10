@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('tutor_id')->nullable()->comment('tutor id from alchemy_tutor table');
             $table->integer('not_continue_number')->nullable();
             $table->integer('type')->default(1);
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

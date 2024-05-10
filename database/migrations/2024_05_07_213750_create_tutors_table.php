@@ -49,6 +49,7 @@ return new class extends Migration
             $table->string('referral_key')->unique();
             $table->boolean('vacinated')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

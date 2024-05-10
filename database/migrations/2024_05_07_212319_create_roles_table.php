@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->comment('1: tutor, 2: parent, 3: recruiter, 4: admin');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

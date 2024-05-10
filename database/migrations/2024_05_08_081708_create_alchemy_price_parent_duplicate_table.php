@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('parent_id');
             $table->integer('price');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

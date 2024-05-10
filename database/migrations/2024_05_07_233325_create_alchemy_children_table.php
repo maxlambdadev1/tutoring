@@ -28,8 +28,8 @@ return new class extends Migration
             $table->tinyInteger('google_ads')->default(0);
             $table->tinyInteger('follow_up')->default(0)->nullable();
             $table->text('no_follow_up_reason')->nullable();
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

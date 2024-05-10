@@ -18,8 +18,8 @@ return new class extends Migration
             $table->text('tutor_image');
             $table->unsignedInteger('session_number');
             $table->unsignedInteger('student_number');
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

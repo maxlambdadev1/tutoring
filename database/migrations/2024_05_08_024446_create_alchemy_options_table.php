@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('option_id');
             $table->string('option_name');
             $table->mediumText('option_value')->nullable();
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('tutor_id');
             $table->integer('child_id');
             $table->integer('connected_id');
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

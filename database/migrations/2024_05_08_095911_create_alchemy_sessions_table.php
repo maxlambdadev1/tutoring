@@ -61,8 +61,8 @@ return new class extends Migration
             $table->integer('extra_expenses_paid')->default(0);
             $table->string('request_abn', 100)->nullable();
             $table->text('session_last_changed')->nullable();
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -36,8 +36,8 @@ return new class extends Migration
             $table->string('postcode',50)->nullable();
             $table->string('referral_key',50)->nullable();
             $table->string('last_updated',50)->nullable();
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

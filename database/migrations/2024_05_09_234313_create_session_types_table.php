@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('tutor_price')->nullable();
             $table->string('increase_rate')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

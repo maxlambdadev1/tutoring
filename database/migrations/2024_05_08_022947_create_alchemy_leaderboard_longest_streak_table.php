@@ -18,8 +18,8 @@ return new class extends Migration
             $table->text('tutor_image');
             $table->integer('week_number');
             $table->string('student_name', 100);
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('reminder3')->default(0);
             $table->string('last_updated', 100);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

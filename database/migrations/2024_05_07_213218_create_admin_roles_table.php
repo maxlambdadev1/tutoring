@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->comment('1: owner, 2: manager, 3 collaborator');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

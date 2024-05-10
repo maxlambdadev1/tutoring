@@ -18,8 +18,8 @@ return new class extends Migration
             $table->longText('content');
             $table->text('file')->nullable();
             $table->tinyInteger('allow')->default(0);
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

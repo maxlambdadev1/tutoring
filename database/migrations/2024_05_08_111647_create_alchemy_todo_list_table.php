@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('email_sent')->default(0);
             $table->string('created_at', 100);
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->softDeletes();
         });
     }
 

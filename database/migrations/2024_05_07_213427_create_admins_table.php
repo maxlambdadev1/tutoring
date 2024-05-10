@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->tinyInteger('admin_role_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

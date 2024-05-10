@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('alchemy_parent_cc', function (Blueprint $table) {
             $table->id('parent_id');
             $table->text('cc');
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

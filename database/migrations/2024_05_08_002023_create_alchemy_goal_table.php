@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('month', 50)->nullable();
             $table->string('goal_start', 50)->nullable();
             $table->string('goal_current', 50)->nullable();
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

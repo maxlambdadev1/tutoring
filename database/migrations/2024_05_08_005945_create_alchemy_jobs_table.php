@@ -59,8 +59,8 @@ return new class extends Migration
             $table->text('special_request_response')->nullable();
             $table->text('tutor_suggested_session_date')->nullable();
             $table->integer('is_from_main')->default(0);
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

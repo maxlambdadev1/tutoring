@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('post_id');
             $table->integer('comment_id');
             $table->string('type', 50);            
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

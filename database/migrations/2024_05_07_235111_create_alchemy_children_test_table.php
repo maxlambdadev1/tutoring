@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('child_confidence')->nullable();
             $table->integer('child_ability')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
