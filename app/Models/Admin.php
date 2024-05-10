@@ -14,7 +14,7 @@ class Admin extends Model
 
     public function getPhoto()
     {
-        return $this->photo ? $this->photo : 'images/no_avatar.jpg';
+        return $this->photo ? "storage/" . $this->photo : 'images/no_avatar.jpg';
     }
     
     public function user()
@@ -25,5 +25,17 @@ class Admin extends Model
     public function admin_role()
     {
         return $this->belongsTo(AdminRole::class, 'admin_role_id');
+    }
+    public function storeAdmin($request)
+    {
+        if ($request['user_id']) $this->user_id = $request['user_id'];
+        
+        $this->admin_name = $request['first_name'] . " " .  $request['last_name'];
+        $this->phone = $request['phone'];
+        $this->admin_role_id = $request['admin_role_id'];
+        $this->photo = $request['photo'];
+        
+        $this->save();
+        return $this;
     }
 }

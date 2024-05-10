@@ -23,6 +23,10 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             AdminRoleSeeder::class,
             AdminSeeder::class,
+            GradeSeeder::class,
+            StateSeeder::class,
+            AvailabilitySeeder::class,
+            SessionTypeSeeder::class,
         ]);
 
         \App\Models\Admin::factory(11)->create();

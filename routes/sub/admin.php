@@ -8,7 +8,7 @@ Route::middleware('guest')->group(function () {
     // Volt::route('register', 'admin.auth.register')->name('admin.register');           
     // Volt::route('forgot-password', 'admin.auth.forgot-password')->name('admin.password.request');
     // Volt::route('reset-password/{token}', 'admin.auth.reset-password')->name('admin.password.reset');        
-    Volt::route('login', 'admin.auth.login')->name('admin.login');
+    Volt::route('login', 'admin.auth.login')->name('login');
 });
 
 Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], function () {
@@ -18,8 +18,11 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
     // Volt::route('confirm-password', 'admin.auth.confirm-password')->name('password.confirm');
 
     Route::view('dashboard', 'admin.dashboard')->name('dashboard');
-    Route::middleware('can:action-owner')->group(function() {
-
+    Route::middleware('can:action-owner')->group(function() {     
+        Route::get('/users', \App\Livewire\Admin\User\Index::class)->name('users');
+        Route::get('/users/create', \App\Livewire\Admin\User\Create::class)->name('users.create');
+        Route::get('/users/{admin}/edit', \App\Livewire\Admin\User\Edit::class)->name('users.edit');
+        Route::get('/setting/states-grades', \App\Livewire\Admin\Setting\StatesGrades::class)->name('setting.states-grades');
     });
 
     Route::middleware('can:action-manager')->group(function() {

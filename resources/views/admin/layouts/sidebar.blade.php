@@ -11,14 +11,14 @@
         <li class="side-nav-title side-nav-item">Owner</li>
 
         <li class="side-nav-item">
-            <a href="#" class="side-nav-link">
+            <a href="/users" class="side-nav-link">
                 <i class="mdi mdi-crowd"></i>
                 <span> Team members </span>
             </a>
         </li>
 
         <li class="side-nav-item">
-            <a href="#" class="side-nav-link">
+            <a href="/users/create" class="side-nav-link">
                 <i class="uil uil-user-plus"></i>
                 <span> Add member </span>
             </a>
@@ -33,7 +33,7 @@
             <div class="collapse" id="sidebarSetting">
                 <ul class="side-nav-second-level">
                     <li>
-                        <a href="#">State & Grade</a>
+                        <a href="{{ route('admin.setting.states-grades') }}">State & Grade</a>
                     </li>
                     <li>
                         <a href="#">Subjects</a>

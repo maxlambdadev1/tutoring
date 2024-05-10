@@ -66,4 +66,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Tutor::class);
     }
+
+    public function storeUser($body)
+    {
+        $this->email = $body['email'];
+        $this->password = bcrypt($body['password']);
+        $this->role = $body['role'];
+        $this->save();
+
+        return $this;
+    }
 }

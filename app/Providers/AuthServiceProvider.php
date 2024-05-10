@@ -27,11 +27,11 @@ class AuthServiceProvider extends ServiceProvider
 
         // Customized code
         Gate::define('action-owner', function (User $user) {
-            return $user->user_role->type === 'admin' && $user->admin->admin_role->type === 'owner';
+            return $user->user_role->name === 'admin' && $user->admin->admin_role->name === 'owner';
         });
         Gate::define('action-manager', function (User $user) {
-            $user_type = $user->admin->admin_role->type;
-            return $user->user_role->type === 'admin' && ($user_type === 'owner' || $user_type == 'manager');
+            $user_type = $user->admin->admin_role->name;
+            return $user->user_role->name === 'admin' && ($user_type === 'owner' || $user_type == 'manager');
         });
     }
 }

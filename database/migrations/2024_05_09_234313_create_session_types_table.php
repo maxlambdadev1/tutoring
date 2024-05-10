@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('session_types', function (Blueprint $table) {
-            $table->id(); 
-            $table->string('code', 64)->nullable();
-            $table->string('name', 64)->nullable();
-            $table->text('description')->nullable();  
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->id();
+            $table->string('name')->nullable();
+            $table->string('kind')->nullable();
+            $table->string('session_price')->nullable();
+            $table->string('tutor_price')->nullable();
+            $table->string('increase_rate')->nullable();
+            $table->timestamps();
         });
     }
 

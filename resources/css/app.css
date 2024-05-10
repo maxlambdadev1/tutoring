@@ -3,3 +3,7 @@
 @tailwind utilities; */
 @import url('common/index.css');
 @import url('admin/index.css');
+
+.cursor-pointer {
+    cursor: pointer;
+}
