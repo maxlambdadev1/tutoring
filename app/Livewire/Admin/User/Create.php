@@ -72,7 +72,7 @@ class Create extends Component
             $body['user_id'] = $user->id;
             $admin->storeAdmin($body);
 
-            $this->reset_values();
+            $this->resetValues();
             return redirect()->back()->with('info', __('New member has been registered successfully!'));
 
         } catch (\Exception $e) {
@@ -88,7 +88,7 @@ class Create extends Component
         return view('livewire.admin.user.create', compact('admin_roles'));
     }
 
-    private function reset_values() {
+    private function resetValues() {
         $this->email = "";
         $this->first_name = "";
         $this->last_name = "";

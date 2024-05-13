@@ -10,7 +10,7 @@
         <!-- App css -->
         <link href="{{asset('template/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('template/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style"/>
-        @vite('resources/css/app.css')
+        <link href="{{asset('build/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style"/>
 
     </head>
     
@@ -54,7 +54,6 @@
 
         <!-- template bundle -->
         <script src="{{asset('vendor/jquery/jquery-3.6.0.min.js')}}"></script>
-        @vite('resources/js/app.js')
         <script src="{{asset('vendor/select2/select2.min.js')}}"></script>
         <script src="{{asset('vendor/simplebar.min.js')}}"></script>
         <script src="{{asset('vendor/moment.min.js')}}"></script>

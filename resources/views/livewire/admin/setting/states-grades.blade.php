@@ -67,7 +67,7 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-8">
-                                <x-form-input wire:model="grade_name" type="text" name="grade_name" label="Name" placeholder="Name" autocomplete="grade_name" />
+                                <x-form-input wire:model="gradeName" type="text" name="gradeName" label="Name" placeholder="Name" autocomplete="gradeName" />
                             </div>
                             <div class="col-md-4 d-flex justify-content-center align-items-center">
                                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -90,7 +90,7 @@
                                 @forelse ($grades as $grade)
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td class="grade_name">{{$grade->name}}</td>
+                                    <td class="gradeName">{{$grade->name}}</td>
                                     <td class="table-action">
                                         <a class="action-icon grade_edit cursor-pointer" title="Edit" wire:click="openEditGradeModal({{ $grade }})"> <i class="mdi mdi-pencil"></i></a>
                                         <a class="action-icon destroy cursor-pointer" title="Remove"> <i class="mdi mdi-delete" wire:click="deleteGrade({{ $grade }})"></i></a>
@@ -119,8 +119,8 @@
                 </div>
                 <div class="modal-body">
                     <form action="#" class="ps-3 pe-3">
-                        <x-form-input wire:model="edit_state_name" name="edit_state_name" label="Name" placeholder="Name" type="text" />
-                        <x-form-input wire:model="edit_state_desc" name="edit_state_desc" label="Description" placeholder="Description" type="text" />
+                        <x-form-input wire:model="editStateName" name="editStateName" label="Name" placeholder="Name" type="text" />
+                        <x-form-input wire:model="editStateDesc" name="editStateDesc" label="Description" placeholder="Description" type="text" />
                         <div class="mb-3 text-center">
                             <button class="btn rounded-pill btn-primary" data-bs-dismiss="modal" id="update_state" type="button" wire:click="updateState">Update</button>
                         </div>
@@ -139,7 +139,7 @@
                 </div>
                 <div class="modal-body">
                     <form action="#" class="ps-3 pe-3">
-                        <x-form-input wire:model="edit_grade_name" name="edit_grade_name" label="Name" placeholder="Name" type="text" />
+                        <x-form-input wire:model="editGradeName" name="editGradeName" label="Name" placeholder="Name" type="text" />
                         <div class="mb-3 text-center">
                             <button class="btn rounded-pill btn-primary" data-bs-dismiss="modal" id="update_grade" type="button" wire:click="updateGrade">Update</button>
                         </div>

@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Availability extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+
+    protected $casts = [
+        'time' => 'array'
+    ];
+
+    public function getAvailabilitiesName()
+    {
+        return collect($this->time);
+    }
 }
