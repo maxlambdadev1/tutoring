@@ -52,8 +52,8 @@
         <link href="{{asset('template/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('vendor/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{asset('template/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style"/>
+        <link href="{{asset('build/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style"/>
         @yield('css-library')
-        @vite('resources/css/app.css')
     </head>
 
     <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
@@ -251,8 +251,8 @@
         <script src="{{asset('vendor/toast.min.js')}}"></script>
         <script src="{{asset('vendor/sweetalert2/sweetalert2.min.js')}}"></script>
         <script src="{{asset('template/js/app.min.js')}}"></script>
+        <script src="{{asset('build/js/admin.js')}}" data-navigate-once></script>
         {{-- <script src="{{asset('js/function.js')}}"></script> --}}
-        
         @yield('library')
         {{-- <script src="{{asset('js/admin/index.js')}}"></script> --}}
 

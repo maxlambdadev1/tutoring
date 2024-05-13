@@ -15,8 +15,8 @@ class StatesGrades extends Component
 {
     public $state_name;
     public $description;
-    public $edit_state_name;
-    public $edit_state_desc;
+    public $editStateName;
+    public $editStateDesc;
     public $editStateId = null;
 
     /** for state management */
@@ -43,8 +43,8 @@ class StatesGrades extends Component
     public function openEditStateModal(State $state)
     {
         $this->editStateId = $state->id;
-        $this->edit_state_name = $state->name;
-        $this->edit_state_desc = $state->description;
+        $this->editStateName = $state->name;
+        $this->editStateDesc = $state->description;
         
         $this->dispatch('openEditStateModal', ['state_id' => $state->id]);
     }
@@ -52,13 +52,13 @@ class StatesGrades extends Component
     public function updateState()
     {
         $this->validate([
-            'edit_state_name' => 'required|max:255',
-            'edit_state_desc' => 'nullable|max:255'
+            'editStateName' => 'required|max:255',
+            'editStateDesc' => 'nullable|max:255'
         ]);
         try {
             $state = State::find($this->editStateId);
-            $state->name = $this->edit_state_name;
-            $state->description = $this->edit_state_desc;
+            $state->name = $this->editStateName;
+            $state->description = $this->editStateDesc;
             $state->save();
 
             $this->reset_state_values();
@@ -84,26 +84,26 @@ class StatesGrades extends Component
     {
         $this->state_name = "";
         $this->description = "";
-        $this->edit_state_name = "";
-        $this->edit_state_desc = "";
+        $this->editStateName = "";
+        $this->editStateDesc = "";
         $this->editStateId = null;
     }
 
     /** for grade */
 
-    public $grade_name;
-    public $edit_grade_name;
+    public $gradeName;
+    public $editGradeName;
     public $editGradeId = null;
 
     /** for state management */
     public function createGrade()
     {
         $this->validate([
-            'grade_name' => 'required|max:255',
+            'gradeName' => 'required|max:255',
         ]);
         try {
             $grade = new Grade();
-            $grade->name = $this->grade_name;
+            $grade->name = $this->gradeName;
             $grade->save();
 
             $this->reset_grade_values();
@@ -117,7 +117,7 @@ class StatesGrades extends Component
     public function openEditGradeModal(Grade $grade)
     {
         $this->editGradeId = $grade->id;
-        $this->edit_grade_name = $grade->name;
+        $this->editGradeName = $grade->name;
 
         $this->dispatch('openEditGradeModal', ['grade_id' => $grade->id]);
     }
@@ -125,11 +125,11 @@ class StatesGrades extends Component
     public function updateGrade()
     {
         $this->validate([
-            'edit_grade_name' => 'required|max:255',
+            'editGradeName' => 'required|max:255',
         ]);
         try {
             $grade = Grade::find($this->editGradeId);
-            $grade->name = $this->edit_grade_name;
+            $grade->name = $this->editGradeName;
             $grade->save();
 
             $this->reset_grade_values();
@@ -153,8 +153,8 @@ class StatesGrades extends Component
     }
     public function reset_grade_values()
     {
-        $this->grade_name = "";
-        $this->edit_grade_name = "";
+        $this->gradeName = "";
+        $this->editGradeName = "";
         $this->editStateId = null;
     }
 

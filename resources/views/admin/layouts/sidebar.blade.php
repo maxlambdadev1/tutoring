@@ -11,14 +11,14 @@
         <li class="side-nav-title side-nav-item">Owner</li>
 
         <li class="side-nav-item">
-            <a href="/users" class="side-nav-link">
+            <a href="/users" wire:navigate class="side-nav-link">
                 <i class="mdi mdi-crowd"></i>
                 <span> Team members </span>
             </a>
         </li>
 
         <li class="side-nav-item">
-            <a href="/users/create" class="side-nav-link">
+            <a href="/users/create" wire:navigate class="side-nav-link">
                 <i class="uil uil-user-plus"></i>
                 <span> Add member </span>
             </a>
@@ -33,16 +33,16 @@
             <div class="collapse" id="sidebarSetting">
                 <ul class="side-nav-second-level">
                     <li>
-                        <a href="{{ route('admin.setting.states-grades') }}">State & Grade</a>
+                        <a href="{{ route('admin.setting.states-grades') }}" wire:navigate>State & Grade</a>
                     </li>
                     <li>
-                        <a href="#">Subjects</a>
+                        <a href="{{ route('admin.setting.subjects') }}" wire:navigate>Subjects</a>
                     </li>
                     <li>
-                        <a href="#">Session types</a>
+                        <a href="{{ route('admin.setting.session-types') }}" wire:navigate>Session types</a>
                     </li>
                     <li>
-                        <a href="#">Availabilities</a>
+                        <a href="{{ route('admin.setting.availabilities') }}" wire:navigate>Availabilities</a>
                     </li>
                     
                 </ul>

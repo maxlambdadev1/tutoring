@@ -23,6 +23,9 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
         Route::get('/users/create', \App\Livewire\Admin\User\Create::class)->name('users.create');
         Route::get('/users/{admin}/edit', \App\Livewire\Admin\User\Edit::class)->name('users.edit');
         Route::get('/setting/states-grades', \App\Livewire\Admin\Setting\StatesGrades::class)->name('setting.states-grades');
+        Route::get('/setting/subjects', \App\Livewire\Admin\Setting\Subjects::class)->name('setting.subjects');
+        Route::get('/setting/session-types', \App\Livewire\Admin\Setting\SessionTypes::class)->name('setting.session-types');
+        Route::get('/setting/availabilities', \App\Livewire\Admin\Setting\Availabilities::class)->name('setting.availabilities');
     });
 
     Route::middleware('can:action-manager')->group(function() {
