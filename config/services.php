@@ -42,7 +42,8 @@ return [
     'podium' => [
         'url' => 'https://api.podium.com/api/v2/conversations',
         'key' => env('PODIUM_TOKEN'),
-        'locationId' => env('PODIUM_LOCATION_ID', 37723),
+        'locationUidFirst' => env('PODIUM_LOCATION_ID', '61eb0b61-518c-518d-bf74-234c77455914'),
+        'locationUidSecond' => env('PODIUM_LOCATION_ID', '766e6c6a-9617-5d46-a613-3c2fc0146928'),
     ],
 
 ];
