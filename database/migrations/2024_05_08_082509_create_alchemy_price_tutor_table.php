@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('tutor_id');
             $table->integer('parent_id');
             $table->integer('child_id');
-            $table->float('price');
+            $table->float('f2f');
             $table->float('online');
             $table->timestamps();
             $table->softDeletes();

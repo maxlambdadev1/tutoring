@@ -10,9 +10,12 @@ class PriceParent extends Model
     use HasFactory;
 
     protected $table = 'alchemy_price_parent';
+    protected  $primaryKey = 'parent_id';
+    public $incrementing = false;
 
     protected $fillable = [
-        'price',
+        'parent_id',
+        'f2f',
         'online',
     ];
 }
