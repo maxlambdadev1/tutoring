@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('alchemy_price_parent', function (Blueprint $table) {
-            $table->id('parent_id');
-            $table->integer('price');
+            $table->integer('parent_id');
+            $table->integer('f2f');
             $table->integer('online');
             $table->timestamps();
             $table->softDeletes();

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Trait\ModelSelectable;
 
 class PriceTutorOffer extends Model
 {
-    use HasFactory;
+    use HasFactory, ModelSelectable;
 
     protected $table = 'alchemy_price_tutor_offer';
 
