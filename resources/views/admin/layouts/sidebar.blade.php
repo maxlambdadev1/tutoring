@@ -69,7 +69,7 @@
                         <a href="#">Deleted Leads</a>
                     </li>
                     <li>
-                        <a href="#">Add Leads</a>
+                        <a href="{{ route('admin.leads.create') }}" wire:navigate>Add Leads</a>
                     </li>
                     <li>
                         <a href="#">Lead Map</a>

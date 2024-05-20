@@ -21,6 +21,11 @@ class StateSeeder extends Seeder
             ['name' => 'NSW', 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'VIC', 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'QLD', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'ACT', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'SA', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'WA', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'TAS', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'NT', 'created_at' => $now, 'updated_at' => $now],
         ]);
     }
 }

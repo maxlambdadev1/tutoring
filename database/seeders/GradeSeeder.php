@@ -19,6 +19,7 @@ class GradeSeeder extends Seeder
         $now = Carbon::now()->toDateTimeString();
         Grade::insert([
             ['name' => 'Pre-K', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'K', 'created_at' => $now, 'updated_at' => $now],
             ['name' => '1', 'created_at' => $now, 'updated_at' => $now],
             ['name' => '2', 'created_at' => $now, 'updated_at' => $now],
             ['name' => '3', 'created_at' => $now, 'updated_at' => $now],
@@ -31,6 +32,7 @@ class GradeSeeder extends Seeder
             ['name' => '10', 'created_at' => $now, 'updated_at' => $now],
             ['name' => '11', 'created_at' => $now, 'updated_at' => $now],
             ['name' => '12', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'Other', 'created_at' => $now, 'updated_at' => $now],
         ]);
     }
 }

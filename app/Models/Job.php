@@ -11,52 +11,68 @@ class Job extends Model
 
     protected $table = 'alchemy_jobs';
 
-    protected $fillable = [
-        'job_type',
-        'replacement_id',
-        'parent_id',
-        'child_id',
-        'date',
-        'time',
-        'start_date',
-        'subject',
-        'location',
-        'prefered_gender',
-        'job_notes',
-        'job_status',
-        'progress_status',
-        'reason',
-        'accepted_by',
-        'accepted_on',
-        'session_id',
-        'hidden',
-        'source',
-        'converted_by',
-        '3days_reminder',
-        '6days_reminder',
-        '9days_reminder',
-        'welcome_call',
-        'callback_time',
-        'create_time',
-        'last_updated',
-        'last_updated_for_waiting_list',
-        'session_type_id',
-        'contact_request',
-        'vaccinated',
-        'experienced_tutor',
-        'automation',
-        'match_tutor',
-        'voucher_number',
-        'main_result',
-        'performance',
-        'attitude',
-        'mind',
-        'personality',
-        'favourite',
-        'thirdparty_org_id',
-        'special_request_content',
-        'special_request_response',
-        'tutor_suggested_session_date',
-        'is_from_main',
+    protected $guarded = [];
+    protected $primaryKey = 'job_id';
+
+    protected $with = ['session_type', 'alchemy_parent', 'children', 'subject'];
+
+    protected $casts = [
+        'availabilities' => 'array'
     ];
+
+    /**
+     * Get the session_type that owns the JobList
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function session_type()
+    {
+        return $this->belongsTo(SessionType::class);
+    }
+
+    /**
+     * Get the alchemy_parent that owns the JobList
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function alchemy_parent()
+    {
+        return $this->belongsTo(Parent::class);
+    }
+    
+    public function children()
+    {
+        return $this->belongsTo(Child::class);
+    }
+
+    public function tutor()
+    {
+        return $this->belongsTo(Tutor::class);
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
+
+    public function parent_price()
+    {
+        return $this->hasOne(PriceParent::class, 'job_id');
+    }
+
+    public function tutor_price()
+    {
+        return $this->hasOne(PriceTutor::class, 'job_id');
+    }
+
+    public function tutor_price_offer()
+    {
+        return $this->hasOne(PriceTutorOffer::class, 'job_id');
+    }
+
+    public function alchemy_sessions()
+    {
+        return $this->hasMany(Session::class, 'job_id');
+    }
+
 }

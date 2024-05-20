@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('child_name');
             $table->string('child_first_name')->nullable();
             $table->string('child_last_name')->nullable();
-            $table->string('year', 10);
+            $table->string('child_year', 10);
             $table->string('child_birthday', 11)->nullable();
             $table->string('child_school')->nullable();
             $table->integer('child_status')->default(1);

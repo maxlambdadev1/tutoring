@@ -1,0 +1,92 @@
+stdClass Object
+(
+    [results] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [address_components] => Array
+                        (
+                            [0] => stdClass Object
+                                (
+                                    [long_name] => New South Wales
+                                    [short_name] => NSW
+                                    [types] => Array
+                                        (
+                                            [0] => administrative_area_level_1
+                                            [1] => political
+                                        )
+
+                                )
+
+                            [1] => stdClass Object
+                                (
+                                    [long_name] => Australia
+                                    [short_name] => AU
+                                    [types] => Array
+                                        (
+                                            [0] => country
+                                            [1] => political
+                                        )
+
+                                )
+
+                        )
+
+                    [formatted_address] => New South Wales, Australia
+                    [geometry] => stdClass Object
+                        (
+                            [bounds] => stdClass Object
+                                (
+                                    [northeast] => stdClass Object
+                                        (
+                                            [lat] => -28.15702
+                                            [lng] => 159.1054441
+                                        )
+
+                                    [southwest] => stdClass Object
+                                        (
+                                            [lat] => -37.5052801
+                                            [lng] => 140.9992793
+                                        )
+
+                                )
+
+                            [location] => stdClass Object
+                                (
+                                    [lat] => -31.2532183
+                                    [lng] => 146.921099
+                                )
+
+                            [location_type] => APPROXIMATE
+                            [viewport] => stdClass Object
+                                (
+                                    [northeast] => stdClass Object
+                                        (
+                                            [lat] => -28.15702
+                                            [lng] => 159.1054441
+                                        )
+
+                                    [southwest] => stdClass Object
+                                        (
+                                            [lat] => -37.5052801
+                                            [lng] => 140.9992793
+                                        )
+
+                                )
+
+                        )
+
+                    [partial_match] => 1
+                    [place_id] => ChIJDUte93TLDWsRLZ_EIhGvgBc
+                    [types] => Array
+                        (
+                            [0] => administrative_area_level_1
+                            [1] => political
+                        )
+
+                )
+
+        )
+
+    [status] => OK
+)
