@@ -14,7 +14,8 @@ use App\Models\Subject;
 class Subjects extends Component
 {
     use WithPagination;
-
+    protected $paginationTheme = 'bootstrap';
+    
     public $editSubjectId = null;
     public $name = "";
     public $state = "";

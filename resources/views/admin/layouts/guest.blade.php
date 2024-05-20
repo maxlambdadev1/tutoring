@@ -53,7 +53,7 @@
         </footer>
 
         <!-- template bundle -->
-        <script src="{{asset('vendor/jquery/jquery-3.6.0.min.js')}}"></script>
+        <script src="{{asset('vendor/jquery/jquery-3.6.0.min.js')}}" data-navigate-once></script>
         <script src="{{asset('vendor/select2/select2.min.js')}}"></script>
         <script src="{{asset('vendor/simplebar.min.js')}}"></script>
         <script src="{{asset('vendor/moment.min.js')}}"></script>

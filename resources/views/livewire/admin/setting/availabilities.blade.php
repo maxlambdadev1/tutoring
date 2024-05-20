@@ -16,20 +16,7 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="name">{{__('Day')}}</label>
-                                    <select wire:model="name" class="form-select @error('name') is-invalid @enderror" id="name" name="name" required>
-                                        <option value="">Please select...</option>
-                                        @foreach ($availabilities as $ele)
-                                        <option value="{{$ele->id}}">{{$ele->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('name')
-                                    <div class=" invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
+                                <x-form-select name="name" label="Day" :items="$availabilities" />
                                 <div class="mb-3">
                                     <label class="form-label" for="">{{__('Time')}}</label>
                                     <div class="input-group" id="timepicker-input-group">
@@ -45,7 +32,7 @@
                                         <ul class="availabilities_list">
                                             @foreach ($paramAvailabilities as $ele)
                                             <li class="bg-primary mb-1 item">
-                                                <button type="button" wire:click="deleteItemFromAvailabilities({{ $ele }})"><i class="mdi mdi-close"></i></button>
+                                                <button type="button" data-id="{{ $ele }}"><i class="mdi mdi-close"></i></button>
                                                 <span>{{ $ele }}</span>
                                             </li>
                                             @endforeach
@@ -152,7 +139,8 @@
         $('body').on('click', '.availabilities_list li.item button', function() {
             removed_time = $(this).data('id')
             $(this).parent().remove()
-            removeItem(removed_time, $('#availabilities option'))
+            removeItem(removed_time, $('#availabilities option')); console.log('removed_time', removed_time);
+            @this.call('deleteItemFromAvailabilities', removed_time);
         })
         $('#name').on('change', function() {
             @this.call('resetParamAvailabilities');
