@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('alchemy_jobs', function (Blueprint $table) {
-            $table->id('job_id');
+            $table->id('id');
             $table->string('job_type', 100)->default('regular');
             $table->integer('replacement_id')->nullable();
             $table->integer('parent_id');

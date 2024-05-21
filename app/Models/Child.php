@@ -11,7 +11,6 @@ class Child extends Model
     use HasFactory;
     
     protected $table = 'alchemy_children';
-    protected $primaryKey = 'children_id';
 
     protected $guarded = [];
 

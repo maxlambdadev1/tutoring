@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
     Route::middleware('can:action-manager')->group(function() {
         Route::group(['prefix' => 'leads', 'as' => 'leads.'], function() {
             Route::get('/create', \App\Livewire\Admin\Leads\Create::class)->name('create');
+            Route::get('/all-leads', \App\Livewire\Admin\Leads\AllLeads::class)->name('all-leads');
         });        
     });
 });

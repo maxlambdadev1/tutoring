@@ -35,4 +35,8 @@ class AlchemyParent extends Model
     {
         return $this->hasMany(self::class, 'referred_id');
     }
+
+    public function getParentNameAttribute() {
+        return $this->parent_first_name . " " . $this->parent_last_name;
+    }
 }
