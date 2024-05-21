@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('alchemy_children', function (Blueprint $table) {
-            $table->id('children_id');
+            $table->id('id');
             $table->integer('parent_id');
             $table->string('child_name');
             $table->string('child_first_name')->nullable();

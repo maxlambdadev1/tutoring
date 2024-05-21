@@ -26,6 +26,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
+                'resources/js/app.js',
             ],
             refresh: true,
         }),
@@ -40,8 +41,8 @@ export default defineConfig({
                     dest: ''
                 },
                 {
-                    src: 'resources/js',
-                    dest: ''
+                    src: 'resources/js/sub',
+                    dest: 'js'
                 },
                 {
                     src: 'resources/json',

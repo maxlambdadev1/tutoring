@@ -226,7 +226,7 @@ trait WithLeads
                     'job_type' => 'regular',
                     'progress_status' => $progress_status,
                     'parent_id' => $parent->id,
-                    'child_id' => $child->children_id,
+                    'child_id' => $child->id,
                     'date' => $student_date,
                     'start_date' => $student['start_date'],
                     'subject' => $student['subject'],
@@ -267,24 +267,24 @@ trait WithLeads
                     $this->addJobHistory([
                         'author' => '',
                         'comment' => $student['team_notes'],
-                        'job_id' => $job->job_id
+                        'job_id' => $job->id
                     ]);
                     $this->addStudentHistory([
                         'author' => '',
                         'comment' => $student['team_notes'],
-                        'child_id' => $child->children_id
+                        'child_id' => $child->id
                     ]);
                 }
 
                 if (!empty($inputData['ignore_tutors'])) {
                     $ignore_comment = 'Ignored tutors: ';
-                    $this->ignoreTutorsForJob($job->job_id, $inputData['ignore_tutors']);
+                    $this->ignoreTutorsForJob($job->id, $inputData['ignore_tutors']);
                     foreach ($inputData['ignore_tutors'] as $tutor_id) {
                         $tutor = Tutor::find($tutor_id);
                         $ignore_comment .= $tutor->tutor_name . ' (' . $tutor->tutor_email . '), ';
                     }
                     $this->addJobHistory([
-                        'job_id' => $job->job_id,
+                        'job_id' => $job->id,
                         'comment' => $ignore_comment
                     ]);
                 }
@@ -299,7 +299,7 @@ trait WithLeads
 
             $datetime = new \DateTime('Australia/Sydney');
             BookingTarget::create([
-                'job_id' => $job->job_id,
+                'job_id' => $job->id,
                 'source' => !empty($inputData['lead_source']) ? $inputData['lead_source'] : 'booking',
                 'booking_date' => $datetime->format('d/m/Y')
             ]);
@@ -311,7 +311,7 @@ trait WithLeads
                 $today = new \DateTime();
                 if ($hot_lead['age'] > $today->getTimestamp() && (empty($hot_lead['lead_type']) || $session_type_id == $hot_lead['lead_type'])) {
                     JobOffer::create([
-                        'job_id' => $job->job_id,
+                        'job_id' => $job->id,
                         'offer_amount' => $hot_lead['offer'],
                         'offer_type' => 'fixed',
                         'expiry' => 'permanent'
@@ -327,7 +327,7 @@ trait WithLeads
 
                 JobOffer::updateOrCreate(
                     [
-                        'job_id' => $job->job_id,
+                        'job_id' => $job->id,
                     ],
                     [
                         'offer_amount' => $inputData['offer_amount'],

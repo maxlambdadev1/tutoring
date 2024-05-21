@@ -107,6 +107,7 @@ class Create extends Component
     {
         try {
             if (!empty($this->search_str_for_parent_child)) $this->searched_parents_children = $this->searchParentsChildren($this->search_str_for_parent_child, 10);
+            else $this->searched_parents_children = [];
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
         }
