@@ -12,13 +12,8 @@ class Job extends Model
     protected $table = 'alchemy_jobs';
 
     protected $guarded = [];
-    protected $primaryKey = 'job_id';
 
-    protected $with = ['session_type', 'alchemy_parent', 'children', 'subject'];
 
-    protected $casts = [
-        'availabilities' => 'array'
-    ];
 
     /**
      * Get the session_type that owns the JobList
@@ -35,12 +30,12 @@ class Job extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function alchemy_parent()
+    public function parent()
     {
-        return $this->belongsTo(Parent::class);
+        return $this->belongsTo(AlchemyParent::class);
     }
     
-    public function children()
+    public function child()
     {
         return $this->belongsTo(Child::class);
     }

@@ -3,6 +3,9 @@
 @tailwind utilities; */
 @import url('common/index.css');
 @import url('admin/index.css');
+@import "../../vendor/power-components/livewire-powergrid/dist/tom-select.css";
+@import "../../vendor/power-components/livewire-powergrid/dist/bootstrap5.css";
+@import "flatpickr/dist/flatpickr.min.css";
 
 .cursor-pointer {
     cursor: pointer;

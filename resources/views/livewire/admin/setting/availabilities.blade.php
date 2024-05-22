@@ -113,7 +113,7 @@
 
 @section('script')
 <script>
-    $(document).ready(function() {
+    $(function() {
         let form_url = $('#avail_form').attr('action')
         let removed_time = '';
         $("#timepicker").timepicker({

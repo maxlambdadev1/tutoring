@@ -63,6 +63,9 @@
             <div class="collapse" id="sidebarLeads">
                 <ul class="side-nav-second-level">
                     <li>
+                        <a href="{{ route('admin.leads.all-leads') }}" wire:navigate>All Leads</a>
+                    </li>
+                    <li>
                         <a href="#">Current Leads</a>
                     </li>
                     <li>
