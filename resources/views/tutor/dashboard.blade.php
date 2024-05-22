@@ -1,20 +1,5 @@
-<x-tutor-app-layout>
-    <x-slot name="header">
-        <div class="row">
-            <div class="col-12">
-                <div class="page-title-box">
-                    <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item">Hyper</li>
-                            <li class="breadcrumb-item">Pages</li>
-                            <li class="breadcrumb-item active"><a href="javascript: void(0);">Home</a></li>
-                        </ol>
-                    </div>
-                    <h4 class="page-title">Home Page</h4>
-                </div>
-            </div>
-        </div>
-    </x-slot>
+<x-tutor-app-layout>    
+    <x-custom-header :title="'Home'" :breadcrumbs="['Dashboard']" />
 
     <div class="row">
         <div class="col-12">

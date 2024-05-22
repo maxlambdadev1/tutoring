@@ -13,6 +13,7 @@
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
         "spatie/geocoder": "^3.16",
+        "symfony/http-client": "^7.0",
         "symfony/sendgrid-mailer": "^7.0"
     },
     "require-dev": {

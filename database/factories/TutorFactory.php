@@ -17,7 +17,8 @@ class TutorFactory extends Factory
      */
     public function definition()
     {
-        $firstName = $this->faker->firstName();
+        $tutor_name = $this->faker->name();
+        $firstName = explode(' ', $tutor_name)[0];
         return [
             'user_id' => function() {
                 $user = \App\Models\User::factory()->create();
@@ -26,13 +27,12 @@ class TutorFactory extends Factory
                 return $user->id;
             },
             'application_id' => 0,
-            'state_id' => $this->faker->randomElement([1, 2, 3]),
-            'first_name' => $firstName,
-            'last_name' => $this->faker->lastName(),
+            'tutor_state' => $this->faker->randomElement(['NSW', 'VIC', 'QLD']),
+            'tutor_name' => $tutor_name,
             'preferred_first_name' => $firstName,
             'birthday' => $this->faker->date(),
             'gender' => $this->faker->randomElement(['Male', 'Female']),
-            'phone' => $this->faker->phoneNumber(),
+            'tutor_phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->streetAddress(),
             'suburb' => $this->faker->city(),
             'postcode' => $this->faker->postcode(),
@@ -40,7 +40,7 @@ class TutorFactory extends Factory
             'lon' => $this->faker->longitude(),
             'abn' => Str::random(10),
             'wwcc_application_number' => Str::random(10),
-            'availabilities' => ["mo-10:30 AM","tu-2:30 PM","we-2:30 PM","th-12:00 PM","th-3:50 PM","fr-3:50 PM","sa-2:30 PM"],
+            // 'availabilities' => '',
             'referral_key' => Str::random(6),
         ];
     }
