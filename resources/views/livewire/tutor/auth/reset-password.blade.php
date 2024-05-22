@@ -10,7 +10,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Volt\Component;
 
-new #[Layout('layouts.guest')] class extends Component
+new #[Layout('tutor.layouts.guest')] class extends Component
 {
     #[Locked]
     public string $token = '';
@@ -70,36 +70,48 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
+    <h4 class="mt-0">Reset Password</h4>
+    <p class="text-muted mb-4">{{ __('Please enter new password.') }}</p>
+    
+    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+
     <form wire:submit="resetPassword">
-        <!-- Email Address -->
+        <!-- Email Address -->        
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <div class="mb-3">
+                <label for="email" class="form-label">{{ __('Email Address') }}</label>
+                <input wire:model="email" class="form-control @error('email') is-invalid @enderror" type="email"  id="email"  name="email" required placeholder="Enter your email" autofocus autocomplete="username">                
+            </div>
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input wire:model="password" id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="mb-3">
+            <label for="password" class="form-label">{{ __('Password') }}</label>
+            <div class="input-group input-group-merge">
+                <input wire:model="password" type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                <div class="input-group-text" data-password="false">
+                    <span class="password-eye"></span>
+                </div>
+            </div>
         </div>
 
         <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 
-            <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
-                          type="password"
-                          name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <div class="mb-3">
+            <label for="password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
+            <div class="input-group input-group-merge">
+                <input wire:model="password_confirmation" type="password" id="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" required autocomplete="new-password">
+                <div class="input-group-text" data-password="false">
+                    <span class="password-eye"></span>
+                </div>
+            </div>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
+        <div class="d-grid mb-3 mb-0 text-center mt-3">
+            <button class="btn btn-primary" type="submit"><i class="mdi mdi-login"></i> {{ __('Reset Password') }} </button>
         </div>
     </form>
 </div>

@@ -25,10 +25,10 @@
                         <!-- Logo -->
                         <div class="auth-brand text-center text-lg-start">
                             <a href="/" class="logo-dark text-center" wire:navigate>
-                                <img src="template/images/logo-dark.jpg" alt="" height="50">
+                                <img src="{{asset('template/images/logo-dark.jpg')}}" alt="" height="50">
                             </a>
                             <a href="/" class="logo-light text-center" wire:navigate>
-                                <img src="template/images/logo.png" alt="" height="50">
+                                <img src="{{asset('template/images/logo.png')}}" alt="" height="50">
                             </a>
                         </div>
 

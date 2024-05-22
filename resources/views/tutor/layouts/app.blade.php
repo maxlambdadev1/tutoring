@@ -17,6 +17,17 @@
         <link href="{{asset('template/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style"/>
         @yield('css-library')
         @vite('resources/css/app.css')
+
+        {{-- Script --}}
+        <script src="{{asset('vendor/jquery/jquery-3.6.0.min.js')}}"></script>
+        <script src="{{asset('vendor/bootstrap/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{asset('vendor/select2/select2.min.js')}}"></script>
+        <script src="{{asset('vendor/bootstrap-timepicker.js')}}"></script>
+        <script src="{{asset('vendor/simplebar.min.js')}}"></script>
+        <script src="{{asset('vendor/moment.min.js')}}"></script>
+        <script src="{{asset('vendor/toast.min.js')}}"></script>
+        <script src="{{asset('vendor/sweetalert2/sweetalert2.min.js')}}"></script>
+        
     </head>
 
     <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
@@ -205,22 +216,15 @@
         @yield('modal')
         <!-- bundle -->
         {{-- <script src="{{asset('template/js/vendor.min.js')}}"></script> --}}
-        <script src="{{asset('vendor/jquery/jquery-3.6.0.min.js')}}"></script>
         {{-- <script src="{{asset('js/app.js')}}"></script> --}}
-        <script src="{{asset('vendor/bootstrap/bootstrap.bundle.min.js')}}"></script>
-        <script src="{{asset('vendor/select2/select2.min.js')}}"></script>
-        <script src="{{asset('vendor/bootstrap-timepicker.js')}}"></script>
-        <script src="{{asset('vendor/simplebar.min.js')}}"></script>
-        <script src="{{asset('vendor/moment.min.js')}}"></script>
-        <script src="{{asset('vendor/toast.min.js')}}"></script>
-        <script src="{{asset('vendor/sweetalert2/sweetalert2.min.js')}}"></script>
-        <script src="{{asset('template/js/app.min.js')}}"></script>
+        
         {{-- <script src="{{asset('js/function.js')}}"></script> --}}
         
         @yield('library')
         {{-- <script src="{{asset('js/admin/index.js')}}"></script> --}}
 
         @yield('script')
+        <script src="{{asset('template/js/app.min.js')}}"></script>
         <!-- third party js -->
         {{-- <script src="assets/js/vendor/apexcharts.min.js"></script>
         <script src="assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
