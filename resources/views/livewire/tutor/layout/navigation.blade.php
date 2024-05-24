@@ -230,14 +230,14 @@ new class extends Component
                     <img src="{{asset($tutor->getPhoto())}}" alt="user-image" class="rounded-circle">
                 </span>
                 <span>
-                    <span class="account-user-name">{{$tutor->getFullName()}}</span>
+                    <span class="account-user-name">{{$tutor->tutor_name}}</span>
                     <span class="account-position">Tutor</span>
                 </span>
             </a>
             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
                 <!-- item-->
                 <div class=" dropdown-header noti-title">
-                    <h6 class="text-overflow m-0">Welcome {{$tutor->first_name}}!</h6>
+                    <h6 class="text-overflow m-0">Welcome {{$tutor->getFirstName()}}!</h6>
                 </div>
 
                 <!-- item-->
