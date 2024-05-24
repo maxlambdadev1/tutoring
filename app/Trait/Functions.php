@@ -5,6 +5,7 @@ namespace App\Trait;
 use App\Models\Option;
 use App\Models\JobHistory;
 use App\Models\ChildHistory;
+use App\Models\TutorHistory;
 
 trait Functions
 {
@@ -16,11 +17,20 @@ trait Functions
 		'fri' => 'f',
 		'sat' => 's',
 		'sun' => 'S',
+		'm' => 'mon',
+		't' => 'tue',
+		'w' => 'wed',
+		'T' => 'thu',
+		'f' => 'fri',
+		's' => 'sat',
+		'S' => 'sun',
 	);
 
 	public const AMPM_SHORTCUT = array(
 		'AM' => 'a',
-		'PM' => 'p'
+		'PM' => 'p',
+		'a' => 'AM',
+		'p' => 'PM'
 	);
 
 	public const WEEK_DAYS = array(
@@ -74,8 +84,10 @@ trait Functions
 		);
 	}
 
-	//mon-7:00 AM  =>  ma700
-	//@return ma7,Sp730
+	/** 
+	 *@param ['mon-7:00 AM','tue-5:30 PM','sun-6:00 PM'] 
+	 *@return "ma7,tp530,Sp6"
+	 */
 	public function generateBookingAvailability($dates)
 	{
 		$return_array = array();
@@ -91,6 +103,49 @@ trait Functions
 			array_push($return_array, $day_shortcut . $ampm_shoutcut . $hour_shortcut);
 		}
 		return implode(',', $return_array);
+	}
+	/**
+	 * @param "ma7,tp530,Sp6"
+	 * @return ['mon-7:00 AM','tue-5:30 PM','sun-6:00 PM'] 
+	 */
+	public function getAvailabilitiesFromString($str)
+	{
+		$availabilities = [];
+		$arr = explode(',', $str);
+		if (!empty($arr) && count($arr) > 0) {
+			foreach ($arr as $item) { //item : tp530...
+				$day = $this::DAY_SHOUTCUT[substr($item, 0, 1)]; //tue
+				$ampm = $this::AMPM_SHORTCUT[substr($item, 1, 1)]; //tue
+				$time = substr($item, 2); //530
+				$hour = $time;
+				$min = '00';
+				$len = strlen($time);
+				if ($len >= 3) {
+					$hour = substr($time, 0, $len - 2); //5
+					$min = substr($time, $len - 2);
+				}
+				$availabilities[] = $day . '-' . $hour . ':' . $min . ' ' . $ampm; //tue-5:30 PM
+			}
+		}
+		return $availabilities;
+	}
+
+	/**
+	 * @param $date = 23/05/2024, $day = 'Monday'
+	 * @return DateTime - '27/05/2024' - more than 2 days.
+	 */
+	public function getNextDateByDay($date, $day)
+	{
+		$datetime = new \DateTime('now');
+		$curr_date = new \DateTime('now');
+		$datetime = $datetime->createFromFormat('d/m/Y', $date);
+		if ($datetime->format('l') != $day) {
+			$datetime = $datetime->modify("next {$day}");
+		}
+		if (($datetime->getTimestamp() - $curr_date->getTimestamp()) < 172800) {
+			$datetime = $this->get_next_date_by_day($datetime->modify("next {$day}")->format('d/m/Y'), $day);
+		}
+		return $datetime;
 	}
 
 	function arrayFlatten($array)
@@ -158,7 +213,8 @@ trait Functions
 		}
 	}
 
-	public function addJobHistory($post) {
+	public function addJobHistory($post)
+	{
 		if (empty($post['author'])) $post['author'] = 'System';
 
 		JobHistory::create([
@@ -168,7 +224,8 @@ trait Functions
 			'date' => date('d/m/Y H:i')
 		]);
 	}
-	public function addStudentHistory($post) {
+	public function addStudentHistory($post)
+	{
 		if (empty($post['author'])) $post['author'] = 'System';
 
 		ChildHistory::create([
@@ -178,7 +235,21 @@ trait Functions
 			'date' => date('d/m/Y H:i')
 		]);
 	}
-	
+	/**
+	 * @param $post = ['tutor_id' => 123, 'comment' => 'abcde']
+	 */
+	public function addTutorHistory($post)
+	{
+		if (empty($post['author'])) $post['author'] = 'System';
+
+		TutorHistory::create([
+			'tutor_id' => $post['tutor_id'],
+			'author' => $post['author'],
+			'comment' => $post['comment'],
+			'date' => date('d/m/Y H:i')
+		]);
+	}
+
 	public function getOldestGrade($students)
 	{
 		$first = 'Pre-K';
@@ -193,20 +264,20 @@ trait Functions
 			if ($oldest == '') {
 				$oldest = $temp;
 				continue;
-			}elseif($temp == 'Pre-K'){
+			} elseif ($temp == 'Pre-K') {
 				continue;
-			}elseif($temp == 'K'){
+			} elseif ($temp == 'K') {
 				if ($oldest == 'Pre-K') {
 					$oldest = $temp;
 					continue;
-				}else{
+				} else {
 					continue;
 				}
-			}else{
+			} else {
 				if ($temp > $oldest) {
 					$oldest = $temp;
 					continue;
-				}else{
+				} else {
 					continue;
 				}
 			}

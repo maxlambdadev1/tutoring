@@ -27,6 +27,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/js/admin.js',
             ],
             refresh: true,
         }),
@@ -39,10 +40,6 @@ export default defineConfig({
                 {
                     src: 'resources/images',
                     dest: ''
-                },
-                {
-                    src: 'resources/js/sub',
-                    dest: 'js'
                 },
                 {
                     src: 'resources/json',

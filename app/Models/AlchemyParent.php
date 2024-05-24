@@ -21,6 +21,11 @@ class AlchemyParent extends Model
         return $this->hasMany(Child::class, 'parent_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function getParentName()
     {
         return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);

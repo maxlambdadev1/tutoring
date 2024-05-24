@@ -94,7 +94,6 @@
 @section('script')
 <script>
     function resetSubjects() {
-        console.log('reset subjects')
         Swal.fire({
             icon: 'warning',
             title: 'Are you sure?',

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('alchemy_sessions', function (Blueprint $table) {
-            $table->id('session_id');
+            $table->id('id');
             $table->unsignedBigInteger('type_id')->default(1);
             $table->integer('session_status');
             $table->unsignedBigInteger('tutor_id');

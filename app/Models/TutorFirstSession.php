@@ -11,14 +11,6 @@ class TutorFirstSession extends Model
 
     protected $table = 'alchemy_tutor_first_session';
 
-    protected $fillable = [
-        'tutor_id',
-        'status',
-        'followup',
-        'call_date',
-        'email_sent',
-        'followup_sent',
-        'date_created',
-        'date_last_updated',
-    ];
+    protected $guarded = [];
+    
 }

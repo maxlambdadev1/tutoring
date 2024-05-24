@@ -51,7 +51,7 @@ trait PriceCalculatable
                 'tutor_id' => $tutorId,
                 'parent_id' => $parentId,
                 'child_id' => $childId,
-                'price' => SessionType::find(1)->tutor_price,
+                'f2f' => SessionType::find(1)->tutor_price,
                 'online' => SessionType::find(2)->tutor_price,
             ]);
             return $this->calcTutorPrice($tutorId, $parentId, $childId, $sessionTypeId);
@@ -91,5 +91,16 @@ trait PriceCalculatable
             default:
                 return 0;
         }
+    }
+
+    public function addTutorPriceOffer($tutor_id, $parent_id, $child_id, $offer_amount, $offer_type) {
+        PriceTutorOffer::createOrUpdate([
+            'tutor_id' => $tutor_id,
+            'parent_id' => $parent_id,
+            'child_id' => $child_id,
+        ], [
+            'offer_amount' => $offer_amount,
+            'offer_type' => $offer_type
+        ]);
     }
 }

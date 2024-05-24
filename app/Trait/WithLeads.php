@@ -7,8 +7,8 @@ use App\Models\Tutor;
 use App\Models\AlchemyParent;
 use App\Models\BookingTarget;
 use App\Models\Child;
-use App\Models\State;
-use App\Models\Grade;
+use App\Models\TutorFirstSession;
+use App\Models\Session;
 use App\Models\User;
 use App\Models\Job;
 use App\Models\JobIgnore;
@@ -376,4 +376,5 @@ trait WithLeads
             ]);
         }
     }
+
 }
