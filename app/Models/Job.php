@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Trait\Functions;
 
 class Job extends Model
 {
-    use HasFactory;
+    use HasFactory, Functions;
 
     protected $table = 'alchemy_jobs';
 
@@ -45,29 +46,25 @@ class Job extends Model
         return $this->belongsTo(Tutor::class);
     }
 
-    public function subject()
-    {
-        return $this->belongsTo(Subject::class);
-    }
-
-    public function parent_price()
-    {
-        return $this->hasOne(PriceParent::class, 'job_id');
-    }
-
-    public function tutor_price()
-    {
-        return $this->hasOne(PriceTutor::class, 'job_id');
-    }
-
-    public function tutor_price_offer()
-    {
-        return $this->hasOne(PriceTutorOffer::class, 'job_id');
-    }
-
     public function alchemy_sessions()
     {
         return $this->hasMany(Session::class, 'job_id');
+    }
+
+    public function visited_tutors() {
+        return $this->hasMany(JobVisit::class, 'job_id');
+    }
+
+    public function comments() {
+        return $this->hasMany(JobHistory::class, 'job_id');
+    }
+
+    public function job_offer() {
+        return $this->hasOne(JobOffer::class, 'id', 'job_id');
+    }
+
+    public function getAvailabilitiesAttribute() {
+        return $this->getAvailabilitiesFromString($this->date);
     }
 
 }

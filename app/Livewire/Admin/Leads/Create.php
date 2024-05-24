@@ -200,7 +200,7 @@ class Create extends Component
             $inputData['state'] = State::find($inputData['state_id'])->first()->name;
             $inputData['address'] = $inputData['address'] . ", " . $inputData['suburb'] . ", " . $inputData['state'] . ' Australia';
             $inputData['students']['student1']['grade'] = Grade::find($inputData['students']['student1']['grade_id'])->first()->name;
-            $inputData['students']['student1']['date'] = $inputData['students']['student1']['availabilities'];
+            $inputData['students']['student1']['date'] = $this->orderAvailabilitiesAccordingToDay($inputData['students']['student1']['availabilities']);
             $inputData['students']['student1']['start_date'] = $inputData['students']['student1']['start_date'] == 'ASAP' ? 'ASAP' : $inputData['students']['student1']['start_date_picker'];
             $inputData['students']['student1']['notes'] = $inputData['students']['student1']['parent_looking'] . " \r\n" . $inputData['students']['student1']['student_doing'] . " \r\n" . $inputData['students']['student1']['additional_details'];
             $ignore_tutors = array();
@@ -226,5 +226,17 @@ class Create extends Component
         $grades = Grade::get();
         $total_availabilities = Availability::get();
         return view('livewire.admin.leads.create', compact('states', 'session_types', 'sources', 'offer_valid_list', 'grades', 'total_availabilities'));
+    }
+
+    private function orderAvailabilitiesAccordingToDay($avail_arr) {
+        $total_availabilities = Availability::get();
+        $orderedAvailabilities = [];
+        foreach ($total_availabilities as $item) {
+            foreach ($item->getAvailabilitiesName() as $ele) {
+                $avail_hour = $item->short_name . '-' . $ele;
+                if (in_array($avail_hour, $avail_arr)) $orderedAvailabilities[] = $avail_hour;
+            }
+        }
+        return $orderedAvailabilities;
     }
 }

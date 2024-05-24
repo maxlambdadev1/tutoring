@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('email_sent')->default(0);
             $table->integer('followup_sent')->default(0);
             $table->string('date_created', 100);
-            $table->string('date_last_updated', 100);
+            $table->string('date_last_update', 100);
             $table->timestamps();
             $table->softDeletes();
         });

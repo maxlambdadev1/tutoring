@@ -10,7 +10,7 @@
         <div class="col-12">
             <div class="card mb-3">
                 <div class="card-body">
-                    <livewire:admin.leads.all-leads-table />
+                    <livewire:admin.leads.all-leads-table job_type="all" />
                 </div>
             </div>
         </div>

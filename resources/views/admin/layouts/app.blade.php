@@ -56,6 +56,7 @@
     @livewireStyles
     <!-- App css -->
     <link href="{{asset('template/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('vendor/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('template/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style" />
     <link href="{{asset('build/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style" />
@@ -70,8 +71,11 @@
     <script src="{{asset('vendor/sweetalert2/sweetalert2.min.js')}}"></script>
     <script src="{{asset('vendor/jquery.autocomplete.min.js')}}"></script>
     <script src="{{asset('vendor/bootstrap-datepicker.min.js')}}"></script>
+    <script src="{{asset('vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js')}}"></script>
     <script src="{{asset('vendor/jquery.bootstrap.wizard.min.js')}}"></script>
     <script src="{{asset('vendor/jquery.validate.min.js')}}"></script>
+    <link href="{{asset('vendor/toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="{{asset('vendor/toastr/toastr.min.js')}}"></script>
 </head>
 
 <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
@@ -263,7 +267,7 @@
     @livewireScripts
     <script src="{{asset('template/js/app.min.js')}}"></script>
     <script src="{{asset('build/js/app2.js')}}" data-navigate-once></script>
-    <script src="{{asset('build/js/sub/admin.js')}}" data-navigate-once></script>
+    <script src="{{asset('build/js/admin.js')}}" data-navigate-once></script>
 </body>
 
 </html>

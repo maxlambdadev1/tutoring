@@ -28,7 +28,7 @@ class Tutor extends Model
         return $this->photo ? $this->photo : 'images/no_avatar.png';
     }
 
-    public function getFullName()
+    public function getTutorNameAttribute()
     {
         return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
     }

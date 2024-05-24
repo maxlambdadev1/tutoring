@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Leads;
 
+use App\Models\Job;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
