@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-4">
             <div class="row pb-2">
                 <div class="col-md-6 fw-bold">Lead Id</div>
                 <div class="col-md-6">{{$row->id}}</div>
@@ -45,7 +45,7 @@
                 <div class="col-md-6">{{$visited_tutors}}</div>
             </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-7">
             <div class="row pb-2">
                 <div class="col-md-6 fw-bold">What is the main result you are looking for?</div>
                 <div class="col-md-6">{{$row->main_result ?? '-'}}</div>
@@ -83,7 +83,7 @@
                 <div class="availabilities_wrapper">
                     <div class="row">
                         @foreach ($options['total_availabilities'] as $avail)
-                        <div class="col-md text-center" data-day="{{$avail->name}}">
+                        <div class="col text-center" data-day="{{$avail->name}}">
                             <h5>{{$avail->name}}</h5>
                             @forelse ($avail->getAvailabilitiesName() as $ele)
                             @if (!empty($row->availabilities))
@@ -134,7 +134,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="action{{$row->id}}">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-6">
                             <div class="row mb-2">
                                 <div class="col-12">
                                     <div class="mb-2">
@@ -145,7 +145,7 @@
                                 </div>
                             </div>
                             <div class="row mb-2">
-                                <div class="col-md-3">
+                                <div class="col-3">
                                     <div>
                                         <select class="form-select form-select-sm" id="select-status" x-ref="progress_status{{$row->id}}">
                                             @foreach ($options['progress_list'] as $item)
@@ -154,7 +154,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-9">
                                     <div class="other-action">
                                         <input type="button" value="Update status" wire:click="updateProgressStatus({{$row->id}}, $refs.progress_status{{$row->id}}.value)" class="btn btn-info btn-sm">
                                         <input type="button" value="Match lead" x-on:click="function() {
@@ -200,14 +200,14 @@
                                                     }
                                             })}" class="btn btn-warning btn-sm">
                                         <input type="button" value="Assign lead" data-bs-toggle="modal" data-bs-target="#assignLeadModal{{$row->id}}" class="btn btn-info btn-sm">
-                                        <input type="button" value="Edit lead" class="btn btn-success btn-sm">
-                                        <input type="button" value="Hide lead" class="btn btn-secondary btn-sm">
-                                        <input type="button" value="Delete lead" class="btn btn-danger btn-sm">
+                                        <input type="button" value="Edit lead" data-bs-toggle="modal" data-bs-target="#editLeadModal{{$row->id}}"  class="btn btn-success btn-sm">
+                                        <input type="button" value="{{ $row->hidden == "Yes" ? 'Show lead' : 'Hide lead' }}" wire:click="toggleShowHideLead1({{$row->id}})" class="btn btn-secondary btn-sm">
+                                        <input type="button" value="Delete lead" data-bs-toggle="modal" data-bs-target="#deleteLeadModal{{$row->id}}"  class="btn btn-danger btn-sm">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-6" style="max-height:250px; overflow:auto;">
                             @forelse ($row->comments as $comment)
                             <div class="mb-1">
                                 <div>{{ $comment->comment}}</div>
@@ -270,8 +270,7 @@
                     <p class="text-center">OR</p>
                     <div class="mb-3">
                         <label for="lead-custom-datetime" class="form-label">Select a custom date and time</label>
-                        <input type="text" x-ref="lead_custom_datetime{{$row->id}}" class="form-control lead-custom-datetime"  
-                            name="lead-custom-datetime{{$row->id}}" id="lead-custom-datetime" value="">
+                        <input type="text" x-ref="lead_custom_datetime{{$row->id}}" class="form-control lead-custom-datetime" name="lead-custom-datetime{{$row->id}}" id="lead-custom-datetime" value="">
                     </div>
                 </div>
                 <div class="modal-footer" x-data="{ init() { 
@@ -283,15 +282,35 @@
                             });
                             } }">
                     <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary waves-effect waves-light" 
-                        wire:click="assignLead({{$row->id}}, {
+                    <button type="button" class="btn btn-primary waves-effect waves-light" wire:click="assignLead({{$row->id}}, {
                             assigned_tutor : $refs.assigned_tutor{{$row->id}}.value,
                             availability : $refs.availability{{$row->id}}.value,
                             custom_date : $refs.lead_custom_datetime{{$row->id}}.value
-                        })"
-                        data-bs-dismiss="modal">Save changes</button>
+                        })" data-bs-dismiss="modal">Save changes</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
+    <div id="deleteLeadModal{{$row->id}}" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Delete a lead</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="delete-reason{{$row->id}}" class="form-label">Please add the reason</label>
+                        <textarea class="form-control" x-ref="delete_reason{{$row->id}}" id="delete-reason{{$row->id}}" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer" >
+                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light" wire:click="deleteLead1({{$row->id}}, $refs.delete_reason{{$row->id}}.value)" 
+                        data-bs-dismiss="modal">Submit</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <livewire:admin.components.edit-lead-modal job_id="{{$row->id}}" :key="$row->id"/>
 </div>

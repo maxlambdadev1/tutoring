@@ -11,9 +11,7 @@ class JobOffer extends Model
 
     protected $table = 'alchemy_jobs_offer';
 
-    protected $fillable = [
-        'offer_amount',
-        'offer_type',
-        'expiry',
-    ];
+
+    protected $guarded = [];
+    
 }

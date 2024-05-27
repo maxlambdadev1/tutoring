@@ -26,6 +26,10 @@ class AlchemyParent extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function price_parent_discount() {
+        return $this->hasOne(PriceParentDiscount::class, 'parent_id');
+    }
+
     public function getParentName()
     {
         return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
@@ -41,7 +45,4 @@ class AlchemyParent extends Model
         return $this->hasMany(self::class, 'referred_id');
     }
 
-    public function getParentNameAttribute() {
-        return $this->parent_first_name . " " . $this->parent_last_name;
-    }
 }

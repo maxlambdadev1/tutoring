@@ -76,7 +76,6 @@ stdClass Object
 
                         )
 
-                    [partial_match] => 1
                     [place_id] => ChIJDUte93TLDWsRLZ_EIhGvgBc
                     [types] => Array
                         (

@@ -60,11 +60,19 @@ class Job extends Model
     }
 
     public function job_offer() {
-        return $this->hasOne(JobOffer::class, 'id', 'job_id');
+        return $this->hasOne(JobOffer::class);
+    }
+
+    public function waiting_lead_offer() {
+        return $this->hasMany(WaitingLeadOffer::class);
     }
 
     public function getAvailabilitiesAttribute() {
         return $this->getAvailabilitiesFromString($this->date);
+    }
+
+    public function getAvailabilities1Attribute() {
+        return $this->getAvailabilitiesFromString1($this->date);
     }
 
 }

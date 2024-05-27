@@ -28,8 +28,9 @@ return new class extends Migration
             $table->string('stripe_customer_id')->nullable();
             $table->string('referral_code', 10)->nullable();
             $table->integer('referred_id')->nullable();
-            $table->integer('first_lesson_confirmed_id');
-            $table->integer('first_lesson_credited_id');  
+            $table->integer('first_lesson_confirmed_id')->nullable();
+            $table->string('first_lesson_confirmed_date')->nullable();
+            $table->integer('first_lesson_credited_id')->nullable();  
             $table->string('heard_from', 100)->nullable();
             $table->string('voucher_number', 100)->nullable();
             $table->integer('mailchimp_status')->default(0);
