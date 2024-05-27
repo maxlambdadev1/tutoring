@@ -26,7 +26,7 @@ return new class extends Migration
 
             $table->string('address')->nullable();
             $table->string('suburb')->nullable();
-            $table->string('tutor_state')->nullable();
+            $table->string('state')->nullable();
             $table->string('postcode')->nullable();
             $table->string('lat')->nullable();
             $table->string('lon')->nullable();

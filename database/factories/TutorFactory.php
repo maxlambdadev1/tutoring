@@ -27,7 +27,7 @@ class TutorFactory extends Factory
                 return $user->id;
             },
             'application_id' => 0,
-            'tutor_state' => $this->faker->randomElement(['NSW', 'VIC', 'QLD']),
+            'state' => $this->faker->randomElement(['NSW', 'VIC', 'QLD']),
             'tutor_name' => $tutor_name,
             'preferred_first_name' => $firstName,
             'birthday' => $this->faker->date(),

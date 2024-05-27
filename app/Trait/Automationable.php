@@ -36,7 +36,7 @@ trait Automationable
                 $params['studentname'] = $child_name_arr[0];
                 $params['parentfirstname'] = $parent->parent_first_name;
                 $params['email'] = $parent->parent_email;
-                // $this->sendEmail($params, 'online-tutoring-offer-email'); //check
+                $this->sendEmail($parent->parent_email, 'online-tutoring-offer-email', $params); //check
 
                 $this->addJobHistory([
                     'job_id' => $job_id,
@@ -72,7 +72,7 @@ trait Automationable
                 $params['studentname'] = $child_name_arr[0];
                 $params['parentfirstname'] = $parent->parent_first_name;
                 $params['email'] = $parent->parent_email;
-                // $this->sendEmail($params, 'parent-welcome-call-email'); //check
+                $this->sendEmail($parent->parent_email, 'parent-welcome-call-email', $params);
 
                 $params = array(
                     'name' => $parent->parent_first_name . ' ' . $parent->parent_last_name,
@@ -112,10 +112,13 @@ trait Automationable
                 $admin = User::find(auth()->user()->id)->admin;
                 $admin_name_arr = explode(' ', $admin->admin_name);
 
-                $subject = "Tutoring for " . $child_name_arr[0];
-                $body = "Hi " . $parent->parent_first_name . ",<br><br>" . $admin_name_arr[0] . "from Alchemy here - hope you are well.<br><br>I just wanted to send through an update on organising a tutor for " . $child_name_arr[0] . ".<br><br>Despite our best efforts, we have regretfully not been able to pair them up with a matching tutor and think it would be best to move your request to our priority waiting list.<br><br>From here, if a great matching tutor comes along we will email you to let you know their availabilities and profile, and you can choose if you would like to go ahead with the first lesson. <br><br>I am really sorry that we couldn't confirm a lesson right away - but by keeping %%childfirstname%% on our priority waiting list we will be able to notify you as great tutors become available and give you the opportunity to get started with a tutor then.<br><br>We will keep " . $child_name_arr[0] . " on our priority waiting list for 3 months - you can also request to be removed anytime we send you tutor details.<br><br>If you have any questions please let me know!<br><br>" . $admin->admin_name . "<br>Alchemy Tuition";
-                $params['email'] = $parent->parent_email;
-                // $this->sendEmail(); //check
+                $params = [
+                    'studentfirstname' => $child_name_arr[0],
+                    'parentfirstname' => $parent->parent_first_name,
+                    'adminfirstname' => $admin_name_arr[0],
+                    'adminname' => $admin->admin_name
+                ];
+                $this->sendEmail($parent->parent_email, 'send-to-waiting-list-notification-email-subject', $params);
 
                 $params = array(
                     'name' => $parent->parent_first_name . ' ' . $parent->parent_last_name,
@@ -139,4 +142,5 @@ trait Automationable
             throw new \Exception($e->getMessage());
         }
     }
+
 }

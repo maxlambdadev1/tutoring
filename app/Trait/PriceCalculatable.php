@@ -94,7 +94,7 @@ trait PriceCalculatable
     }
 
     public function addTutorPriceOffer($tutor_id, $parent_id, $child_id, $offer_amount, $offer_type) {
-        PriceTutorOffer::createOrUpdate([
+        PriceTutorOffer::updateOrCreate([
             'tutor_id' => $tutor_id,
             'parent_id' => $parent_id,
             'child_id' => $child_id,

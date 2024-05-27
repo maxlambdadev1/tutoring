@@ -41,6 +41,13 @@ trait Functions
 		'fri' => 'Friday',
 		'sat' => 'Saturday',
 		'sun' => 'Sunday',
+		'm' => 'Monday',
+		't' => 'Tuesday',
+		'w' => 'Wednesday',
+		'T' => 'Thursday',
+		'f' => 'Friday',
+		's' => 'Saturday',
+		'S' => 'Sunday',
 	);
 
 	public function getOption($option_name)
@@ -131,6 +138,31 @@ trait Functions
 	}
 
 	/**
+	 * @param "ma7,tp530,Sp6"
+	 * @return ['Monday 7:00AM','Tuesday 5:30PM','Sunday 6:00PM'] 
+	 */
+	public function getAvailabilitiesFromString1($str) {
+		$availabilities = [];
+		$arr = explode(',', $str);
+		if (!empty($arr) && count($arr) > 0) {
+			foreach ($arr as $item) { //item : tp530...
+				$day = $this::WEEK_DAYS[substr($item, 0, 1)]; //tuesday
+				$ampm = $this::AMPM_SHORTCUT[substr($item, 1, 1)]; //tue
+				$time = substr($item, 2); //530
+				$hour = $time;
+				$min = '00';
+				$len = strlen($time);
+				if ($len >= 3) {
+					$hour = substr($time, 0, $len - 2); //5
+					$min = substr($time, $len - 2);
+				}
+				$availabilities[] = $day . ' ' . $hour . ':' . $min . '' . $ampm; //tue-5:30 PM
+			}
+		}
+		return $availabilities;
+	}
+
+	/**
 	 * @param $date = 23/05/2024, $day = 'Monday'
 	 * @return DateTime - '27/05/2024' - more than 2 days.
 	 */
@@ -212,7 +244,9 @@ trait Functions
 			return NULL;
 		}
 	}
-
+/**
+ * @param $post = ['job_id' => , 'author' =>, 'comment' =>]
+ */
 	public function addJobHistory($post)
 	{
 		if (empty($post['author'])) $post['author'] = 'System';
