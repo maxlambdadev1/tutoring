@@ -144,6 +144,18 @@
                                     <input type="button" wire:click="addComment({{$row->id}}, $refs.comment{{$row->id}}.value)" value="Add comment" class="btn btn-primary btn-sm form-control">
                                 </div>
                             </div>
+                            @if ($job_type == 'screening')
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="other-action">
+                                        <input type="button" value="Approve and release" wire:click="approveAndRelease({{$row->id}})" class="btn btn-info btn-sm">
+                                        <input type="button" value="Further Contact Required" data-bs-toggle="modal" data-bs-target="#furtherContactRequiredModal{{$row->id}}" class="btn btn-secondary btn-sm">
+                                        <input type="button" value="Edit lead" data-bs-toggle="modal" data-bs-target="#editLeadModal{{$row->id}}" class="btn btn-success btn-sm">
+                                        <input type="button" value="Delete lead" data-bs-toggle="modal" data-bs-target="#deleteLeadModal{{$row->id}}" class="btn btn-danger btn-sm">
+                                    </div>
+                                </div>
+                            </div>
+                            @else
                             <div class="row mb-2">
                                 <div class="col-3">
                                     <div>
@@ -200,12 +212,13 @@
                                                     }
                                             })}" class="btn btn-warning btn-sm">
                                         <input type="button" value="Assign lead" data-bs-toggle="modal" data-bs-target="#assignLeadModal{{$row->id}}" class="btn btn-info btn-sm">
-                                        <input type="button" value="Edit lead" data-bs-toggle="modal" data-bs-target="#editLeadModal{{$row->id}}"  class="btn btn-success btn-sm">
+                                        <input type="button" value="Edit lead" data-bs-toggle="modal" data-bs-target="#editLeadModal{{$row->id}}" class="btn btn-success btn-sm">
                                         <input type="button" value="{{ $row->hidden == "Yes" ? 'Show lead' : 'Hide lead' }}" wire:click="toggleShowHideLead1({{$row->id}})" class="btn btn-secondary btn-sm">
-                                        <input type="button" value="Delete lead" data-bs-toggle="modal" data-bs-target="#deleteLeadModal{{$row->id}}"  class="btn btn-danger btn-sm">
+                                        <input type="button" value="Delete lead" data-bs-toggle="modal" data-bs-target="#deleteLeadModal{{$row->id}}" class="btn btn-danger btn-sm">
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         </div>
                         <div class="col-6" style="max-height:250px; overflow:auto;">
                             @forelse ($row->comments as $comment)
@@ -304,13 +317,31 @@
                         <textarea class="form-control" x-ref="delete_reason{{$row->id}}" id="delete-reason{{$row->id}}" rows="5"></textarea>
                     </div>
                 </div>
-                <div class="modal-footer" >
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary waves-effect waves-light" wire:click="deleteLead1({{$row->id}}, $refs.delete_reason{{$row->id}}.value)" 
-                        data-bs-dismiss="modal">Submit</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light" wire:click="deleteLead1({{$row->id}}, $refs.delete_reason{{$row->id}}.value)" data-bs-dismiss="modal">Submit</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
-    <livewire:admin.components.edit-lead-modal job_id="{{$row->id}}" :key="$row->id"/>
+    <div id="furtherContactRequiredModal{{$row->id}}" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Why is further contact required?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <textarea class="form-control" x-ref="further_contact_required_reason{{$row->id}}" id="further-contact-required-reason{{$row->id}}" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light" wire:click="furtherContactRequiredLead({{$row->id}}, $refs.further_contact_required_reason{{$row->id}}.value)" data-bs-dismiss="modal">Submit</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <livewire:admin.components.edit-lead-modal job_id="{{$row->id}}" :key="$row->id" />
 </div>

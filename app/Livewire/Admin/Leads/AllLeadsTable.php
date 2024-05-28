@@ -7,7 +7,7 @@ namespace App\Livewire\Admin\Leads;
 use App\Models\Job;
 use App\Models\Availability;
 use App\Models\Tutor;
-use App\Models\Session;
+use App\Models\User;
 use Illuminate\Contracts\Database\Query\Builder;
 use Livewire\Attributes\On;
 use Illuminate\Support\Number;
@@ -68,12 +68,16 @@ class AllLeadsTable extends PowerGridComponent
                 $child->on('alchemy_jobs.child_id', '=', 'alchemy_children.id');
             });
 
-        if ($this->job_type == 'screening') $query = $query->where('hidden', '=', '1')->where('is_from_main', '=', '1');
-        else if ($this->job_type == 'new') $query = $query->where('hidden', '=', '1')->where('is_from_main', '=', '0');
-        else if ($this->job_type == 'waiting') $query = $query->where('job_status', '=', '3');
+        if ($this->job_type == 'waiting') $query = $query->where('job_status', '=', '3');
         else {
+            $datetime = new \DateTime('now', new \DateTimeZone('Australia/Sydney'));
+            $formattedDate = $datetime->format('d/m/Y H:i');
+
             $query = $query->where('job_status', '=', '0');
-            if ($this->job_type == 'active' || $this->job_type == 'focus') $query = $query->where('hidden', '=', '0');
+            if ($this->job_type == 'screening') $query = $query->where('hidden', '=', '1')->where('is_from_main', '=', '1');
+            else if ($this->job_type == 'new') $query = $query->where('hidden', '=', '1')->where('is_from_main', '=', '0');
+            else if ($this->job_type == 'active') $query = $query->where('hidden', '=', '0')->whereRaw("TIMESTAMPDIFF(HOUR, STR_TO_DATE(last_updated, '%d/%m/%Y %H:%i'), STR_TO_DATE('".$formattedDate."', '%d/%m/%Y %H:%i')) <= 48");
+            else if ($this->job_type == 'focus') $query = $query->where('hidden', '=', '0')->whereRaw("TIMESTAMPDIFF(HOUR, STR_TO_DATE(last_updated, '%d/%m/%Y %H:%i'), STR_TO_DATE('".$formattedDate."', '%d/%m/%Y %H:%i')) > 48");
         }
 
         return $query->select('alchemy_jobs.*');
@@ -278,6 +282,80 @@ class AllLeadsTable extends PowerGridComponent
             $this->dispatch('showToastrMessage', [
                 'status' => 'success',
                 'message' => 'You successfuly edited the lead'
+            ]);
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function approveAndRelease($job_id) {
+        try {
+            $job = Job::find($job_id);
+            $job->update([
+                'hidden' => 0,
+                'automation' => 1,
+                'last_updated' => (new \DateTime('now'))->format('d/m/Y H:i'),
+            ]);
+
+            $admin = User::find(auth()->user()->id)->admin;
+            $this->addJobHistory([
+                'job_id' => $job_id,
+                'author' => $admin->admin_name,
+                'comment' => 'Approved and released.'
+            ]);
+
+            if ($job->job_status == 0 && $job->welcome_call == 0) {
+                $parent = $job->parent;
+                $child = $job->child;
+                $params = [
+                    'userfirstname' => $admin->first_name,
+                    'username' => $admin->admin_name,
+                    'useremail' => $admin->user->email,
+                    'parentfirstname' => $parent->parent_first_name,
+                    'studentname' => $child->child_first_name,
+                    'email' => $parent->parent_email
+                ];
+                $this->sendEmail($parent->parent_email, 'parent-welcome-call-email', $params);
+                $smsParams = [
+                    'phone' => $parent->parent_phone,
+                    'name' => $parent->parent_name,
+                ];
+                $this->sendSms($smsParams, 'parent-welcome-call-sms', $params);
+
+            }
+
+            $this->dispatch('showToastrMessage', [
+                'status' => 'success',
+                'message' => 'Approved and released successfully.'
+            ]);
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function furtherContactRequiredLead($job_id, $reason){
+        try {
+            $job = Job::find($job_id);
+            $job->update([
+                'is_from_main' => 0,
+                'last_updated' => (new \DateTime('now'))->format('d/m/Y H:i'),
+            ]);
+
+            $this->addJobHistory([
+                'job_id' => $job_id,
+                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'comment' => $reason
+            ]);
+
+            $this->dispatch('showToastrMessage', [
+                'status' => 'success',
+                'message' => 'You successfuly submitted the reason'
             ]);
         } catch (\Exception $e) {
             $this->dispatch('showToastrMessage', [

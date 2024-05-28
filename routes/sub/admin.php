@@ -32,6 +32,10 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
         Route::group(['prefix' => 'leads', 'as' => 'leads.'], function() {
             Route::get('/create', \App\Livewire\Admin\Leads\Create::class)->name('create');
             Route::get('/all-leads', \App\Livewire\Admin\Leads\AllLeads::class)->name('all-leads');
+            Route::get('/leads-screening', \App\Livewire\Admin\Leads\LeadsScreening::class)->name('leads-screening');
+            Route::get('/new-leads', \App\Livewire\Admin\Leads\NewLeads::class)->name('new-leads');
+            Route::get('/active-leads', \App\Livewire\Admin\Leads\ActiveLeads::class)->name('active-leads');
+            Route::get('/focus-leads', \App\Livewire\Admin\Leads\FocusLeads::class)->name('focus-leads');
         });        
     });
 });
