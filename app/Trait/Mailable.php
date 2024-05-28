@@ -34,7 +34,7 @@ trait Mailable
             'message' => $smsParams['body'],
         ];
 
-        $response = Http::withToken(config('services.podium.key'))->post(config('services.podium.url'), $fields);
+        // $response = Http::withToken(config('services.podium.key'))->post(config('services.podium.url'), $fields);
     }
 
     private function getMailTemplate($title)
@@ -44,6 +44,7 @@ trait Mailable
 
     private function getSmsTemplate($title)
     {
+        return Option::where('option_name', $title)->first()->value;
     }
 
     private function getFilteredContent($content, $params)
@@ -51,6 +52,7 @@ trait Mailable
         if (isset($params['adminfirstname']))       $content = str_replace('%%adminfirstname%%', $params['adminfirstname'], $content);
         if (isset($params['adminname']))            $content = str_replace('%%adminname%%', $params['adminname'], $content);
         if (isset($params['address']))              $content = str_replace('%%address%%', $params['address'], $content);
+        if (isset($params['email']))                $content = str_replace('%%email%%', $params['email'], $content);
         if (isset($params['grade']))                $content = str_replace('%%grade%%', $params['grade'], $content);
         if (isset($params['jobdate']))              $content = str_replace('%%jobdate%%', $params['jobdate'], $content);
         if (isset($params['onlinesessionurl']))     $content = str_replace('%%onlinesessionurl%%', $params['onlinesessionurl'], $content);
@@ -71,6 +73,9 @@ trait Mailable
         if (isset($params['tutorprice']))           $content = str_replace('%%tutorprice%%', $params['tutorprice'], $content);
         if (isset($params['tutorprofilelink']))     $content = str_replace('%%tutorprofilelink%%', $params['tutorprofilelink'], $content);
         if (isset($params['tutornumber']))          $content = str_replace('%%tutornumber%%', $params['tutornumber'], $content);
+        if (isset($params['userfirstname']))        $content = str_replace('%%userfirstname%%', $params['userfirstname'], $content);
+        if (isset($params['username']))            $content = str_replace('%%username%%', $params['username'], $content);
+        if (isset($params['useremail']))            $content = str_replace('%%useremail%%', $params['useremail'], $content);
         if (isset($params['vouchernumber']))        $content = str_replace('%%vouchernumber%%', $params['vouchernumber'], $content);
 
         return $content;

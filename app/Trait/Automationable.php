@@ -118,7 +118,7 @@ trait Automationable
                     'adminfirstname' => $admin_name_arr[0],
                     'adminname' => $admin->admin_name
                 ];
-                $this->sendEmail($parent->parent_email, 'send-to-waiting-list-notification-email-subject', $params);
+                $this->sendEmail($parent->parent_email, 'send-to-waiting-list-notification-email', $params);
 
                 $params = array(
                     'name' => $parent->parent_first_name . ' ' . $parent->parent_last_name,

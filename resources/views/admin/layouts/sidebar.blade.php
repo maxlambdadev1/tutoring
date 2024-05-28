@@ -66,6 +66,18 @@
                         <a href="{{ route('admin.leads.all-leads') }}" wire:navigate>All Leads</a>
                     </li>
                     <li>
+                        <a href="{{ route('admin.leads.leads-screening') }}" wire:navigate>Leads screening</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.leads.new-leads') }}" wire:navigate>New Leads</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.leads.active-leads') }}" wire:navigate>Active Leads</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.leads.focus-leads') }}" wire:navigate>Focus Leads</a>
+                    </li>
+                    <li>
                         <a href="#">Current Leads</a>
                     </li>
                     <li>

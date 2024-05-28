@@ -39,4 +39,8 @@ class Admin extends Model
         $this->save();
         return $this;
     }
+
+    public function getFirstName() {
+        return explode(' ', $this->admin_name)[0]; 
+    }
 }
