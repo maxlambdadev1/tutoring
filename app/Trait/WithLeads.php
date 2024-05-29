@@ -2,6 +2,7 @@
 
 namespace App\Trait;
 
+use App\Livewire\Admin\Leads\ReplacementTutor;
 use Illuminate\Support\Facades\DB;
 use App\Models\Tutor;
 use App\Models\AlchemyParent;
@@ -20,7 +21,7 @@ use App\Models\SessionType;
 use App\Models\WaitingLeadOffer;
 use App\Trait\Functions;
 use Carbon\Carbon;
-
+use PhpParser\Node\Stmt\TryCatch;
 
 trait WithLeads
 {
@@ -379,15 +380,38 @@ trait WithLeads
             } else throw new \Exception('select fields correctly');
 
             $tutor = Tutor::find($post['assigned_tutor']);
+
+            $this->createSessionFromJob($job_id, $tutor->id, $session_date, $session_time, 'admin');
+
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+    /**
+     * @param $job_id, $tutor_id, $session_date : '23/05/2024', $session_time : '16:30' 
+     */
+    public function createSessionFromJob($job_id, $tutor_id, $session_date, $session_time, $converted_by = 'tutor')
+    {
+        try {
+            $job = Job::find($job_id);
+            $tutor = Tutor::find($tutor_id);
+
             $job->update([
                 'job_status' => 1,
                 'accepted_by' => $tutor->id,
                 'last_updated' => date('d/m/Y H:i'),
                 'accepted_on' => date('d/m/Y H:i'),
-                'converted_by' => 'admin'
+                'converted_by' => $converted_by,
             ]);
 
-            $tutor->update(['break_count' => 0]);
+            $tutor->update([
+                'break_count' => 0,
+                'seeking_students' => 0,
+                'seeking_students_timestamp' => time()
+            ]);
 
             $datetime = new \DateTime('Australia/Sydney');
             if (!empty($job->job_offer)) {
@@ -405,6 +429,7 @@ trait WithLeads
                 $session_price = $this->calcSessionPrice($job->parent_id, $job->session_type_id);
                 $tutor_price = $this->calcTutorPrice($tutor->id, $job->parent_id, $job->child_id, $job->session_type_id);
             }
+            $this->checkTutorFirstSession($tutor->id);
 
             $session_status = 3;
             $today = new \DateTime('now');
@@ -413,7 +438,6 @@ trait WithLeads
             $ses_date->setTimeZone(new \DateTimeZone('Australia/Sydney'));
             if ($today->getTimestamp() >= $ses_date->getTimestamp()) $session_status = 1;
 
-            $this->checkTutorFirstSession($tutor->id);
             $session = Session::create([
                 'session_status' => $session_status,
                 'tutor_id' => $tutor->id,
@@ -440,31 +464,62 @@ trait WithLeads
                 'time' => $session_time,
                 'subject' => $job->subject,
                 'notes' => $job->job_notes,
+                'mainresult' => $job->main_result ?? '-',
+                'performance' => $job->performance ?? '-',
+                'attitude' => $job->attitude ?? '-',
+                'mind' => $job-> mind ?? '-',
+                'personality' => $job->personality ?? '-',
+                'favourite' => $job-> favourite ?? '-',
                 'address' => $parent->parent_address . ', ' . $parent->parent_suburb . ', ' . $parent->parent_postcode,
                 'parentname' => $parent->parent_first_name . ' ' . $parent->parent_last_name,
                 'parentphone' => $parent->parent_phone,
                 'email' => $tutor->user->email,
-                'tutor_email' => $tutor->user->email
+                'tutoremail' => $tutor->user->email,
+                'onlineURL' => $tutor->online_url
             ];
 
-            if ($job->job_type == 'creative') {
-                if ($job->session_type_id == 1) $this->sendEmail($tutor->user->email, 'tutor-creative-session-details-email', $params);
-                else $this->sendEmail($tutor->user->email, 'tutor-creative-online-session-details-email', $params);
+            if ($job->job_type == 'replacement' && !empty($job->replacement_id)) {
+                $replacement = ReplacementTutor::find($job->replacement_id);
+                if (!empty($replacement)) {
+                    $replacement->update(['replacement_tutor_id' => $tutor_id]);
+                    if ($job->session_type_id == 1) $this->sendEmail($tutor->user->email, 'tutor-first-session-details-replacement-email', $params);
+                    else $this->sendEmail($tutor->user->email, 'tutor-first-online-session-details-email', $params);
+                }
             } else {
-                if ($job->session_type_id == 1) $this->sendEmail($tutor->user->email, 'tutor-first-session-details-email', $params);
-                else $this->sendEmail($tutor->user->email, 'tutor-first-online-session-details-email', $params);
+                if ($job->job_type == 'creative') {
+                    if ($job->session_type_id == 1) $this->sendEmail($tutor->user->email, 'tutor-creative-session-details-email', $params);
+                    else $this->sendEmail($tutor->user->email, 'tutor-creative-online-session-details-email', $params);
+                } else {
+                    if ($job->session_type_id == 1) $this->sendEmail($tutor->user->email, 'tutor-first-session-details-email', $params);
+                    else $this->sendEmail($tutor->user->email, 'tutor-first-online-session-details-email', $params);
+                }
             }
 
-            $p = array(
-                'phone' => $params['parentphone'],
-                'name' => $params['parentname']
+            $smsParams = array(
+                'phone' => $tutor->tutor_phone,
+                'name' => $tutor->tutor_name
             );
-            if ($job->job_type == 'creative') {
-                $sms_body = "Hi " . $params['tutorfirstname'] . "! Your creative writing workshop with " . $params['studentname'] . " has been confirmed for " . $params['time'] . " on " . $params['date'] . ". You will receive an email with details shortly! Team Alchemy";
-            } else {
-                $sms_body = "Huzzah! Your first session with " . $params['studentname'] . " is confirmed for " . $params['date'] . " at " . $params['time'] . ". Please check your email for details and don’t hesitate to get in touch with any questions!";
-            }
-            // $this->sendSms($p, $sms_body);
+            $params1 = [
+                'tutorfirstname' => $tutor->first_name,
+                'studentname' => $child->child_name,
+                'sessiondate' => $session_date,
+                'sessiontime' => $session_time
+            ];
+            if ($job->job_type == 'creative') $this->sendSms($smsParams, 'tutor-creative-session-details-sms', $params1);
+            else $this->sendSms($smsParams, 'tutor-first-session-details-sms', $params1);
+
+            $smsParams = array(
+                'phone' => $parent->parent_phone,
+                'name' => $parent->parent_name
+            );
+            $params1 = [
+                'parentfirstname' => $parent->parent_first_name,
+                'studentfirstname' => $child->child_first_name,
+                'sessiondate' => $session_date,
+                'sessiontime' => $session_time
+            ];
+            if ($job->job_type == 'creative') $this->sendSms($smsParams, 'parent-creative-session-details-sms', $params1);
+            else $this->sendSms($smsParams, 'parent-first-session-detail-sms', $params1);
 
             $params['tutorname'] = $tutor->tutor_name;
             $params['tutorfirstname'] = $tutor->first_name;
@@ -504,11 +559,9 @@ trait WithLeads
                 ];
                 $this->sendEmail($send_to, 'new-creative-kids-creation', $params);
             }
+
         } catch (\Exception $e) {
-            $this->dispatch('showToastrMessage', [
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ]);
+            throw new \Exception($e->getMessage());
         }
     }
 
@@ -592,16 +645,16 @@ trait WithLeads
     }
 
     public function saveJobOffer($job_id, $offer_type, $offer_amount, $offer_valid)
-    { 
+    {
         if (!empty($offer_type) && !empty($offer_amount)) {
             $prev_job_offer = JobOffer::where('job_id', $job_id)->first();
             $datetime = new \DateTime('Australia/Sydney');
-                if ($offer_valid == 'permanent') $valid = $offer_valid;
-                else if (!empty($prev_job_offer) && $offer_valid == $prev_job_offer->expiry) $valid = $offer_valid;
-                else {
-                    $datetime->modify('+' . $offer_valid . '');
-                    $valid = $datetime->getTimestamp();
-                }
+            if ($offer_valid == 'permanent') $valid = $offer_valid;
+            else if (!empty($prev_job_offer) && $offer_valid == $prev_job_offer->expiry) $valid = $offer_valid;
+            else {
+                $datetime->modify('+' . $offer_valid . '');
+                $valid = $datetime->getTimestamp();
+            }
             JobOffer::updateOrCreate(
                 [
                     'job_id' => $job_id,
@@ -613,9 +666,9 @@ trait WithLeads
                 ]
             );
 
-            $comment = 'Hot pricing added for '.($offer_type=='fixed'?'\$':'\%').$offer_amount;
+            $comment = 'Hot pricing added for ' . ($offer_type == 'fixed' ? '\$' : '\%') . $offer_amount;
             if (!empty($prev_job_offer) && ($offer_type !== $prev_job_offer->offer_type && $offer_amount !== $prev_job_offer->offer_amount)) {
-                $comment = 'Updated hot pricing for '.($offer_type=='fixed'?'\$':'\%').$offer_amount;
+                $comment = 'Updated hot pricing for ' . ($offer_type == 'fixed' ? '\$' : '\%') . $offer_amount;
             }
             $this->addJobHistory([
                 'job_id' => $job_id,
@@ -626,7 +679,7 @@ trait WithLeads
             JobOffer::where('job_id', $job_id)->delete();
         }
     }
-    
+
     public function saveParentDiscount($parent_id, $discount_type, $discount_amount)
     {
         if (!empty($discount_type) && !empty($discount_amount)) {
@@ -643,9 +696,9 @@ trait WithLeads
                 ]
             );
 
-            $comment = 'Parent discount added for '.($discount_type=='fixed'?'\$':'\%').$discount_amount;
+            $comment = 'Parent discount added for ' . ($discount_type == 'fixed' ? '\$' : '\%') . $discount_amount;
             if (!empty($prev_job) && ($discount_type !== $prev_job->discount_type && $discount_amount !== $prev_job->discount_amount)) {
-                $comment = 'Updated parent discount for '.($discount_type=='fixed'?'\$':'\%').$discount_amount;
+                $comment = 'Updated parent discount for ' . ($discount_type == 'fixed' ? '\$' : '\%') . $discount_amount;
             }
             $this->addJobHistory([
                 'job_id' => $parent_id,

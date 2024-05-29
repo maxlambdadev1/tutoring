@@ -144,7 +144,33 @@
                                     <input type="button" wire:click="addComment({{$row->id}}, $refs.comment{{$row->id}}.value)" value="Add comment" class="btn btn-primary btn-sm form-control">
                                 </div>
                             </div>
-                            @if ($job_type == 'screening')
+                            @if ($job_type == 'waiting')
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="other-action">
+                                        <input type="button" value="Send to current list" x-on:click="function() {
+                                            Swal.fire({
+                                                icon: 'warning',
+                                                title: 'Send to current leads',
+                                                text: 'Would you like to send this lead to current leads again?',
+                                                showCancelButton: true
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    @this.call('sendToCurrentLeads', {{$row->id}});
+                                                }
+                                            })}" class="btn btn-info btn-sm">
+                                        @if (!empty($row->waiting_lead_offer) && $row->waiting_lead_offer->contains('status', 0))
+                                        <input type="button" value="Reject application" wire:click="rejectFromWaitingList({{$row->id}})" class="btn btn-warning btn-sm">
+                                        @else
+                                        <input type="button" value="Reject application" disabled class="btn btn-warning btn-sm">
+                                        @endif
+                                        <input type="button" value="{{ $row->hidden == "Yes" ? 'Show lead' : 'Hide lead' }}" wire:click="toggleShowHideLead1({{$row->id}})" class="btn btn-secondary btn-sm">
+                                        <input type="button" value="Edit lead" data-bs-toggle="modal" data-bs-target="#editLeadModal{{$row->id}}" class="btn btn-success btn-sm">
+                                        <input type="button" value="Delete lead" data-bs-toggle="modal" data-bs-target="#deleteLeadModal{{$row->id}}" class="btn btn-danger btn-sm">
+                                    </div>
+                                </div>
+                            </div>
+                            @elseif ($job_type == 'screening')
                             <div class="row">
                                 <div class="col-12">
                                     <div class="other-action">
@@ -220,11 +246,11 @@
                             </div>
                             @endif
                         </div>
-                        <div class="col-6" style="max-height:250px; overflow:auto;">
+                        <div class="col-6 history-detail">
                             @forelse ($row->comments as $comment)
                             <div class="mb-1">
                                 <div>{{ $comment->comment}}</div>
-                                <p class="text-muted"><small>{{ $comment->author }} on {{ $comment->date }}</small></p>
+                                <span class="text-muted"><small>{{ $comment->author }} on {{ $comment->date }}</small></span>
                             </div>
                             @empty
                             There are no any comments for this lead yet.
@@ -232,16 +258,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane" id="reschedule{{$row->id}}">
+                <div class="tab-pane history-detail" id="reschedule{{$row->id}}">
+                    @forelse ($row->reschedule_details as $item)
+                    <div class="mb-1">
+                        <div>{{ $item->tutor->tutor_name}} suggested new date and time on {{ str_replace('PM', 'PM, ', str_replace('AM', 'AM, ',$item->date)) }}</div>
+                        <span class="text-muted"><small>{{ $item->tutor->tutor_name }} on {{ $item->last_updated }}</small></span>
+                    </div>
+                    @empty
                     There are no any comments for this lead yet.
+                    @endforelse
                 </div>
-                <div class="tab-pane" id="rejection{{$row->id}}">
+                <div class="tab-pane history-detail" id="rejection{{$row->id}}">
+                    @forelse ($row->reject_history as $item)
+                    <div class="mb-1">
+                        <div>{{ $item->comment}}</div>
+                        <span class="text-muted"><small>{{ $item->author }} on {{ $item->date }}</small></span>
+                    </div>
+                    @empty
                     There are no any comments for this lead yet.
+                    @endforelse
                 </div>
-                <div class="tab-pane" id="automation{{$row->id}}">
+                <div class="tab-pane history-detail" id="automation{{$row->id}}">
+                    @forelse ($row->automation_history as $item)
+                    <div class="mb-1">
+                        <div>{{ $item->comment}}</div>
+                        <span class="text-muted"><small>{{ $item->author }} on {{ $item->date }}</small></span>
+                    </div>
+                    @empty
                     There are no any comments for this lead yet.
+                    @endforelse
                 </div>
-                <div class="tab-pane" id="matching-tutors{{$row->id}}">
+                <div class="tab-pane history-detail" id="matching-tutors{{$row->id}}">
                     There are no any tutors for this lead yet.
                 </div>
             </div>

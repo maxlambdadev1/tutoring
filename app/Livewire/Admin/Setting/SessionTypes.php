@@ -21,7 +21,7 @@ class SessionTypes extends Component
     public $showSessionTypeModal = false;
     public $editSessionTypeId;
     
-    public function openCreateSessionTypeModal() {
+    public function opencreateSessionTypeModal() {
         $this->resetValues();
         $this->showSessionTypeModal = true;
     }

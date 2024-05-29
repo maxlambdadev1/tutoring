@@ -10,6 +10,9 @@ use App\Models\PriceTutorOffer;
 
 trait PriceCalculatable
 {
+    /**
+     * calcuate session price for parent.
+     */
     public function calcSessionPrice($parentId, $sessionTypeId = 1) {
         $parentPriceRow = PriceParent::find($parentId);
         if (!$parentPriceRow) {
@@ -39,6 +42,9 @@ trait PriceCalculatable
         return $sessionPrice;
     }
 
+    /**
+     * calculate tutor price
+     */
     public function calcTutorPrice($tutorId, $parentId, $childId, $sessionTypeId = 1) {
         $refDates = [
             1 => new \DateTime('2023-01-11'), // Reference date for f2f price increase
@@ -93,6 +99,9 @@ trait PriceCalculatable
         }
     }
 
+    /**
+     * create or update TutorPriceOffer
+     */
     public function addTutorPriceOffer($tutor_id, $parent_id, $child_id, $offer_amount, $offer_type) {
         PriceTutorOffer::updateOrCreate([
             'tutor_id' => $tutor_id,

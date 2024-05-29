@@ -53,3 +53,8 @@ table tr .table-sticky-right {
     z-index: 1;
     background-color: #fff !important;
 }
+
+.history-detail {
+    max-height:250px; 
+    overflow:auto;
+}

@@ -49,32 +49,46 @@ trait Mailable
 
     private function getFilteredContent($content, $params)
     {
+        if (isset($params['attitude']))             $content = str_replace('%%attitude%%', $params['attitude'], $content);
         if (isset($params['adminfirstname']))       $content = str_replace('%%adminfirstname%%', $params['adminfirstname'], $content);
         if (isset($params['adminname']))            $content = str_replace('%%adminname%%', $params['adminname'], $content);
         if (isset($params['address']))              $content = str_replace('%%address%%', $params['address'], $content);
+        if (isset($params['date']))                 $content = str_replace('%%date%%', $params['date'], $content);
         if (isset($params['email']))                $content = str_replace('%%email%%', $params['email'], $content);
         if (isset($params['grade']))                $content = str_replace('%%grade%%', $params['grade'], $content);
+        if (isset($params['favourite']))            $content = str_replace('%%favourite%%', $params['favourite'], $content);
         if (isset($params['jobdate']))              $content = str_replace('%%jobdate%%', $params['jobdate'], $content);
+        if (isset($params['mainresult']))           $content = str_replace('%%mainresult%%', $params['mainresult'], $content);
+        if (isset($params['mind']))                 $content = str_replace('%%mind%%', $params['mind'], $content);
+        if (isset($params['notes']))                $content = str_replace('%%notes%%', $params['notes'], $content);
         if (isset($params['onlinesessionurl']))     $content = str_replace('%%onlinesessionurl%%', $params['onlinesessionurl'], $content);
+        if (isset($params['onlineURL']))            $content = str_replace('%%onlineURL%%', $params['onlineURL'], $content);
         if (isset($params['parentname']))           $content = str_replace('%%parentname%%', $params['parentname'], $content);
         if (isset($params['parentfirstname']))      $content = str_replace('%%parentfirstname%%', $params['parentfirstname'], $content);
         if (isset($params['parentnumber']))         $content = str_replace('%%parentnumber%%', $params['parentnumber'], $content);
+        if (isset($params['parentphone']))          $content = str_replace('%%parentphone%%', $params['parentphone'], $content);
+        if (isset($params['performance']))          $content = str_replace('%%performance%%', $params['performance'], $content);
+        if (isset($params['personality']))          $content = str_replace('%%personality%%', $params['personality'], $content);
         if (isset($params['reschedulejobdate']))    $content = str_replace('%%reschedulejobdate%%', $params['reschedulejobdate'], $content);
         if (isset($params['studentname']))          $content = str_replace('%%studentname%%', $params['studentname'], $content);
         if (isset($params['studentfirstname']))     $content = str_replace('%%studentfirstname%%', $params['studentfirstname'], $content);
         if (isset($params['studentbirthday']))      $content = str_replace('%%studentbirthday%%', $params['studentbirthday'], $content);
         if (isset($params['sessiondate']))          $content = str_replace('%%sessiondate%%', $params['sessiondate'], $content);
         if (isset($params['sessiontime']))          $content = str_replace('%%sessiontime%%', $params['sessiontime'], $content);
+        if (isset($params['sessiontype']))          $content = str_replace('%%sessiontype%%', $params['sessiontype'], $content);
         if (isset($params['sessionnotes']))         $content = str_replace('%%sessionnotes%%', $params['sessionnotes'], $content);
         if (isset($params['sessionprice']))         $content = str_replace('%%sessionprice%%', $params['sessionprice'], $content);
+        if (isset($params['specialrequirement']))   $content = str_replace('%%specialrequirement%%', $params['specialrequirement'], $content);
         if (isset($params['subject']))              $content = str_replace('%%subject%%', $params['subject'], $content);
+        if (isset($params['time']))                 $content = str_replace('%%time%%', $params['time'], $content);
         if (isset($params['tutorfirstname']))       $content = str_replace('%%tutorfirstname%%', $params['tutorfirstname'], $content);
         if (isset($params['tutorname']))            $content = str_replace('%%tutorname%%', $params['tutorname'], $content);
         if (isset($params['tutorprice']))           $content = str_replace('%%tutorprice%%', $params['tutorprice'], $content);
         if (isset($params['tutorprofilelink']))     $content = str_replace('%%tutorprofilelink%%', $params['tutorprofilelink'], $content);
         if (isset($params['tutornumber']))          $content = str_replace('%%tutornumber%%', $params['tutornumber'], $content);
+        if (isset($params['tutoremail']))           $content = str_replace('%%tutoremail%%', $params['tutoremail'], $content);
         if (isset($params['userfirstname']))        $content = str_replace('%%userfirstname%%', $params['userfirstname'], $content);
-        if (isset($params['username']))            $content = str_replace('%%username%%', $params['username'], $content);
+        if (isset($params['username']))             $content = str_replace('%%username%%', $params['username'], $content);
         if (isset($params['useremail']))            $content = str_replace('%%useremail%%', $params['useremail'], $content);
         if (isset($params['vouchernumber']))        $content = str_replace('%%vouchernumber%%', $params['vouchernumber'], $content);
 

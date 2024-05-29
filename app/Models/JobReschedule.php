@@ -11,11 +11,9 @@ class JobReschedule extends Model
 
     protected $table = 'alchemy_jobs_reschedule';
 
-    protected $fillable = [
-        'job_id',
-        'tutor_id',
-        'date',
-        'time',
-        'last_updated',
-    ];
+    protected $guarded = [];
+
+    public function tutor() {
+        return $this->belongsTo(Tutor::class);
+    }
 }
