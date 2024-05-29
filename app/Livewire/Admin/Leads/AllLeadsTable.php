@@ -4,10 +4,12 @@ namespace App\Livewire\Admin\Leads;
 
 // use Illuminate\Database\query\Builder;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Job;
 use App\Models\Availability;
 use App\Models\Tutor;
 use App\Models\User;
+use App\Models\WaitingLeadOffer;
 use Illuminate\Contracts\Database\Query\Builder;
 use Livewire\Attributes\On;
 use Illuminate\Support\Number;
@@ -69,6 +71,7 @@ class AllLeadsTable extends PowerGridComponent
             });
 
         if ($this->job_type == 'waiting') $query = $query->where('job_status', '=', '3');
+        else if ($this->job_type == 'special-requirement') $query = $query->where('job_status', '=', '4');
         else {
             $datetime = new \DateTime('now', new \DateTimeZone('Australia/Sydney'));
             $formattedDate = $datetime->format('d/m/Y H:i');
@@ -76,8 +79,8 @@ class AllLeadsTable extends PowerGridComponent
             $query = $query->where('job_status', '=', '0');
             if ($this->job_type == 'screening') $query = $query->where('hidden', '=', '1')->where('is_from_main', '=', '1');
             else if ($this->job_type == 'new') $query = $query->where('hidden', '=', '1')->where('is_from_main', '=', '0');
-            else if ($this->job_type == 'active') $query = $query->where('hidden', '=', '0')->whereRaw("TIMESTAMPDIFF(HOUR, STR_TO_DATE(last_updated, '%d/%m/%Y %H:%i'), STR_TO_DATE('".$formattedDate."', '%d/%m/%Y %H:%i')) <= 48");
-            else if ($this->job_type == 'focus') $query = $query->where('hidden', '=', '0')->whereRaw("TIMESTAMPDIFF(HOUR, STR_TO_DATE(last_updated, '%d/%m/%Y %H:%i'), STR_TO_DATE('".$formattedDate."', '%d/%m/%Y %H:%i')) > 48");
+            else if ($this->job_type == 'active') $query = $query->where('hidden', '=', '0')->whereRaw("TIMESTAMPDIFF(HOUR, STR_TO_DATE(last_updated, '%d/%m/%Y %H:%i'), STR_TO_DATE('" . $formattedDate . "', '%d/%m/%Y %H:%i')) <= 48");
+            else if ($this->job_type == 'focus') $query = $query->where('hidden', '=', '0')->whereRaw("TIMESTAMPDIFF(HOUR, STR_TO_DATE(last_updated, '%d/%m/%Y %H:%i'), STR_TO_DATE('" . $formattedDate . "', '%d/%m/%Y %H:%i')) > 48");
         }
 
         return $query->select('alchemy_jobs.*');
@@ -157,7 +160,8 @@ class AllLeadsTable extends PowerGridComponent
     {
         return [
             Rule::rows()
-                ->setAttribute('class', 'bg-white'),
+                ->when(fn ($job) => $job->job_status == 4) //for special-requirement lead
+                ->detailView('livewire.admin.components.special-requirement-lead-detail'),
         ];
     }
 
@@ -242,7 +246,7 @@ class AllLeadsTable extends PowerGridComponent
             ]);
         }
     }
-    
+
     public function assignLead1($job_id, $post)
     {
         try {
@@ -274,7 +278,7 @@ class AllLeadsTable extends PowerGridComponent
             ]);
         }
     }
-    
+
     public function deleteLead1($job_id, $reason)
     {
         try {
@@ -291,7 +295,8 @@ class AllLeadsTable extends PowerGridComponent
         }
     }
 
-    public function approveAndRelease($job_id) {
+    public function approveAndRelease($job_id)
+    {
         try {
             $job = Job::find($job_id);
             $job->update([
@@ -324,7 +329,6 @@ class AllLeadsTable extends PowerGridComponent
                     'name' => $parent->parent_name,
                 ];
                 $this->sendSms($smsParams, 'parent-welcome-call-sms', $params);
-
             }
 
             $this->dispatch('showToastrMessage', [
@@ -339,7 +343,8 @@ class AllLeadsTable extends PowerGridComponent
         }
     }
 
-    public function furtherContactRequiredLead($job_id, $reason){
+    public function furtherContactRequiredLead($job_id, $reason)
+    {
         try {
             $job = Job::find($job_id);
             $job->update([
@@ -364,5 +369,158 @@ class AllLeadsTable extends PowerGridComponent
             ]);
         }
     }
+
+    public function sendToCurrentLeads($job_id)
+    {
+        try {
+            $job = Job::find($job_id);
+            if ($job->job_status !== 3) throw new \Exception('This lead is not in waiting list');
+
+            $job->update([
+                'job_status' => 0,
+                'last_updated_for_waiting_list' => (new \DateTime('now'))->format('d/m/Y H:i'),
+            ]);
+
+            $this->addJobHistory([
+                'job_id' => $job_id,
+                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'comment' => 'The lead was sent to the waiting list.'
+            ]);
+
+            if (!empty($job->waiting_lead_offer)) {
+                foreach ($job->waiting_lead_offer as $waiting_offer) {
+                    if ($waiting_offer->status == 0) $waiting_offer->update(['status' => 1]);
+                }
+            }
+
+            $this->dispatch('showToastrMessage', [
+                'status' => 'success',
+                'message' => 'The lead was sent to the current list successfully!'
+            ]);
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
     
+    public function rejectFromWaitingList($job_id)
+    {
+        try {
+            $job = Job::find($job_id);
+            if ($job->job_status !== 3) throw new \Exception('This lead is not in waiting list');
+            
+            $waitings = WaitingLeadOffer::where('job_id', $job_id)->where('status', 0)->get();
+            if (!empty($waitings)) {
+                foreach ($waitings as $waiting) {
+                    $waiting->update(['status' => 1]);
+
+                    $admin = User::find(auth()->user()->id)->admin;
+                    $tutor = Tutor::find($waiting->tutor_id);
+                    $child = $job->child;
+
+                    $this->addJobHistory([
+                        'job_id' => $job_id,
+                        'author' => $admin->admin_name,
+                        'comment' => "The tutor " . $tutor->tutor_name . "(" . $tutor->user->email . ") was rejected in this job"
+                    ]);
+
+                    $params = [
+                        'email' => $tutor->user->email,
+                        'tutorfirstname' => $tutor->first_name,
+                        'childname' => $child->child_name,
+                        'childyear' => $child->child_year,
+                        'subject' => $job->subject,
+                        'location' => $job->session_type_id == 1 ? $job->location : 'Online'
+                    ];
+                    $this->sendEmail($tutor->user->email, 'reject-application-waiting-list-from-admin-email', $params);
+
+                }
+            }
+
+            $this->dispatch('showToastrMessage', [
+                'status' => 'success',
+                'message' => 'The application was rejected successfully!'
+            ]);
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+    
+    public function approveSpecialRequirementResponse($job_id)
+    {
+        try {
+            $job = Job::find($job_id);
+            if ($job->job_status !== 4) throw new \Exception('Invalid job for special requirement');
+
+            $this->addTutorHistory([
+                'tutor_id' => $job->tutor->id,
+                'author' => User::find(auth()->user()->id)->admin->admin_name ?? '',
+                'comment' => 'Admin allowed your request for sepcial-requirement job(job-id=' . $job->id .')'
+            ]);
+
+            $ses_date = $this->generateSessionDate($job->tutor_suggested_session_date, $job->start_date);
+
+            $this->createSessionFromJob($job_id, $job->tutor->id, $ses_date['date'], $ses_date['time']);
+
+            $this->dispatch('showToastrMessage', [
+                'status' => 'success',
+                'message' => 'Approved successfully!'
+            ]);
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+    
+    public function rejectSpecialRequirementResponse($job_id)
+    {
+        try {
+            $job = Job::find($job_id);
+            if ($job->job_status !== 4) throw new \Exception('Invalid job for special requirement');
+            
+            $tutor = $job->tutor;
+
+            $job->update([
+                'job_status' => 0,
+                'accepted_by' => null,
+                'last_updated' => date('d/m/Y H:i'),
+                'converted_by' => null,
+                'special_request_response' => ''
+            ]);
+
+            $this->addTutorHistory([
+                'tutor_id' => $job->tutor->id,
+                'author' => User::find(auth()->user()->id)->admin->admin_name ?? '',
+                'comment' => 'Tutor rejected from special-requirement job - job-id=' . $job->id
+            ]);
+
+            $params = [
+                'tutorfirstname' => $tutor->first_name,
+                'subject' => $job->subject,
+                'grade' => $job->child->child_year,
+                'sessiontype' => $job->session_type_id == 1 ? 'FACE TO FACE' : 'Online',
+                'specialrequirement' => $job->special_request_content
+            ];
+
+            $this->sendEmail($tutor->user->email, 'special-requirement-tutor-reject-email', $params);
+
+            $this->dispatch('showToastrMessage', [
+                'status' => 'success',
+                'message' => 'Rejected successfully!'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }

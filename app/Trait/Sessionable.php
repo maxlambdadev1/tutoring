@@ -12,6 +12,9 @@ trait Sessionable {
     
     use Functions;
 
+    /**
+     * If tutor didn't have a session,  record the current date to TutorFirstSession table.
+     */
     public function checkTutorFirstSession($tutor_id) {
         $sessions_length = Session::where('tutor_id', $tutor_id)->count();
         if ($sessions_length < 1) {

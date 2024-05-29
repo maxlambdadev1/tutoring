@@ -6,6 +6,7 @@ use App\Models\Option;
 use App\Models\JobHistory;
 use App\Models\ChildHistory;
 use App\Models\TutorHistory;
+use Carbon\Carbon;
 
 trait Functions
 {
@@ -163,6 +164,25 @@ trait Functions
 	}
 
 	/**
+	 * @param $dateString: 'ma7,tp630',  $date: 'ASAP' or '23/05/2024'
+	 * @return ['date' => '27/05/2023', 'time' => '19:30']
+	 */
+	public function generateSessionDate($dateString, $start_date) {
+		$av_date = explode(' ', $this->getAvailabilitiesFromString1($dateString)[0]); //['Monday', ''7:00AM']
+		$datetime = new \DateTime('now');
+		if (!empty($start_date)) {
+			$datetime = $datetime->createFromFormat('d/m/Y', $start_date);
+			if (!$datetime || strlen(explode('/', $start_date)[2]) != 4) {
+				$datetime = new \DateTime('now');
+			}
+		}
+		return [
+			'date' => $this->getNextDateByDay($datetime->format('d/m/Y'), $av_date[0])->format('d/m/Y'),
+			'time' => Carbon::createFromFormat('g:iA', $av_date[1])->format('G:i') //19:00
+		];
+	}
+
+	/**
 	 * @param $date = 23/05/2024, $day = 'Monday'
 	 * @return DateTime - '27/05/2024' - more than 2 days.
 	 */
@@ -258,6 +278,9 @@ trait Functions
 			'date' => date('d/m/Y H:i')
 		]);
 	}
+	/**
+	 * @param $post = ['child_id' => , 'author' =>, 'comment' =>]
+	 */
 	public function addStudentHistory($post)
 	{
 		if (empty($post['author'])) $post['author'] = 'System';

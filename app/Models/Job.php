@@ -43,7 +43,12 @@ class Job extends Model
 
     public function tutor()
     {
-        return $this->belongsTo(Tutor::class);
+        return $this->belongsTo(Tutor::class, 'accepted_by');
+    }
+    
+    public function thirdparty_org()
+    {
+        return $this->belongsTo(ThirdpartyOrganisation::class);
     }
 
     public function alchemy_sessions()
@@ -57,6 +62,18 @@ class Job extends Model
 
     public function comments() {
         return $this->hasMany(JobHistory::class, 'job_id');
+    }
+    
+    public function reschedule_details() {
+        return $this->hasMany(JobReschedule::class, 'job_id');
+    }
+    
+    public function reject_history() {
+        return $this->hasMany(JobRejectHistory::class, 'job_id');
+    }
+    
+    public function automation_history() {
+        return $this->hasMany(JobAutomationHistory::class, 'job_id');
     }
 
     public function job_offer() {

@@ -78,10 +78,10 @@
                         <a href="{{ route('admin.leads.focus-leads') }}" wire:navigate>Focus Leads</a>
                     </li>
                     <li>
-                        <a href="#">Current Leads</a>
+                        <a href="{{ route('admin.leads.deleted-leads') }}" wire:navigate>Deleted Leads</a>
                     </li>
                     <li>
-                        <a href="#">Deleted Leads</a>
+                        <a href="{{ route('admin.leads.waiting-list') }}" wire:navigate>Waiting list</a>
                     </li>
                     <li>
                         <a href="{{ route('admin.leads.create') }}" wire:navigate>Add Leads</a>
@@ -90,13 +90,13 @@
                         <a href="#">Lead Map</a>
                     </li>
                     <li>
-                        <a href="#">Welcome Calls</a>
-                    </li>
-                    <li>
                         <a href="#">Find Tutor</a>
                     </li>
                     <li>
-                        <a href="#">Replacement Tutors</a>
+                        <a href="{{ route('admin.leads.replacement-tutor') }}" wire:navigate>Replacement tutor</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.leads.special-requirement-approval') }}" wire:navigate>Special Requirement Approval</a>
                     </li>
                 </ul>
             </div>

@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <x-session-alert />
                     <div class="text-end mb-2">
-                        <a class="btn btn-primary mx-1" wire:click="openCreateSessionTypeModal" id="register_session_type">Register</a>
+                        <a class="btn btn-primary mx-1" wire:click="opencreateSessionTypeModal" id="register_session_type">Register</a>
                     </div>
                     <div class="table-responsive-md">
                         <table class="table table-centered table-hover mb-0">

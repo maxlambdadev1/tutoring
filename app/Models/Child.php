@@ -18,4 +18,7 @@ class Child extends Model
         return $this->belongsTo(AlchemyParent::class, 'parent_id');
     }
 
+    public function history() {
+        return $this->hasMany(ChildHistory::class);
+    }
 }
