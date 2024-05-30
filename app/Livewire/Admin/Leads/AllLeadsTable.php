@@ -151,7 +151,7 @@ class AllLeadsTable extends PowerGridComponent
         return [
             Button::add('detail')
                 ->slot('Detail')
-                ->class('btn btn-primary waves-effect waves-light')
+                ->class('btn btn-outline-primary waves-effect waves-light btn-sm')
                 ->toggleDetail(),
         ];
     }

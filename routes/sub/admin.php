@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\VerifyEmailController; 
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -41,5 +41,13 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/replacement-tutor', \App\Livewire\Admin\Leads\ReplacementTutor::class)->name('replacement-tutor');
             Route::get('/special-requirement-approval', \App\Livewire\Admin\Leads\SpecialRequirementApproval::class)->name('special-requirement-approval');
         });        
+        
+        Route::group(['prefix' => 'thirdparty', 'as' => 'thirdparty.'], function() {
+            Route::get('/create', \App\Livewire\Admin\Thirdparty\CreateOrg::class)->name('create');
+            Route::get('/{org}/edit', \App\Livewire\Admin\Thirdparty\EditOrg::class)->name('edit');
+            Route::get('/create-lead', \App\Livewire\Admin\Thirdparty\CreateThirdpartyLead::class)->name('create-lead');
+            Route::get('/sessions', \App\Livewire\Admin\Thirdparty\Sessions::class)->name('sessions');
+            Route::get('/organisations', \App\Livewire\Admin\Thirdparty\ThirdpartyOrgList::class)->name('organisations');
+        });
     });
 });

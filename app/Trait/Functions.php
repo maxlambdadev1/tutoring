@@ -200,6 +200,10 @@ trait Functions
 		return $datetime;
 	}
 
+	/**
+	 * @param ['mon-7:00 AM', 'tue-6:30 PM']
+	 * @return ['Monday 7:00 AM', 'Tuesday 6:30 PM']
+	 */
 	function arrayFlatten($array)
 	{
 		$return = array();

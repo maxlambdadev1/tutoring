@@ -101,6 +101,29 @@
                 </ul>
             </div>
         </li>
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sidebarThirdparty" aria-expanded="false" aria-controls="sidebarThirdparty" class="side-nav-link">
+                <i class="uil uil-object-group"></i>
+                <span> Third party </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarThirdparty">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="{{ route('admin.thirdparty.create') }}" wire:navigate>Add organisation</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.thirdparty.create-lead') }}" wire:navigate>Add thirdparty lead</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.thirdparty.sessions') }}" wire:navigate>Thirdparty sessions</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.thirdparty.organisations') }}" wire:navigate>Organisation list</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
     @endcan
 
     <li class="side-nav-title side-nav-item">Collaborator</li>
