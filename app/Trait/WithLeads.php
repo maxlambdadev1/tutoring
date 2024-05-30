@@ -2,9 +2,9 @@
 
 namespace App\Trait;
 
-use App\Livewire\Admin\Leads\ReplacementTutor;
 use Illuminate\Support\Facades\DB;
 use App\Models\Tutor;
+use App\Models\ReplacementTutor;
 use App\Models\AlchemyParent;
 use App\Models\BookingTarget;
 use App\Models\Child;
@@ -18,14 +18,16 @@ use App\Models\JobOffer;
 use App\Models\ParentReferrer;
 use App\Models\PriceParentDiscount;
 use App\Models\SessionType;
+use App\Models\ThirdpartyOrganisation;
 use App\Models\WaitingLeadOffer;
 use App\Trait\Functions;
+use App\Trait\Mailable;
 use Carbon\Carbon;
 use PhpParser\Node\Stmt\TryCatch;
 
 trait WithLeads
 {
-    use Functions;
+    use Functions, Mailable;
 
     public const LEAD_SOURCE = [
         'Phone',
@@ -115,6 +117,10 @@ trait WithLeads
     public function CreateJobFromData($inputData)
     {
         try {
+            $thirdparty_org_id =  null;
+            if (isset($inputData['thirdparty_org_id']) && !empty($inputData['thirdparty_org_id'])) {
+                if (!empty(ThirdpartyOrganisation::find($inputData['thirdparty_org_id']))) $thirdparty_org_id = $inputData['thirdparty_org_id'];
+            }
             $is_from_main = $inputData['is_from_main'] ? 1 : 0;
             $experienced_tutor = 0;
             if (isset($inputData['experienced_tutor']) && !!$inputData['experienced_tutor']) $experienced_tutor = 1;
@@ -166,14 +172,14 @@ trait WithLeads
                     'parent_lon' => $coords['lon'],
                     'user_id' => $user->id,
                     'subscribe' => 1,
+                    'thirdparty_org_id' => $thirdparty_org_id,
                 ]
             );
             $parent->referral_code = strval($parent->id + 10000);
             $parent->save();
 
-            $body_for_booking = "Parent name: " . ucwords($parent->parent_first_name) . " " . ucwords($parent->parent_last_name) . "  <br>Parent phone: " . ucwords($parent->parent_phone) . " <br>Parent email: " . ucwords($parent->parent_email) . "  <br>Referral: " . $inputData['referral'] . "  <br>State: " . $inputData['state'] . "  Address: " . $inputData['address'] . "  <br>Postcode: " . $inputData['postcode'] . "  <br>Session type: " . $session_type . "  <br>Google booking: " . $google_booking . " <br>";
-
             //check referral code for new user
+            $referral_code = "";
             if (!$parent_existed && isset($inputData['referral']) && !empty($inputData['referral'])) {
                 $referral_parent = AlchemyParent::where('referral_code', $inputData['referral'])->first();
                 if (!empty($referral_parent) && ($parent->id !== $referral_parent->id)) {
@@ -185,7 +191,8 @@ trait WithLeads
                         $params['email'] = $referral_parent->parent_email;
                         $params['parentfirstname'] = $referral_parent->parent_first_name;
                         $params['referralcode'] = $referral_parent->referral_code;
-                        // $this->sendEmail($params, "parent-referral-notification");
+                        $this->sendEmail($referral_parent->parent_email, "parent-referral-notification", $params);
+                        $referral_code = $referral_parent->referral_code;
                     }
                 }
             }
@@ -198,7 +205,6 @@ trait WithLeads
                 $date_for_body = implode(',', $this->arrayFlatten($student['date']));
                 $student_first_name = ucwords($student['student_first_name']);
                 $student_last_name = ucwords($student['student_last_name']);
-                $body_for_booking .= "Student name: " . $student_first_name . " " . $student_last_name . "  <br>School: " . $student['student_school'] . "  <br>Grade: " . $student['grade'] . "  <br>Subject: " . $student['subject'] . "  <br>Date: " . $date_for_body . "  <br>Notes: " . $student['notes'] . "  <br>Start date: " . $student['start_date'];
 
                 $no_availability = false;
                 if (!isset($student['date']) || empty($student['date'])) {
@@ -253,17 +259,17 @@ trait WithLeads
                     'automation' => $automate,
                     'special_request_content' => isset($inputData['special_request_content']) ? $inputData['special_request_content'] : null,
                     'is_from_main' => $is_from_main,
-                    'thirdparty_org_id' => isset($inputData['thirdparty_org_id']) ? $inputData['thirdparty_org_id'] : null,
+                    'thirdparty_org_id' => $thirdparty_org_id,
                 ]);
 
                 $param = array();
-                $param['first_name'] = $parent->parent_first_name;
-                $param['student_name'] = $child->child_first_name;
+                $param['firstname'] = $parent->parent_first_name;
+                $param['studentname'] = $child->child_first_name;
                 $param['email'] = $parent->parent_email;
                 if (isset($inputData['welcome_email']) && !empty($inputData['welcome_email'])) {
-                    // $this->sendEmail($param,'parent-booking-email');
+                    $this->sendEmail($parent->parent_email, 'parent-booking-email', $param);
                 } elseif (empty($inputData['lead_source'])) {
-                    // $this->functions->send_email($param,'parent-booking-email');
+                    $this->sendEmail($parent->parent_email, 'parent-booking-email', $param);
                 }
 
                 if (!empty($student['team_notes'])) {
@@ -290,6 +296,29 @@ trait WithLeads
                         'job_id' => $job->id,
                         'comment' => $ignore_comment
                     ]);
+                }
+                //send email to admin
+                $params = [
+                    'parentname' => ucwords($parent->parent_name),
+                    'parentphone' => $parent->parent_phone,
+                    'parentemail' => $parent->parent_email,
+                    'referralcode' => $referral_code,
+                    'state' => $inputData['state'],
+                    'address' => $inputData['address'],
+                    'postcode' => $inputData['postcode'],
+                    'sessiontype' => $session_type,
+                    'googlebooking' => $google_booking,
+                    'studentname' => $child->child_name,
+                    'school' => $child->child_school,
+                    'grade' => $child->child_year,
+                    'subject' => $job->subject,
+                    'date' => $date_for_body,
+                    'notes' => $job->job_notes,
+                    'startdate' => $job->start_date
+                ];
+                $this->sendEmail('nadine.cook@alchemytuition.com.au', 'create-job-to-admin-email', $params);
+                if ($google_ads == 1) {
+                    $this->sendEmail('matt.ahern@alchemytuition.com.au', 'create-job-to-admin-email', $params);
                 }
             }
 
@@ -327,17 +356,6 @@ trait WithLeads
 
             //add/update mailchimp user
 
-
-            $body_for_booking = "<p>" . $body_for_booking . "</p>";
-            $param = array();
-            $param['email'] = 'nadine.cook@alchemytuition.com.au';
-            // $this->sendEmail($param, '', '', $body_for_booking, "New Booking (" .$parent->parent_email .")");
-
-            if ($google_ads == 1) {
-                $param['no_addbcc'] = 1;
-                $param['email'] = 'matt.ahern@alchemytuition.com.au';
-                // $this->sendEmail($param, '', '', $body_for_booking, "New Booking (".$parent->parent_email .")");
-            }
         } catch (\Exception $e) {
             DB::rollBack();
             throw new \Exception($e->getMessage());
@@ -382,7 +400,6 @@ trait WithLeads
             $tutor = Tutor::find($post['assigned_tutor']);
 
             $this->createSessionFromJob($job_id, $tutor->id, $session_date, $session_time, 'admin');
-
         } catch (\Exception $e) {
             $this->dispatch('showToastrMessage', [
                 'status' => 'error',
@@ -467,9 +484,9 @@ trait WithLeads
                 'mainresult' => $job->main_result ?? '-',
                 'performance' => $job->performance ?? '-',
                 'attitude' => $job->attitude ?? '-',
-                'mind' => $job-> mind ?? '-',
+                'mind' => $job->mind ?? '-',
                 'personality' => $job->personality ?? '-',
-                'favourite' => $job-> favourite ?? '-',
+                'favourite' => $job->favourite ?? '-',
                 'address' => $parent->parent_address . ', ' . $parent->parent_suburb . ', ' . $parent->parent_postcode,
                 'parentname' => $parent->parent_first_name . ' ' . $parent->parent_last_name,
                 'parentphone' => $parent->parent_phone,
@@ -534,8 +551,13 @@ trait WithLeads
                 if ($job->session_type_id == 1) $this->sendEmail($parent->user->email, 'parent-creative-session-details-email', $params);
                 else $this->sendEmail($parent->user->email, 'parent-creative-online-session-details-email', $params);
             } else {
-                if ($job->session_type_id == 1) $this->sendEmail($parent->user->email, 'parent-first-session-detail-email', $params);
-                else $this->sendEmail($parent->user->email, 'parent-first-online-session-detail-email', $params);
+                if ($job->session_type_id == 1) {
+                    if (!empty($job->thirdparty_org)) $this->sendEmail($parent->user->email, 'third-party-first-lesson-details-f2f', $params);
+                    else  $this->sendEmail($parent->user->email, 'parent-first-session-detail-email', $params);
+                } else {
+                    if (!empty($job->thirdparty_org)) $this->sendEmail($parent->user->email, 'third-party-first-lesson-details-online', $params);
+                    else  $this->sendEmail($parent->user->email, 'parent-first-online-session-detail-email', $params);
+                }
             }
 
             $this->deleteJobReschedule($job_id, $tutor->id);
@@ -559,7 +581,6 @@ trait WithLeads
                 ];
                 $this->sendEmail($send_to, 'new-creative-kids-creation', $params);
             }
-
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
