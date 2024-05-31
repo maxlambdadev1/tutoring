@@ -247,7 +247,7 @@
                             @endif
                         </div>
                         <div class="col-6 history-detail">
-                            @forelse ($row->comments as $comment)
+                            @forelse ($row->history as $comment)
                             <div class="mb-1">
                                 <div>{{ $comment->comment}}</div>
                                 <span class="text-muted"><small>{{ $comment->author }} on {{ $comment->date }}</small></span>

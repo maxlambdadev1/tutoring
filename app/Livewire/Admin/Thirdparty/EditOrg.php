@@ -47,6 +47,10 @@ class EditOrg extends Component
         $this->org = $org;
     }
 
+    public function goBack() {
+        return $this->redirect('/thirdparty/organisations', navigate: true);
+    }
+
     public function render()
     {
         return view('livewire.admin.thirdparty.edit-org');

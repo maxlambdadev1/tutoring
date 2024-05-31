@@ -32,6 +32,7 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-outline-success waves-effect waves-light btn-sm">Update</button>
+                        <button type="button" wire:click="goBack()" class="btn btn-outline-secondary waves-effect btn-sm">Cancel</button>
                     </form>
                 </div>
             </div>

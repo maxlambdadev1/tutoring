@@ -2,6 +2,7 @@
 
 namespace App\Trait;
 
+use App\Models\CancellationFeeHistory;
 use App\Models\Option;
 use App\Models\JobHistory;
 use App\Models\ChildHistory;
@@ -297,7 +298,7 @@ trait Functions
 		]);
 	}
 	/**
-	 * @param $post = ['tutor_id' => 123, 'comment' => 'abcde']
+	 * @param $post = ['tutor_id' => 123, 'author' => '', 'comment' => 'abcde']
 	 */
 	public function addTutorHistory($post)
 	{
@@ -305,6 +306,20 @@ trait Functions
 
 		TutorHistory::create([
 			'tutor_id' => $post['tutor_id'],
+			'author' => $post['author'],
+			'comment' => $post['comment'],
+			'date' => date('d/m/Y H:i')
+		]);
+	}
+	/**
+	 * @param $post = ['tutor_id' => 123, 'author' => '', 'comment' => 'abcde']
+	 */
+	public function addCancellationFeeHistory($post)
+	{
+		if (empty($post['author'])) $post['author'] = 'System';
+
+		CancellationFeeHistory::create([
+			'cancellation_id' => $post['cancellation_id'],
 			'author' => $post['author'],
 			'comment' => $post['comment'],
 			'date' => date('d/m/Y H:i')

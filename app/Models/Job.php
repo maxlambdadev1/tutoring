@@ -60,7 +60,7 @@ class Job extends Model
         return $this->hasMany(JobVisit::class, 'job_id');
     }
 
-    public function comments() {
+    public function history() {
         return $this->hasMany(JobHistory::class, 'job_id');
     }
     

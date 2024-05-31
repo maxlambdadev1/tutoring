@@ -119,7 +119,24 @@
                         <a href="{{ route('admin.thirdparty.sessions') }}" wire:navigate>Thirdparty sessions</a>
                     </li>
                     <li>
+                        <a href="{{ route('admin.thirdparty.cancellation-fee') }}" wire:navigate>Cancellation fee</a>
+                    </li>
+                    <li>
                         <a href="{{ route('admin.thirdparty.organisations') }}" wire:navigate>Organisation list</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#creativekids" aria-expanded="false" aria-controls="sidebarThirdparty" class="side-nav-link">
+                <i class="uil uil-kid"></i>
+                <span> Creative kids </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="creativekids">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="{{ route('admin.creativekids.add-creative-leads') }}" wire:navigate>Add booking </a>
                     </li>
                 </ul>
             </div>
