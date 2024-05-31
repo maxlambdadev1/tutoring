@@ -47,7 +47,12 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/{org}/edit', \App\Livewire\Admin\Thirdparty\EditOrg::class)->name('edit');
             Route::get('/create-lead', \App\Livewire\Admin\Thirdparty\CreateThirdpartyLead::class)->name('create-lead');
             Route::get('/sessions', \App\Livewire\Admin\Thirdparty\Sessions::class)->name('sessions');
+            Route::get('/cancellation-fee', \App\Livewire\Admin\Thirdparty\CancellationFee::class)->name('cancellation-fee');
             Route::get('/organisations', \App\Livewire\Admin\Thirdparty\ThirdpartyOrgList::class)->name('organisations');
+        });
+        
+        Route::group(['prefix' => 'creativekids', 'as' => 'creativekids.'], function() {
+            Route::get('/add-creative-leads', \App\Livewire\Admin\Creativekids\AddLeads::class)->name('add-creative-leads');
         });
     });
 });

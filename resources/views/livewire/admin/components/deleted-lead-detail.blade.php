@@ -34,10 +34,10 @@
                             </div>
                         </div>
                         <div class="col-6 history-detail">
-                            @forelse ($row->comments as $comment)
+                            @forelse ($row->history as $item)
                             <div class="mb-1">
-                                <div>{{ $comment->comment}}</div>
-                                <span class="text-muted"><small>{{ $comment->author }} on {{ $comment->date }}</small></span>
+                                <div>{{ $item->comment}}</div>
+                                <span class="text-muted"><small>{{ $item->author }} on {{ $item->date }}</small></span>
                             </div>
                             @empty
                             There are no any comments for this lead yet.

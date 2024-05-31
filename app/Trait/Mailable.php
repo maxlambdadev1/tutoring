@@ -54,6 +54,7 @@ trait Mailable
         if (isset($params['adminname']))            $content = str_replace('%%adminname%%', $params['adminname'], $content);
         if (isset($params['address']))              $content = str_replace('%%address%%', $params['address'], $content);
         if (isset($params['date']))                 $content = str_replace('%%date%%', $params['date'], $content);
+        if (isset($params['cdate']))                $content = str_replace('%%cdate%%', $params['cdate'], $content);
         if (isset($params['email']))                $content = str_replace('%%email%%', $params['email'], $content);
         if (isset($params['grade']))                $content = str_replace('%%grade%%', $params['grade'], $content);
         if (isset($params['favourite']))            $content = str_replace('%%favourite%%', $params['favourite'], $content);
@@ -70,6 +71,7 @@ trait Mailable
         if (isset($params['performance']))          $content = str_replace('%%performance%%', $params['performance'], $content);
         if (isset($params['personality']))          $content = str_replace('%%personality%%', $params['personality'], $content);
         if (isset($params['reschedulejobdate']))    $content = str_replace('%%reschedulejobdate%%', $params['reschedulejobdate'], $content);
+        if (isset($params['reason']))               $content = str_replace('%%reason%%', $params['reason'], $content);
         if (isset($params['studentname']))          $content = str_replace('%%studentname%%', $params['studentname'], $content);
         if (isset($params['studentfirstname']))     $content = str_replace('%%studentfirstname%%', $params['studentfirstname'], $content);
         if (isset($params['studentbirthday']))      $content = str_replace('%%studentbirthday%%', $params['studentbirthday'], $content);
@@ -80,6 +82,7 @@ trait Mailable
         if (isset($params['sessionprice']))         $content = str_replace('%%sessionprice%%', $params['sessionprice'], $content);
         if (isset($params['specialrequirement']))   $content = str_replace('%%specialrequirement%%', $params['specialrequirement'], $content);
         if (isset($params['subject']))              $content = str_replace('%%subject%%', $params['subject'], $content);
+        if (isset($params['sdate']))                $content = str_replace('%%sdate%%', $params['sdate'], $content);
         if (isset($params['time']))                 $content = str_replace('%%time%%', $params['time'], $content);
         if (isset($params['tutorfirstname']))       $content = str_replace('%%tutorfirstname%%', $params['tutorfirstname'], $content);
         if (isset($params['tutorname']))            $content = str_replace('%%tutorname%%', $params['tutorname'], $content);

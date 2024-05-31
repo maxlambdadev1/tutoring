@@ -23,4 +23,8 @@ class Session extends Model
     public function child() {
         return $this->belongsTo(Child::class);
     }
+    
+    public function prev_session() {
+        return $this->belongsTo(self::class, 'session_previous_session_id');
+    }
 }
