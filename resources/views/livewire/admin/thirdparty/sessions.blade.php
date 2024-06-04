@@ -32,7 +32,7 @@
         <div class="col-12">
             <div class="card mb-3">
                 <div class="card-body">
-                    <livewire:admin.thirdparty.thirdparty-sessions-table :thirdparty_org_id="$thirdparty_org_id" :key="$thirdparty_org_id"/>
+                    <livewire:admin.sessions.all-sessions-table :thirdparty_org_id="$thirdparty_org_id" :key="$thirdparty_org_id"/>
                 </div>
             </div>
         </div>
