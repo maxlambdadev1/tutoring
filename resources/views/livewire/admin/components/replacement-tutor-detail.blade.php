@@ -107,19 +107,17 @@
         </div>
     </div>
     <div class="row mt-3">
-        <div class="col-12">
-            <div class="row">
-                <div class="col-7">
-                    <div class="row mb-2">
-                        <div class="col-12">
-                            <div class="mb-2">
-                                <label for="comment" class="form-label">Comment</label>
-                                <textarea class="form-control" x-ref="comment{{$row->id}}" id="comment" rows="3"></textarea>
-                            </div>
-                            <input type="button" wire:click="addComment({{$row->child->id}}, $refs.comment{{$row->id}}.value)" value="Add comment" class="btn btn-primary btn-sm form-control">
-                        </div>
+        <div class="col-7">
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="mb-2">
+                        <label for="comment" class="form-label">Comment</label>
+                        <textarea class="form-control" x-ref="comment{{$row->id}}" id="comment" rows="3"></textarea>
                     </div>
-                    <!-- <div class="row">
+                    <input type="button" wire:click="addComment({{$row->child->id}}, $refs.comment{{$row->id}}.value)" value="Add comment" class="btn btn-primary btn-sm form-control">
+                </div>
+            </div>
+            <!-- <div class="row">
                         <div class="col-12">
                             <div class="other-action">
                                 <input type="button" value="Add replacement lead" class="btn btn-primary btn-sm">
@@ -130,18 +128,16 @@
                             </div>
                         </div>
                     </div> -->
-                </div>
-                <div class="col-5 history-detail">
-                    @forelse ($row->child->history as $item)
-                    <div class="mb-1">
-                        <div>{{ $item->comment}}</div>
-                        <span class="text-muted"><small>{{ $item->author }} on {{ $item->date }}</small></span>
-                    </div>
-                    @empty
-                    There are no any comments for this lead yet.
-                    @endforelse
-                </div>
+        </div>
+        <div class="col-5 history-detail">
+            @forelse ($row->child->history as $item)
+            <div class="mb-1">
+                <div>{{ $item->comment}}</div>
+                <span class="text-muted"><small>{{ $item->author }} on {{ $item->date }}</small></span>
             </div>
+            @empty
+            There are no any comments for this lead yet.
+            @endforelse
         </div>
     </div>
     <div id="changeStatusModal{{$row->id}}" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-modal="true" role="dialog">
@@ -154,7 +150,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="option{{$row->id}}" class="form-label">Choose an option</label>
-                        <select name="option{{$row->id}}" id="option{{$row->id}}" x-ref="option{{$row->id}}" class="form-select" >
+                        <select name="option{{$row->id}}" id="option{{$row->id}}" x-ref="option{{$row->id}}" class="form-select">
                             <option value="">All</option>
                             <option value="1">Uncategoriezed</option>
                             <option value="2">Waiting to hear back from tutor</option>

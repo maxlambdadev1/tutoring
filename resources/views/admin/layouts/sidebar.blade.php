@@ -141,6 +141,29 @@
                 </ul>
             </div>
         </li>
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sessions" aria-expanded="false" aria-controls="sidebarThirdparty" class="side-nav-link">
+                <i class="uil  uil-calendar-alt"></i>
+                <span> Sessions </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sessions">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="{{ route('admin.sessions.all-sessions') }}" wire:navigate>All sessions</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.sessions.unconfirmed-sessions') }}" wire:navigate>Unconfirmed sessions</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.sessions.scheduled-sessions') }}" wire:navigate>Upcoming sessions</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.sessions.no-scheduled-sessions') }}" wire:navigate>No scheduled sessions</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
     @endcan
 
     <li class="side-nav-title side-nav-item">Collaborator</li>

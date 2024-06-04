@@ -1,19 +1,10 @@
 <?php
 
-namespace App\Livewire\Admin\Thirdparty;
-
-// use Illuminate\Database\query\Builder;
+namespace App\Livewire\Admin\Sessions;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Session;
-use App\Models\Tutor;
-use App\Models\User;
-use App\Models\AlchemyParent;
-use App\Models\Child;
 use Illuminate\Contracts\Database\Query\Builder;
-use Livewire\Attributes\On;
-use Illuminate\Support\Number;
-use Illuminate\View\View;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Detail;
@@ -23,9 +14,10 @@ use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 
 
-class ThirdpartySessionsTable extends PowerGridComponent
+class AllSessionsTable extends PowerGridComponent
 {
     public $thirdparty_org_id;
 
@@ -57,8 +49,9 @@ class ThirdpartySessionsTable extends PowerGridComponent
             ->leftJoin('users', function ($user) {
                 $user->on('tutors.user_id', '=', 'users.id');
             })
-            ->where('session_status', '!=', '6')
-            ->where('thirdparty_org_id', '=', $this->thirdparty_org_id);
+            ->where('session_status', '!=', '6');
+
+        if (!empty($this->thirdparty_org_id)) $query = $query->where('thirdparty_org_id', '=', $this->thirdparty_org_id);
 
         return $query->select('alchemy_sessions.*');
     }
@@ -74,6 +67,13 @@ class ThirdpartySessionsTable extends PowerGridComponent
             ],
             'child' => [
                 'child_name'
+            ],
+            'tutor' => [
+                'tutor_name',
+                'tutor_phone',
+                'users' => [
+                    'email'
+                ]
             ],
         ];
     }
@@ -95,7 +95,7 @@ class ThirdpartySessionsTable extends PowerGridComponent
             ->add('tutor_id', fn ($ses) => $ses->tutor_id)
             ->add('parent_id', fn ($ses) => $ses->parent_id)
             ->add('session_date', fn ($ses) => $ses->session_date)
-            ->add('child_first_name', fn ($ses) => $ses->child->child_name)
+            ->add('child_name', fn ($ses) => $ses->child->child_name)
             ->add('child_year', fn ($ses) =>  $ses->child->child_year)
             ->add('child_school', fn ($ses) =>  $ses->child->child_school)
             ->add('parent_first_name', fn ($ses) =>  $ses->parent->parent_first_name . ' ' . $ses->parent->parent_last_name)
@@ -140,7 +140,7 @@ class ThirdpartySessionsTable extends PowerGridComponent
             Column::add()->title('Tutor ID')->field('tutor_id')->sortable(),
             Column::add()->title('Parent ID')->field('parent_id')->sortable(),
             Column::add()->title('Session Date')->field('session_date')->sortable(),
-            Column::add()->title('Student name')->field('child_first_name')->sortable()->searchable(),
+            Column::add()->title('Student name')->field('child_name')->sortable()->searchable(),
             Column::add()->title('Student Grade')->field('child_year')->sortable(),
             Column::add()->title('Student school')->field('child_school')->sortable(),
             Column::add()->title('Parent name')->field('parent_first_name')->searchable()->sortable(),
@@ -173,4 +173,16 @@ class ThirdpartySessionsTable extends PowerGridComponent
         ];
     }
 
+    public function filters(): array
+    {
+        return [
+            Filter::inputText('child_name'),
+            Filter::inputText('parent_first_name'),
+            Filter::inputText('parent_email'),
+            Filter::inputText('parent_phone'),
+            Filter::inputText('tutor_name'),
+            Filter::inputText('email'),
+            Filter::inputText('tutor_phone'),
+        ];
+    }
 }

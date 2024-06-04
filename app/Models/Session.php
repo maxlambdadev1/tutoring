@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Session extends Model
 {
@@ -26,5 +27,13 @@ class Session extends Model
     
     public function prev_session() {
         return $this->belongsTo(self::class, 'session_previous_session_id');
+    }
+    
+    public function history() {
+        return $this->hasMany(SessionHistory::class);
+    }
+
+    public function getSessionTimeAmpmAttribute() {
+        return Carbon::createFromFormat('H:i', $this->session_time)->format('h:i A');
     }
 }

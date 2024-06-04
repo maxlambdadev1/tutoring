@@ -6,6 +6,7 @@ use App\Models\CancellationFeeHistory;
 use App\Models\Option;
 use App\Models\JobHistory;
 use App\Models\ChildHistory;
+use App\Models\SessionHistory;
 use App\Models\TutorHistory;
 use Carbon\Carbon;
 
@@ -306,6 +307,20 @@ trait Functions
 
 		TutorHistory::create([
 			'tutor_id' => $post['tutor_id'],
+			'author' => $post['author'],
+			'comment' => $post['comment'],
+			'date' => date('d/m/Y H:i')
+		]);
+	}
+	/**
+	 * @param $post = ['session_id' => 123, 'author' => '', 'comment' => 'abcde']
+	 */
+	public function addSessionHistory($post)
+	{
+		if (empty($post['author'])) $post['author'] = 'System';
+
+		SessionHistory::create([
+			'session_id' => $post['session_id'],
 			'author' => $post['author'],
 			'comment' => $post['comment'],
 			'date' => date('d/m/Y H:i')

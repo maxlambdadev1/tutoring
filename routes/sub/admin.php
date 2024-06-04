@@ -54,5 +54,12 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
         Route::group(['prefix' => 'creativekids', 'as' => 'creativekids.'], function() {
             Route::get('/add-creative-leads', \App\Livewire\Admin\Creativekids\AddLeads::class)->name('add-creative-leads');
         });
+        
+        Route::group(['prefix' => 'sessions', 'as' => 'sessions.'], function() {
+            Route::get('/all-sessios', \App\Livewire\Admin\Sessions\AllSessions::class)->name('all-sessions');
+            Route::get('/unconfirmed-sessions', \App\Livewire\Admin\Sessions\UnconfirmedSessions::class)->name('unconfirmed-sessions');
+            Route::get('/scheduled-sessions', \App\Livewire\Admin\Sessions\ScheduledSessions::class)->name('scheduled-sessions');
+            Route::get('/no-scheduled-sessions', \App\Livewire\Admin\Sessions\NoScheduledSessions::class)->name('no-scheduled-sessions');
+        });
     });
 });
