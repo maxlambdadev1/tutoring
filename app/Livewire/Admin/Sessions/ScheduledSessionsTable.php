@@ -68,11 +68,12 @@ class ScheduledSessionsTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('child_name', fn ($ses) => $ses->child->child_name)
-            ->add('tutor_name', fn ($ses) =>  $ses->tutor->tutor_name)
+            ->add('id')
+            ->add('child_name', fn ($ses) => $ses->child->child_name ?? '-')
+            ->add('tutor_name', fn ($ses) =>  $ses->tutor->tutor_name ?? '-')
             ->add('session_date', fn ($ses) => $ses->session_date)
             ->add('total_sessions', function ($ses) {
-                return Session::where('tutor_id', $ses->tutor->id)->where('child_id', $ses->child->id)->count();
+                return Session::where('tutor_id', $ses->tutor->id)->where('child_id', $ses->child->id ?? '')->count();
             })
             ->add('prev_session', fn ($ses) =>  !empty($ses->prev_session) ? $ses->prev_session->session_date : ($ses->session_is_first == 1 ? 'First session' : '-'));
     }
@@ -80,6 +81,7 @@ class ScheduledSessionsTable extends PowerGridComponent
     public function columns(): array
     {
         return [
+            Column::add()->title('ID')->field('id')->sortable(),
             Column::add()->title('Student name')->field('child_name')->sortable()->searchable(),
             Column::add()->title('Tutor name')->field('tutor_name')->sortable()->searchable(),
             Column::add()->title('Session Date')->field('session_date')->sortable(),

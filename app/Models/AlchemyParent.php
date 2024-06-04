@@ -30,7 +30,7 @@ class AlchemyParent extends Model
         return $this->hasOne(PriceParentDiscount::class, 'parent_id');
     }
 
-    public function getParentName()
+    public function getParentNameAttribute()
     {
         return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
     }

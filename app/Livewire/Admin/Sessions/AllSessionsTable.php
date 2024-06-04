@@ -19,6 +19,9 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 
 class AllSessionsTable extends PowerGridComponent
 {
+    public string $sortField = 'id';
+    public string $sortDirection = 'desc';
+    
     public $thirdparty_org_id;
 
     public function setUp(): array
@@ -81,6 +84,7 @@ class AllSessionsTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
+            ->add('id')
             ->add('session_status', function ($ses) {
                 $str = '';
                 if ($ses->session_status == 1) $str = 'Unconfirmed';
@@ -95,22 +99,22 @@ class AllSessionsTable extends PowerGridComponent
             ->add('tutor_id', fn ($ses) => $ses->tutor_id)
             ->add('parent_id', fn ($ses) => $ses->parent_id)
             ->add('session_date', fn ($ses) => $ses->session_date)
-            ->add('child_name', fn ($ses) => $ses->child->child_name)
-            ->add('child_year', fn ($ses) =>  $ses->child->child_year)
-            ->add('child_school', fn ($ses) =>  $ses->child->child_school)
-            ->add('parent_first_name', fn ($ses) =>  $ses->parent->parent_first_name . ' ' . $ses->parent->parent_last_name)
-            ->add('parent_email', fn ($ses) =>  $ses->parent->parent_email)
-            ->add('parent_phone', fn ($ses) =>  $ses->parent->parent_phone)
-            ->add('parent_address', fn ($ses) =>  $ses->parent->parent_address)
-            ->add('parent_suburb', fn ($ses) =>  $ses->parent->parent_suburb)
-            ->add('parent_postcode', fn ($ses) =>  $ses->parent->parent_postcode)
+            ->add('child_name', fn ($ses) => $ses->child->child_name ?? '-')
+            ->add('child_year', fn ($ses) =>  $ses->child->child_year ?? '-')
+            ->add('child_school', fn ($ses) =>  $ses->child->child_school ?? '-')
+            ->add('parent_first_name', fn ($ses) =>  $ses->parent ? $ses->parent->parent_first_name . ' ' . $ses->parent->parent_last_name : '-')
+            ->add('parent_email', fn ($ses) =>  $ses->parent->parent_email ?? '-')
+            ->add('parent_phone', fn ($ses) =>  $ses->parent->parent_phone ?? '-')
+            ->add('parent_address', fn ($ses) =>  $ses->parent->parent_address ?? '-')
+            ->add('parent_suburb', fn ($ses) =>  $ses->parent->parent_suburb ?? '-')
+            ->add('parent_postcode', fn ($ses) =>  $ses->parent->parent_postcode ?? '-')
             ->add('stripe_customer_id', fn ($ses) =>  $ses->parent->stripe_customer_id ?? '-')
-            ->add('tutor_name', fn ($ses) =>  $ses->tutor->tutor_name)
-            ->add('email', fn ($ses) =>  $ses->tutor->user->email)
-            ->add('tutor_phone', fn ($ses) =>  $ses->tutor->tutor_phone)
-            ->add('address', fn ($ses) =>  $ses->tutor->address)
-            ->add('suburb', fn ($ses) =>  $ses->tutor->suburb)
-            ->add('postcode', fn ($ses) =>  $ses->tutor->postcode)
+            ->add('tutor_name', fn ($ses) =>  $ses->tutor->tutor_name ?? '-')
+            ->add('email', fn ($ses) =>  $ses->tutor->user->email ?? '-')
+            ->add('tutor_phone', fn ($ses) =>  $ses->tutor->tutor_phone ?? '-')
+            ->add('address', fn ($ses) =>  $ses->tutor->address ?? '-')
+            ->add('suburb', fn ($ses) =>  $ses->tutor->suburb ?? '-')
+            ->add('postcode', fn ($ses) =>  $ses->tutor->postcode ?? '-')
             ->add('tutor_stripe_user_id', fn ($ses) =>  $ses->tutor->tutor_stripe_user_id ?? '-')
             ->add('session_next_session_tutor_date', fn ($ses) =>  $ses->session_next_session_tutor_date ?? '-')
             ->add('session_type', function ($ses) {
@@ -136,6 +140,7 @@ class AllSessionsTable extends PowerGridComponent
     public function columns(): array
     {
         return [
+            Column::add()->title('ID')->field('id')->sortable(),
             Column::add()->title('Session status')->field('session_status')->sortable(),
             Column::add()->title('Tutor ID')->field('tutor_id')->sortable(),
             Column::add()->title('Parent ID')->field('parent_id')->sortable(),

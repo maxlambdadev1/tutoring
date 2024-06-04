@@ -4,6 +4,10 @@ namespace App\Livewire\Admin\Sessions;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Session;
+use App\Models\Child;
+use App\Models\AlchemyParent;
+use App\Models\Job;
+use Illuminate\Support\Collection;
 use Illuminate\Contracts\Database\Query\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -36,26 +40,24 @@ class NoScheduledSessionsTable extends PowerGridComponent
         ];
     }
 
-    public function datasource(): ?Builder
+    public function datasource(): ?Collection
     {
-        $query =  Session::query()
-            ->leftJoin('alchemy_parent', function ($parent) {
-                $parent->on('alchemy_sessions.parent_id', '=', 'alchemy_parent.id');
-            })
-            ->leftJoin('alchemy_children', function ($child) {
-                $child->on('alchemy_sessions.child_id', '=', 'alchemy_children.id');
-            })
-            ->leftJoin('tutors', function ($tutor) {
-                $tutor->on('alchemy_sessions.tutor_id', '=', 'tutors.id');
-            })
-            ->leftJoin('alchemy_jobs' , function ($job) {
-                $job->on('alchemy_jobs.parent_id', '=', 'alchemy_parent.id')->on('alchemy_jobs.child_id', '=', 'alchemy_children.id')->on('alchemy_jobs.accepted_by', '=', 'tutors.id');
-            })
-            ->whereIn('session_status', [2,4,6])->where('session_is_first', '=', 0)
-            ->where('child_status','=', 1)
-            ->where('job_type', '!=', 'creative')->where('job_status', '=', 1);
+        $result = [];
+        $children = Child::where('child_status', 1)->get();
+        foreach ($children as $child) {
+            $jobs = Job::where('parent_id', $child->parent_id)->where('child_id', $child->id)->where('job_status', 1)->where('job_type', '!=', 'creative')->where('accepted_by', '!=', '')->whereNotNull('accepted_by')->get();
+            if (!empty($jobs)) {
+                foreach ($jobs as $job) {
+                    $no_ses = Session::where('child_id', $child->id)->where('parent_id', $child->parent_id)->where('tutor_id', $job->accepted_by)->where('session_is_first', 0)->orderBy('id', 'desc')->first();
+                    if (!empty($no_ses)) {
 
-        return $query->select('alchemy_sessions.*');
+                    }
+                    $result[] = $no_ses;
+                }
+            }
+        }
+
+        return collect($result);
     }
 
     public function relationSearch(): array

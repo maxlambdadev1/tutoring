@@ -39,7 +39,7 @@ class EditLeadModal extends Component
         $this->job = Job::find($job_id);
         $this->start_date = $this->job->start_date;
         $this->session_type_id = $this->job->session_type_id;
-        $this->state_id = State::where('name', $this->job->parent->parent_state)->first()->id;
+        $this->state_id = State::where('name', $this->job->parent->parent_state)->first()->id ?? 0;
         $this->subject = $this->job->subject;
         $this->suburb = $this->job->location;
         $this->prefered_gender = $this->job->prefered_gender;
