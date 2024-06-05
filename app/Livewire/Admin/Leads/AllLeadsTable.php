@@ -35,10 +35,15 @@ class AllLeadsTable extends PowerGridComponent
 {
     use WithLeads, Automationable, PriceCalculatable, Sessionable, Mailable;
 
+    public string $sortField = 'id';
+    public string $sortDirection = 'desc';
+
     public string $job_type;
 
     public function setUp(): array
     {
+        $this; 
+
         $total_availabilities = Availability::get();
         $progress_list = $this::PROGRESS_STATUS;
         $week_days = $this::WEEK_DAYS;
@@ -104,6 +109,7 @@ class AllLeadsTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
+            ->add('id')
             ->add('last_updated', function ($job) {
                 $dtime = \DateTime::createFromFormat("d/m/Y H:i", $job->last_updated);
                 $dtime->setTimeZone(new \DateTimeZone('Australia/Sydney'));
@@ -114,8 +120,8 @@ class AllLeadsTable extends PowerGridComponent
             ->add('hidden', fn ($job) => $job->hidden ? 'Yes' : 'No')
             ->add('create_time')
             ->add('job_type', fn ($job) => $job->job_type == 'regular' ? '' : $job->job_type)
-            ->add('session_type_id', fn ($job) => $job->session_type->name)
-            ->add('parent_name', fn ($job) =>  $job->parent->parent_name)
+            ->add('session_type_id', fn ($job) => $job->session_type->name ?? 'Online')
+            ->add('parent_first_name', fn ($job) =>  $job->parent->parent_first_name . ' '.$job->parent->parent_last_name )
             ->add('parent_phone', fn ($job) =>  $job->parent->parent_phone)
             ->add('parent_email', fn ($job) =>  $job->parent->parent_email)
             ->add('student_name', fn ($job) =>  $job->child->child_name)
@@ -129,12 +135,13 @@ class AllLeadsTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::add()->title('Age')->field('last_updated')->sortable(),
+            Column::add()->title('ID')->field('id')->sortable(),
+            Column::add()->title('Age')->field('last_updated'),
             Column::add()->title('Hidden')->field('hidden')->sortable(),
             Column::add()->title('Date submitted')->field('create_time')->sortable(),
             Column::add()->title('Lead Type')->field('job_type')->sortable(),
             Column::add()->title('Session Type')->field('session_type_id')->sortable(),
-            Column::add()->title('Parent')->field('parent_name'),
+            Column::add()->title('Parent')->field('parent_first_name')->sortable(),
             Column::add()->title('Parent Phone')->field('parent_phone')->searchable()->sortable(),
             Column::add()->title('Parent Email')->field('parent_email')->searchable()->sortable(),
             Column::add()->title('Student')->field('student_name', 'child_name')->sortable()->searchable(),

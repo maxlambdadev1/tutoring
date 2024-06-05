@@ -20,6 +20,9 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 class UnconfirmedSessionsTable extends PowerGridComponent
 {
 
+    public string $sortField = 'id';
+    public string $sortDirection = 'desc';
+
     public function setUp(): array
     {
         return [
@@ -68,8 +71,9 @@ class UnconfirmedSessionsTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('child_name', fn ($ses) => $ses->child->child_name)
-            ->add('tutor_name', fn ($ses) =>  $ses->tutor->tutor_name)
+            ->add('id')
+            ->add('child_name', fn ($ses) => $ses->child->child_name ?? '-')
+            ->add('tutor_name', fn ($ses) =>  $ses->tutor->tutor_name ?? '-')
             ->add('session_date', fn ($ses) => $ses->session_date)
             ->add('prev_session', fn ($ses) =>  !empty($ses->prev_session) ? $ses->prev_session->session_date : ($ses->session_is_first == 1 ? 'First session' : '-'))
             ->add('over_due', function ($ses) {
@@ -78,12 +82,13 @@ class UnconfirmedSessionsTable extends PowerGridComponent
                 $seconds = $now->getTimestamp() - $dtime->getTimestamp();
                 return floor($seconds/3600) . 'h ' . floor(($seconds - 3600 * floor($seconds/3600))/60) . 'm';
             })
-            ->add('tutor_phone', fn ($ses) =>  $ses->tutor->tutor_phone);
+            ->add('tutor_phone', fn ($ses) =>  $ses->tutor->tutor_phone ?? '-');
     }
 
     public function columns(): array
     {
         return [
+            Column::add()->title('ID')->field('id')->sortable(),
             Column::add()->title('Student name')->field('child_name')->sortable()->searchable(),
             Column::add()->title('Tutor name')->field('tutor_name')->sortable()->searchable(),
             Column::add()->title('Session Date')->field('session_date')->sortable(),
