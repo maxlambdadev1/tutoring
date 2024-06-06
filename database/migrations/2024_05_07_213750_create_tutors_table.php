@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('application_id');
-            // $table->integer('state_id');
-
             $table->string('tutor_name')->nullable();
+            $table->string('tutor_email')->nullable();
             $table->string('preferred_first_name')->nullable();
             $table->string('birthday')->nullable();
             $table->string('gender')->nullable();

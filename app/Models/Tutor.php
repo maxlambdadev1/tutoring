@@ -12,6 +12,7 @@ class Tutor extends Model
 
     private $profile_path = 'uploads/tutor/profile';
     protected $guarded = [];
+    protected $appends = ['first_name'];
     // protected $casts = [
     //     'availabilities' => 'array'
     // ];
@@ -26,7 +27,7 @@ class Tutor extends Model
         return $this->photo ? $this->photo : 'images/no_avatar.png';
     }
 
-    public function getFirstName()
+    public function getFirstNameAttribute()
     {
         return explode(' ', $this->tutor_name)[0];
     }

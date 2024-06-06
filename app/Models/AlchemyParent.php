@@ -15,6 +15,7 @@ class AlchemyParent extends Model
     protected $table = 'alchemy_parent';
 
     protected $guarded = [];
+    protected $appends = ['parent_name'];
 
     public function children()
     {

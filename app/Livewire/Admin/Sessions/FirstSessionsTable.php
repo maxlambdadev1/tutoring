@@ -17,7 +17,7 @@ use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 
 
-class AllSessionsTable extends PowerGridComponent
+class FirstSessionsTable extends PowerGridComponent
 {
     public string $sortField = 'id';
     public string $sortDirection = 'desc';

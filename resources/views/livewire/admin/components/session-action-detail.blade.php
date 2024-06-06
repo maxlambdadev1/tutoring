@@ -5,7 +5,7 @@
                 <div class="col-12">
                     <div class="mb-2">
                         <label for="comment{{$session->id}}" class="form-label">Comment</label>
-                        <textarea class="form-control" x-ref="comment{{$session->id}}" id="comment{{$session->id}}" rows="3"></textarea>
+                        <textarea class="form-control" x-ref="comment{{$session->id}}" id="comment{{$session->id}}" rows="5"></textarea>
                     </div>
                     <input type="button" wire:click="addComment({{$session->id}}, $refs.comment{{$session->id}}.value)" value="Add comment" class="btn btn-primary btn-sm form-control">
                 </div>

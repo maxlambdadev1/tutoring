@@ -6,12 +6,10 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 #[Layout('admin.layouts.app')]
-class NoScheduledSessions extends Component
+class FirstSessions extends Component
 {
-    public $filter = '';
-
     public function render()
     {
-        return view('livewire.admin.sessions.no-scheduled-sessions');
+        return view('livewire.admin.sessions.first-sessions');
     }
 }

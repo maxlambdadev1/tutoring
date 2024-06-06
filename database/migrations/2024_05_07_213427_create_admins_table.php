@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('admin_name')->nullable();
+            $table->string('admin_email')->nullable();
             $table->string('phone')->unique()->nullable();
             $table->string('photo')->nullable();
             $table->tinyInteger('admin_role_id');

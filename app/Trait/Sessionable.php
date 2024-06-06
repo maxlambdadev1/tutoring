@@ -12,6 +12,15 @@ trait Sessionable {
     
     use Functions;
 
+    public const NO_SESSION_FILTER_ARRAY = [
+        1 => 'Uncategorized',
+        2 => 'Waiting to hear back from tutor',
+        3 => 'Waiting to hear back from parent',
+        4 => 'Disregard',
+        5 => 'Monitor',
+        6 => 'Rescue'
+    ];
+
     /**
      * If tutor didn't have a session,  record the current date to TutorFirstSession table.
      */
