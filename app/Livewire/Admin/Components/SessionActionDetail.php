@@ -8,10 +8,11 @@ use App\Models\User;
 use Carbon\Carbon;
 use App\Trait\Functions;
 use App\Trait\Mailable;
+use App\Trait\WithParents;
 
 class SessionActionDetail extends Component
 {
-    use Functions, Mailable;
+    use Functions, Mailable, WithParents;
 
     public $session;
 
@@ -192,18 +193,7 @@ class SessionActionDetail extends Component
             ]);
 
             if (!!$is_student_send_to_inactive && !empty($followup)) {
-                $child = $session->child;
-                $child->update([
-                    'child_status' => 0,
-                    'follow_up' => $followup,
-                    'no_follow_up_reason' => $disable_future_follow_up_reason,
-                ]);
-
-                $this->addStudentHistory([
-                    'child_id' => $child->id,
-                    'author' => User::find(auth()->user()->id)->admin->admin_name,
-                    'comment' => "Sent student to inactive. Reason: " .$delete_student_reason
-                ]);
+                $this->makeStudentInactive($session->child->id, $delete_student_reason, $followup, $disable_future_follow_up_reason);
             }
 
             $this->session = $this->session->fresh();

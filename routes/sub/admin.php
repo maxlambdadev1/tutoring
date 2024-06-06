@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/unconfirmed-sessions', \App\Livewire\Admin\Sessions\UnconfirmedSessions::class)->name('unconfirmed-sessions');
             Route::get('/scheduled-sessions', \App\Livewire\Admin\Sessions\ScheduledSessions::class)->name('scheduled-sessions');
             Route::get('/no-scheduled-sessions', \App\Livewire\Admin\Sessions\NoScheduledSessions::class)->name('no-scheduled-sessions');
+            Route::get('/no-session-2-weeks', \App\Livewire\Admin\Sessions\NoSession2Week::class)->name('no-session-2-weeks');
         });
     });
 });

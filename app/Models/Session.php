@@ -13,7 +13,8 @@ class Session extends Model
 
     protected $table = 'alchemy_sessions';
     protected $guarded = [];
-    
+    protected $appends = ['session_time_ampm'];
+
     public function tutor() {
         return $this->belongsTo(Tutor::class);
     }

@@ -161,6 +161,9 @@
                     <li>
                         <a href="{{ route('admin.sessions.no-scheduled-sessions') }}" wire:navigate>No scheduled sessions</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.sessions.no-session-2-weeks') }}" wire:navigate>No session in 2 weeks</a>
+                    </li>
                 </ul>
             </div>
         </li>

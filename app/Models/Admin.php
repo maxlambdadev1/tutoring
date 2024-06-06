@@ -12,6 +12,7 @@ class Admin extends Model
 
     private $profile_path = 'uploads/admin/profile';
     protected $guarded = [];
+    protected $appends = ['first_name'];
 
     public function getPhoto()
     {
@@ -40,7 +41,7 @@ class Admin extends Model
         return $this;
     }
 
-    public function getFirstName() {
+    public function getFirstNameAttribute() {
         return explode(' ', $this->admin_name)[0]; 
     }
 }
