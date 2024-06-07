@@ -92,7 +92,7 @@ class AllSessionsTable extends PowerGridComponent
                 else if ($ses->session_status == 3) $str = 'Scheduled';
                 else {
                     if ($ses->session_length > 0) $str = 'Confirmed';
-                    else $str = 'Unconfirmed';
+                    else $str = 'Canceled';
                 }
                 return $str;
             })

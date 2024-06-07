@@ -11,21 +11,23 @@ use App\Trait\Mailable;
 use App\Trait\WithParents;
 use App\Trait\Sessionable;
 
-class SessionActionDetail extends Component
+class FirstSessionActionDetail extends Component
 {
     use Functions, Mailable, WithParents, Sessionable;
 
+    public $type = "";
     public $session;
 
-    public function mount($ses_id) {
+    public function mount($ses_id, $type = "") {
         $this->session = Session::find($ses_id);
+        $this->type = $type;
     }
 
     public function render()
     {
         $session = $this->session;
 
-        return view('livewire.admin.components.session-action-detail', compact('session'));
+        return view('livewire.admin.components.first-session-action-detail', compact('session'));
     }
     
     public function addComment($ses_id, $comment) {
@@ -174,5 +176,114 @@ class SessionActionDetail extends Component
             ]);
         }
     }
+        
+    public function makeSessionNotContinuing1($ses_id) {
+        try {
+            $this->makeSessionNotContinuing($ses_id);
+
+            $this->session = $this->session->fresh();
+
+            $this->dispatch('showToastrMessage', [
+                'status' => 'success',
+                'message' => 'The session was transfered to not continuing'
+            ]);
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+    /**
+     * @param $ses_id, $session_date = 25/05/2024, $session_time = 11:30 AM, $payment_info_email = true or false
+     */
+    public function addSecondSession($ses_id, $session_date, $session_time, $payment_info_email) {
+        try { 
+            $session = Session::find($ses_id);
+
+            $post = [
+                'type' => 'second',
+                'session_date' => $session_date,
+                'session_time' => $session_time,
+                'prev_session_id' => $session->id,
+                'payment_info' => $payment_info_email
+            ];
+
+            $this->addSession($post);
+
+            $this->session = $this->session->fresh();
+
+            $this->dispatch('showToastrMessage', [
+                'status' => 'success',
+                'message' => 'The session was added!'
+            ]);
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+    /**
+     * @param $ses_id, $payment_info_email = true or false, $first_session_info_email = true or false
+     */
+    public function sendEmailToParent($ses_id, $payment_info_email, $first_session_info_email) {
+        try { 
+            $session = Session::find($ses_id);
+
+            if (!empty($payment_info_email)) {
+                $this->sendPaymentInfoEmailToParent($session->id);
+            }
+            
+            if (!empty($first_session_info_email)) {
+                $this->sendFirstSessionFollowupEmailToParent($session->id);
+            }
+
+            $this->session = $this->session->fresh();
+
+            $this->dispatch('showToastrMessage', [
+                'status' => 'success',
+                'message' => 'Email sent!'
+            ]);
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
     
+    public function firstSessionTutorUpdate($ses_id) {
+        try { 
+            $session = Session::find($ses_id);
+
+            $smsParams = [
+                'name' => $session->tutor->tutor_name,
+                'phone' => $session->tutor->tutor_phone
+            ];
+            $params = [
+                'tutorfirstname' => $session->tutor->first_name,
+                'studentname' => $session->child->child_name
+            ];
+            $this->sendSms($smsParams, 'first-session-tutor-update-sms', $params);
+
+            $this->addSessionHistory([
+                'session_id' => $ses_id,
+                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'comment' => 'Sent first session update sms to tutor'
+            ]);
+
+            $this->session = $this->session->fresh();
+
+            $this->dispatch('showToastrMessage', [
+                'status' => 'success',
+                'message' => 'Update SMS sent to tutor'
+            ]);
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }

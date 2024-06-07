@@ -106,7 +106,7 @@ class NoScheduledSessionsTable extends PowerGridComponent
                         else if ($no_ses->session_status == 3) $str = 'Scheduled';
                         else {
                             if ($no_ses->session_length > 0) $str = 'Confirmed';
-                            else $str = 'Unconfirmed';
+                            else $str = 'Canceled';
                         }
                         $result_item['session_status'] = $str;
 
