@@ -8,6 +8,7 @@ use App\Models\JobHistory;
 use App\Models\ChildHistory;
 use App\Models\SessionHistory;
 use App\Models\TutorHistory;
+use App\Models\ParentHistory;
 use Carbon\Carbon;
 
 trait Functions
@@ -144,7 +145,8 @@ trait Functions
 	 * @param "ma7,tp530,Sp6"
 	 * @return ['Monday 7:00AM','Tuesday 5:30PM','Sunday 6:00PM'] 
 	 */
-	public function getAvailabilitiesFromString1($str) {
+	public function getAvailabilitiesFromString1($str)
+	{
 		$availabilities = [];
 		$arr = explode(',', $str);
 		if (!empty($arr) && count($arr) > 0) {
@@ -169,7 +171,8 @@ trait Functions
 	 * @param $dateString: 'ma7,tp630',  $date: 'ASAP' or '23/05/2024'
 	 * @return ['date' => '27/05/2023', 'time' => '19:30']
 	 */
-	public function generateSessionDate($dateString, $start_date) {
+	public function generateSessionDate($dateString, $start_date)
+	{
 		$av_date = explode(' ', $this->getAvailabilitiesFromString1($dateString)[0]); //['Monday', ''7:00AM']
 		$datetime = new \DateTime('now');
 		if (!empty($start_date)) {
@@ -270,9 +273,9 @@ trait Functions
 			return NULL;
 		}
 	}
-/**
- * @param $post = ['job_id' => , 'author' =>, 'comment' =>]
- */
+	/**
+	 * @param $post = ['job_id' => , 'author' =>, 'comment' =>]
+	 */
 	public function addJobHistory($post)
 	{
 		if (empty($post['author'])) $post['author'] = 'System';
@@ -293,6 +296,20 @@ trait Functions
 
 		ChildHistory::create([
 			'child_id' => $post['child_id'],
+			'author' => $post['author'],
+			'comment' => $post['comment'],
+			'date' => date('d/m/Y H:i')
+		]);
+	}
+	/**
+	 * @param $post = ['parent_id' => , 'author' =>, 'comment' =>]
+	 */
+	public function addParentHistory($post)
+	{
+		if (empty($post['author'])) $post['author'] = 'System';
+
+		ParentHistory::create([
+			'parent_id' => $post['parent_id'],
 			'author' => $post['author'],
 			'comment' => $post['comment'],
 			'date' => date('d/m/Y H:i')
@@ -374,5 +391,19 @@ trait Functions
 			}
 		}
 		return $oldest;
+	}
+
+	public function setRedirect($url)
+	{
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'https://a.lche.my');
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "scope=set-redirect&url={$url}");
+		$exec = curl_exec($ch);
+		curl_close($ch);
+		return $exec;
 	}
 }

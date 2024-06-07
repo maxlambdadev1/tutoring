@@ -21,8 +21,8 @@ class FirstSessionsTable extends PowerGridComponent
 {
     public string $sortField = 'id';
     public string $sortDirection = 'desc';
-    
-    public $thirdparty_org_id;
+
+
 
     public function setUp(): array
     {
@@ -34,6 +34,9 @@ class FirstSessionsTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
 
+            Detail::make()
+                ->view('livewire.admin.components.first-session-detail')
+                ->showCollapseIcon()
         ];
     }
 
@@ -52,9 +55,14 @@ class FirstSessionsTable extends PowerGridComponent
             ->leftJoin('users', function ($user) {
                 $user->on('tutors.user_id', '=', 'users.id');
             })
-            ->where('session_status', '!=', '6');
-
-        if (!empty($this->thirdparty_org_id)) $query = $query->where('thirdparty_org_id', '=', $this->thirdparty_org_id);
+            ->leftJoin('alchemy_jobs', function ($user) {
+                $user->on('alchemy_sessions.id', '=', 'alchemy_jobs.session_id');
+            })
+            ->where('session_status', '<', '5')
+            ->where('session_status', '!=', '3')
+            ->where('session_is_first', 1)
+            ->whereNull('session_next_session_id')
+            ->where('job_type', '!=', 'creative');
 
         return $query->select('alchemy_sessions.*');
     }
@@ -92,7 +100,7 @@ class FirstSessionsTable extends PowerGridComponent
                 else if ($ses->session_status == 3) $str = 'Scheduled';
                 else {
                     if ($ses->session_length > 0) $str = 'Confirmed';
-                    else $str = 'Unconfirmed';
+                    else $str = 'Canceled';
                 }
                 return $str;
             })
@@ -127,13 +135,10 @@ class FirstSessionsTable extends PowerGridComponent
             })
             ->add('session_subject', fn ($ses) =>  $ses->session_subject)
             ->add('session_length', fn ($ses) =>  $ses->session_length)
-            ->add('session_price', fn ($ses) =>  $ses->session_price)
-            ->add('session_tutor_price', fn ($ses) =>  $ses->session_tutor_price)
-            ->add('session_last_changed', fn ($ses) =>  $ses->session_last_changed)
+            ->add('session_last_changed', fn ($ses) =>  $ses->session_last_changed ?? '-')
             ->add('session_reason', fn ($ses) =>  $ses->session_reason ?? '-')
             ->add('session_charge_time', fn ($ses) =>  $ses->session_charge_time ?? '-')
             ->add('session_feedback', fn ($ses) =>  $ses->session_feedback ?? '-')
-            ->add('session_charge_status', fn ($ses) =>  $ses->session_charge_status ?? '-')
             ->add('type_id', fn ($ses) =>  $ses->type_id =  1 ? 'Face To Face' : 'Online');
     }
 
@@ -167,27 +172,12 @@ class FirstSessionsTable extends PowerGridComponent
             Column::add()->title('Session type')->field('session_type'),
             Column::add()->title('Subject')->field('session_subject')->sortable(),
             Column::add()->title('Length')->field('session_length')->sortable(),
-            Column::add()->title('Session price')->field('session_price')->sortable(),
-            Column::add()->title('Tutor price')->field('session_tutor_price')->sortable(),
             Column::add()->title('Confirmed on')->field('session_last_changed')->sortable(),
             Column::add()->title('Reason')->field('session_reason')->sortable(),
             Column::add()->title('Paid on')->field('session_charge_time')->sortable(),
             Column::add()->title('Feedback')->field('session_feedback')->sortable(),
-            Column::add()->title('Payment status')->field('session_charge_status')->sortable(),
             Column::add()->title('Lesson type')->field('type_id')->sortable(),
         ];
     }
 
-    public function filters(): array
-    {
-        return [
-            Filter::inputText('child_name'),
-            Filter::inputText('parent_first_name'),
-            Filter::inputText('parent_email'),
-            Filter::inputText('parent_phone'),
-            Filter::inputText('tutor_name'),
-            Filter::inputText('email'),
-            Filter::inputText('tutor_phone'),
-        ];
-    }
 }

@@ -11,6 +11,7 @@ class Child extends Model
     use HasFactory;
     
     protected $table = 'alchemy_children';
+    protected $appends = ['first_name'];
 
     protected $guarded = [];
 
@@ -20,5 +21,9 @@ class Child extends Model
 
     public function history() {
         return $this->hasMany(ChildHistory::class);
+    }
+    
+    public function getFirstNameAttribute() {
+        return explode(' ', $this->child_name)[0]; 
     }
 }

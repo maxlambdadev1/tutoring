@@ -56,11 +56,12 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
         });
         
         Route::group(['prefix' => 'sessions', 'as' => 'sessions.'], function() {
-            Route::get('/all-sessios', \App\Livewire\Admin\Sessions\AllSessions::class)->name('all-sessions');
+            Route::get('/all-sessions', \App\Livewire\Admin\Sessions\AllSessions::class)->name('all-sessions');
             Route::get('/unconfirmed-sessions', \App\Livewire\Admin\Sessions\UnconfirmedSessions::class)->name('unconfirmed-sessions');
             Route::get('/scheduled-sessions', \App\Livewire\Admin\Sessions\ScheduledSessions::class)->name('scheduled-sessions');
             Route::get('/no-scheduled-sessions', \App\Livewire\Admin\Sessions\NoScheduledSessions::class)->name('no-scheduled-sessions');
             Route::get('/no-session-2-weeks', \App\Livewire\Admin\Sessions\NoSession2Week::class)->name('no-session-2-weeks');
+            Route::get('/first-sessions', \App\Livewire\Admin\Sessions\FirstSessions::class)->name('first-sessions');
         });
     });
 });
