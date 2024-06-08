@@ -83,7 +83,7 @@
                     <!-- end Topbar -->
 
                     <!-- Start Content-->
-                    <div class="container-fluid">
+                    <div class="container mx-0">
                         
                         <div>{{ $header }}</div>
                         
@@ -95,7 +95,7 @@
 
                 <!-- Footer Start -->
                 <footer class="footer">
-                    <div class="container-fluid">
+                    <div class="container mx-0">
                         <div class="row">
                             <div class="col-md-6">
                                 {{date('Y')}} &copy; {{ config('app.name', 'Alehcmy Tuition') }}

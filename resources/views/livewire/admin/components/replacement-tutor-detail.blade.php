@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container mx-0">
     <div class="row">
         <div class="col-5">
             <h3 class="fw-bold">Student details</h3>

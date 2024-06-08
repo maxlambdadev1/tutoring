@@ -10,22 +10,23 @@ class SessionProgressReport extends Model
     use HasFactory;
 
     protected $table = 'alchemy_session_progress_report';
+    protected $guarded = [];
 
-    protected $fillable = [
-        'tutor_id',
-        'parent_id',
-        'child_id',
-        'session_count',
-        'last_session',
-        'unique_key',
-        'q1',
-        'q2',
-        'q3',
-        'q4',
-        'q5',
-        'review_reminder',
-        'reminder_count',
-        'submitted_on',
-        'date_lastupdated',
-    ];
+    public function tutor() {
+        return $this->belongsTo(Tutor::class);
+    }
+    
+    public function parent() {
+        return $this->belongsTo(AlchemyParent::class);
+    }
+    
+    public function child() {
+        return $this->belongsTo(Child::class);
+    }
+    
+    public function session() {
+        return $this->belongsTo(Session::class, 'last_session');
+    }
+    
+
 }
