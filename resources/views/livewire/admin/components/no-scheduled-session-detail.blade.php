@@ -6,7 +6,7 @@
     @endphp
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-12">
             <x-session-usual-description :session="$session" />
 
             <div class="row mt-3">

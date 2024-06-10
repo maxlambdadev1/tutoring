@@ -143,21 +143,21 @@
                                         <x-form-select-origin wire:model="inputData.prefered_gender" name="prefered_gender" label="Preferred gender" :items="['Male','Female']" />
                                         <div class="mb-3" x-data="{showDropdown: false}">
                                             <label class="form-label" for="phone">Ignore tutors</label>
-                                            <div class="input-group mb-3" id="ignore-tutors-input-group dropdown-toggle" data-bs-toggle="dropdown">
-                                                <input wire:model="search_str_for_tutors" id="search_str_for_tutors" name="search_str_for_tutors" wire:keydown="searchTutorsForIgnore" x-on:mouseover="showDropdown = true" type="text" class="form-control" placeholder="Type here to find the tutors (Name or Email)...">
+                                            <div class="input-group" id="ignore-tutors-input-group dropdown-toggle" data-bs-toggle="dropdown">
+                                                <input wire:model="search_str_for_tutors" id="search_str_for_tutors" name="search_str_for_tutors" wire:keydown="searchTutorsForIgnore" x-on:focus="showDropdown = true" x-on:blur="setTimeout(() => showDropdown = false, 150)" type="text" class="form-control" placeholder="Type here to find the tutors (Name or Email)...">
                                             </div>
-                                            <ul x-show="showDropdown" class="dropdown-menu dropdown-menu-md p-2">
+                                            <ul class="dropdown-menu dropdown-menu-md p-2" :class="{'d-block show' : showDropdown}">
                                                 @forelse ($searched_tutors as $tutor)
                                                 <li class="cursor-pointer" wire:click="addTutorToIgnore({{ $tutor }})" x-on:click="showDropdown = false">
                                                     <a class="dropdown-item">
-                                                        <div>{{ $tutor->first_name }} {{ $tutor->last_name }}</div>
+                                                        <div>{{ $tutor->tutor_name }}</div>
                                                         <span>{{ $tutor->user->email }}</span>
                                                     </a>
                                                 </li>
                                                 @empty
                                                 <li class="cursor-pointer">
                                                     <a class="dropdown-item">
-                                                        <span>There are no tuturs</span>
+                                                        <span>There are no tutors</span>
                                                     </a>
                                                 </li>
                                                 @endforelse

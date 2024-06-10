@@ -66,6 +66,8 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/not-continuing-sessions', \App\Livewire\Admin\Sessions\NotContinuingSessions::class)->name('not-continuing-sessions');
             Route::get('/progress-report', \App\Livewire\Admin\Sessions\ProgressReport::class)->name('progress-report');
             Route::get('/add-session', \App\Livewire\Admin\Sessions\AddSession::class)->name('add-session');
+            Route::get('/cancellation-fee', \App\Livewire\Admin\Sessions\CancellationFee::class)->name('cancellation-fee');
+            Route::get('/rescheduled-sessions', \App\Livewire\Admin\Sessions\RescheduledSessions::class)->name('rescheduled-sessions');
         });
     });
 });

@@ -179,6 +179,12 @@
                     <li>
                         <a href="{{ route('admin.sessions.add-session') }}" wire:navigate>Add session</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.sessions.cancellation-fee') }}" wire:navigate>Cancellation fee</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.sessions.rescheduled-sessions') }}" wire:navigate>Rescheduled sessions</a>
+                    </li>
                 </ul>
             </div>
         </li>

@@ -25,7 +25,7 @@ trait Automationable
                 $parent = $job->parent;
                 $child = $job->child;
                 $child_name_arr = explode(' ', $child->child_name);
-                $admin = User::find(auth()->user()->id)->admin;
+                $admin = auth()->user()->admin;
                 $admin_name_arr = explode(' ', $admin->admin_name);
 
                 $params = [];
@@ -62,7 +62,7 @@ trait Automationable
                 $parent = $job->parent;
                 $child = $job->child;
                 $child_name_arr = explode(' ', $child->child_name);
-                $admin = User::find(auth()->user()->id)->admin;
+                $admin = auth()->user()->admin;
                 $admin_name_arr = explode(' ', $admin->admin_name);
 
                 $params = [];
@@ -109,7 +109,7 @@ trait Automationable
                 $parent = $job->parent;
                 $child = $job->child;
                 $child_name_arr = explode(' ', $child->child_name);
-                $admin = User::find(auth()->user()->id)->admin;
+                $admin = auth()->user()->admin;
                 $admin_name_arr = explode(' ', $admin->admin_name);
 
                 $params = [

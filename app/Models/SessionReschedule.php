@@ -11,13 +11,10 @@ class SessionReschedule extends Model
 
     protected $table = 'alchemy_sessions_reschedule';
 
-    protected $fillable = [
-        'session_id',
-        'old_date',
-        'old_time',
-        'new_date',
-        'new_time',
-        'hidden',
-        'date',
-    ];
+    protected $guarded = [];
+
+    public function session() {
+        return $this->belongsTo(Session::class);
+    }
+
 }

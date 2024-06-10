@@ -63,13 +63,29 @@ trait WithLeads
     public function searchTutors($str, $length)
     {
         $tutors = [];
-        $query = Tutor::where('tutor_name', 'like', '%' . $str . '%')->orderBy('tutor_name');
+        $query = Tutor::where('tutor_name', 'like', '%' . $str . '%')->orwhere('tutor_email', 'like', '%' . $str . '%')->orderBy('tutor_name');
         if (empty($length)) {
             $tutors = $query->get();
         } else {
             $tutors = $query->limit($length)->get();
         }
         return $tutors;
+    }
+
+    /**
+     * @param $str, $length
+     * return @Children
+     */
+    public function searchChildren($str, $length)
+    {
+        $children = [];
+        $query = Child::where('child_name', 'like', '%' . $str . '%')->orderBy('child_name');
+        if (empty($length)) {
+            $children = $query->get();
+        } else {
+            $children = $query->limit($length)->get();
+        }
+        return $children;
     }
 
     public function searchParentsChildren($str, $length)
@@ -603,7 +619,7 @@ trait WithLeads
             ]);
 
             $this->addJobHistory([
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => 'Lead ' . ($job->hidden == 1 ? 'hidden' : 'unhidden'),
                 'job_id' => $job->id
             ]);
@@ -627,7 +643,7 @@ trait WithLeads
         }
 
         $this->addJobHistory([
-            'author' => User::find(auth()->user()->id)->admin->admin_name,
+            'author' => auth()->user()->admin->admin_name,
             'comment' => 'Deleted this job. reason:' . $reason,
             'job_id' => $job->id
         ]);
@@ -693,7 +709,7 @@ trait WithLeads
             }
             $this->addJobHistory([
                 'job_id' => $job_id,
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => $comment
             ]);
         } else {
@@ -723,7 +739,7 @@ trait WithLeads
             }
             $this->addJobHistory([
                 'job_id' => $parent_id,
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => $comment
             ]);
         } else {

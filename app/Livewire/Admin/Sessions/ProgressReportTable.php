@@ -193,13 +193,13 @@ class ProgressReportTable extends PowerGridComponent
 
             $this->addParentHistory([
                 'parent_id' => $parent->id,
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => "The email for the " . $report->session_count . " sessions progress report was sent to the parent"
             ]);
 
             $this->addSessionHistory([
                 'session_id' => $report->last_session,
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => "The email for the " . $report->session_count . " sessions progress report was sent to the parent"
             ]);
 

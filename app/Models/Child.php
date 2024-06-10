@@ -16,7 +16,7 @@ class Child extends Model
     protected $guarded = [];
 
     public function parent() {
-        return $this->belongsTo(AlchemyParent::class, 'parent_id');
+        return $this->belongsTo(AlchemyParent::class);
     }
 
     public function history() {

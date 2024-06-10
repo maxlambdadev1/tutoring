@@ -52,7 +52,7 @@ class ConnectNewTutorForNoScheduledSessionModal extends Component
 
             $connected_tutor = Tutor::find($connect_tutor_id);
             $this->addSessionHistory([
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => 'Added ' . $connected_tutor->tutor_name . ' as connected tutor',
                 'session_id' => $session->id
             ]);

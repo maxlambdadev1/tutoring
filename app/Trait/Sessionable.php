@@ -88,7 +88,7 @@ trait Sessionable
 
             $this->addSessionHistory([
                 'session_id' => $ses_id,
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => 'Deleted this session. Reason: ' . $reason,
             ]);
 
@@ -112,7 +112,7 @@ trait Sessionable
 
             $this->addSessionHistory([
                 'session_id' => $ses_id,
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => 'Changed status to not continuing.'
             ]);
         } catch (\Exception $e) {
@@ -131,12 +131,13 @@ trait Sessionable
      *      'subject' => subject,
      *      'child_id' => child_id,
      *      'tutor_id' => tutor_id,
+     *      'payment_info' => true or false //optional
      * ]
      */
     public function addSession($post)
     {
         try {
-            if (empty($post['type'] || empty($post['session_date']) ||  empty($post['session_time'])) || $post['type'] == 'first' && (empty($post['prev_session_id'] || empty($post['subject']) || empty($post['child_id']) || empty($post['tutor_id'])))) throw new \Exception('Input all data correctly');
+            if (empty($post['type'] || empty($post['session_date']) ||  empty($post['session_time'])) || $post['type'] == 'first' && (empty($post['subject']) || empty($post['child_id']) || empty($post['tutor_id'])) || $post['type'] !== 'first' && empty($post['prev_session_id'])) throw new \Exception('Input all data correctly');
 
             $is_first = 0;
             $prev_session_id = null;
@@ -247,7 +248,7 @@ trait Sessionable
             $this->sendCcEmail($parent->id, $child->id);
 
             $this->addSessionHistory([
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => "Sent 'Request payment information' email to parent.",
                 'session_id' => $session->id
             ]);
@@ -283,7 +284,7 @@ trait Sessionable
             $this->sendEmail($parent->parent_email, 'parent-first-session-followup-email', $params);
 
             $this->addSessionHistory([
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => "Sent 'How was your first session?' email to parent.",
                 'session_id' => $session->id
             ]);
@@ -299,7 +300,7 @@ trait Sessionable
         try {
             $parent = AlchemyParent::find($parent_id);
             $child = Child::find($child_id);
-            $admin = User::find(auth()->user()->id)->admin;
+            $admin = auth()->user()->admin;
 
             $params = [
                 'parentfirstname' => $parent->parent_first_name,
