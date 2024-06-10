@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container mx-0">
     <div class="row mt-3">
         <div class="col-12">
             <ul class="nav nav-tabs mb-3">

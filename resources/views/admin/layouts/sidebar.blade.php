@@ -167,6 +167,18 @@
                     <li>
                         <a href="{{ route('admin.sessions.first-sessions') }}" wire:navigate>First sessions</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.sessions.daily-first-sessions') }}" wire:navigate>Daily first sessions</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.sessions.not-continuing-sessions') }}" wire:navigate>Not continuing sessions</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.sessions.progress-report') }}" wire:navigate>Progress report</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.sessions.add-session') }}" wire:navigate>Add session</a>
+                    </li>
                 </ul>
             </div>
         </li>

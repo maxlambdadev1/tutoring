@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container mx-0">
     @php
     //change array to object
     $session_json = json_encode($row->session);

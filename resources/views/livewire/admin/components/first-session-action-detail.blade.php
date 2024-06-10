@@ -46,7 +46,7 @@
                 </div>
                 @else
                 <div class="other-action mb-2">
-                    <input type="button" value="Make not continuing" class="btn btn-primary btn-sm w-25" x-on:click="function() {
+                    <input type="button" value="Make not continuing" class="btn btn-primary btn-sm px-1" x-on:click="function() {
                             Swal.fire({
                                 icon: 'warning',
                                 title: 'Confirm session status change',
@@ -57,10 +57,10 @@
                                     @this.call('makeSessionNotContinuing1', {{$session->id}});
                                 }
                             })}">
-                    <input type="button" value="Make student inactive" data-bs-toggle="modal" data-bs-target="#makeStudentInactiveModal{{$session->child->id}}" class="btn btn-warning btn-sm w-25">
-                    <input type="button" value="Add second session" data-bs-toggle="modal" data-bs-target="#addSecondSessionModal{{$session->id}}" class="btn btn-success btn-sm w-25">
-                    <input type="button" value="Send email" data-bs-toggle="modal" data-bs-target="#sendEmailToParentModal{{$session->id}}" class="btn btn-info btn-sm w-25">
-                    <input type="button" value="Delete session" data-bs-toggle="modal" data-bs-target="#deleteSessionModal{{$session->id}}" class="btn btn-danger btn-sm w-25">
+                    <input type="button" value="Make student inactive" data-bs-toggle="modal" data-bs-target="#makeStudentInactiveModal{{$session->child->id}}" class="btn btn-warning btn-sm px-1">
+                    <input type="button" value="Add second session" data-bs-toggle="modal" data-bs-target="#addSecondSessionModal{{$session->id}}" class="btn btn-success btn-sm px-1">
+                    <input type="button" value="Send email" data-bs-toggle="modal" data-bs-target="#sendEmailToParentModal{{$session->id}}" class="btn btn-info btn-sm px-1">
+                    <input type="button" value="Delete session" data-bs-toggle="modal" data-bs-target="#deleteSessionModal{{$session->id}}" class="btn btn-danger btn-sm px-1">
                 </div>
                 @endif
             </div>

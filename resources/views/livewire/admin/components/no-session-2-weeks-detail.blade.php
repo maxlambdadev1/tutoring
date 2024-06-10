@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container mx-0">
     <x-session-usual-description :session="$row" />
 
     <div class="row mt-3">

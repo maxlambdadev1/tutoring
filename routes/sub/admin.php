@@ -62,6 +62,10 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/no-scheduled-sessions', \App\Livewire\Admin\Sessions\NoScheduledSessions::class)->name('no-scheduled-sessions');
             Route::get('/no-session-2-weeks', \App\Livewire\Admin\Sessions\NoSession2Week::class)->name('no-session-2-weeks');
             Route::get('/first-sessions', \App\Livewire\Admin\Sessions\FirstSessions::class)->name('first-sessions');
+            Route::get('/daily-first-sessions', \App\Livewire\Admin\Sessions\DailyFirstSessions::class)->name('daily-first-sessions');
+            Route::get('/not-continuing-sessions', \App\Livewire\Admin\Sessions\NotContinuingSessions::class)->name('not-continuing-sessions');
+            Route::get('/progress-report', \App\Livewire\Admin\Sessions\ProgressReport::class)->name('progress-report');
+            Route::get('/add-session', \App\Livewire\Admin\Sessions\AddSession::class)->name('add-session');
         });
     });
 });
