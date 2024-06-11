@@ -69,5 +69,10 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/cancellation-fee', \App\Livewire\Admin\Sessions\CancellationFee::class)->name('cancellation-fee');
             Route::get('/rescheduled-sessions', \App\Livewire\Admin\Sessions\RescheduledSessions::class)->name('rescheduled-sessions');
         });
+        
+        Route::group(['prefix' => 'tutors', 'as' => 'tutors.'], function() {
+            Route::get('/current-tutors', \App\Livewire\Admin\Tutors\CurrentTutors::class)->name('current-tutors');
+        });
+        
     });
 });

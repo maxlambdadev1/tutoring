@@ -33,6 +33,7 @@ class Admin extends Model
         if ($request['user_id']) $this->user_id = $request['user_id'];
         
         $this->admin_name = $request['first_name'] . " " .  $request['last_name'];
+        $this->admin_email = $request['email'];
         $this->phone = $request['phone'];
         $this->admin_role_id = $request['admin_role_id'];
         $this->photo = $request['photo'];

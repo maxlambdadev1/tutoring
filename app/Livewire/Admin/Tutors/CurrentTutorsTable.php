@@ -1,0 +1,213 @@
+<?php
+
+namespace App\Livewire\Admin\Tutors;
+
+use App\Trait\Mailable;
+use Illuminate\Support\Facades\DB;
+use App\Models\Session;
+use App\Models\Tutor;
+use App\Models\TutorInactiveSchedule;
+use App\Trait\Functions;
+use Illuminate\Contracts\Database\Query\Builder;
+use PowerComponents\LivewirePowerGrid\Button;
+use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Detail;
+use PowerComponents\LivewirePowerGrid\Footer;
+use PowerComponents\LivewirePowerGrid\Header;
+use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
+use PowerComponents\LivewirePowerGrid\Facades\Rule;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
+
+
+class CurrentTutorsTable extends PowerGridComponent
+{
+
+    use Mailable, Functions;
+    public string $sortField = 'tutor_name';
+    public string $sortDirection = 'asc';
+
+    public function setUp(): array
+    {
+        return [
+            Header::make()
+                ->showSearchInput(),
+
+            Footer::make()
+                ->showPerPage()
+                ->showRecordCount(),
+
+            Detail::make()
+                ->view('livewire.admin.components.current-tutor-detail')
+                ->showCollapseIcon()
+        ];
+    }
+
+    public function datasource(): ?Builder
+    {
+        $query =  Tutor::query()
+            ->leftJoin('alchemy_sessions', function ($session) {
+                $session->on('tutors.id', '=', 'alchemy_sessions.tutor_id')
+                    ->on(function ($query) {
+                        $query->where('session_status', 2)->orWhere('session_status', 4);
+                    });
+            })
+            ->where('tutor_status', '=', '1')
+            ->groupBy('tutors.id');
+
+        return $query->select('tutors.*', DB::raw('COUNT(alchemy_sessions.id) as total_sessions'));
+    }
+
+    public function fields(): PowerGridFields
+    {
+        return PowerGrid::fields()
+            ->add('id')
+            ->add('tutor_name', fn ($tutor) =>  $tutor->tutor_name ?? '-')
+            ->add('tutor_phone', fn ($tutor) =>  $tutor->tutor_phone ?? '-')
+            ->add('tutor_email', fn ($tutor) =>  $tutor->tutor_email ?? '-')
+            ->add('total_sessions', fn ($tutor) =>  $tutor->total_sessions ?? '-')
+            ->add('suburb', fn ($tutor) =>  $tutor->suburb ?? '-')
+            ->add('state', fn ($tutor) =>  $tutor->state ?? '-')
+            ->add('have_wwcc')
+            ->add('ABN', fn ($tutor) =>  !empty($tutor->ABN) ? true : false)
+            ->add('accept_job_status')
+            ->add('non_metro')
+            ->add('seeking_students')
+            ->add('experienced')
+            ->add('mature')
+            ->add('tutor_creat');
+    }
+
+    public function columns(): array
+    {
+        return [
+            Column::add()->title('ID')->field('id')->sortable(),
+            Column::add()->title('Tutor name')->field('tutor_name')->sortable()->searchable(),
+            Column::add()->title('Tutor phone')->field('tutor_phone')->sortable()->searchable(),
+            Column::add()->title('Tutor email')->field('tutor_email')->sortable()->searchable(),
+            Column::add()->title('Total sessions')->field('total_sessions')->sortable()->searchable(),
+            Column::add()->title('Suburb')->field('suburb')->sortable(),
+            Column::add()->title('State')->field('state')->sortable(),
+            Column::add()->title('WWCC held')->field('have_wwcc')->toggleable(hasPermission: false, trueLabel: 'yes', falseLabel: 'no'),
+            Column::add()->title('ABN held')->field('ABN')->toggleable(hasPermission: false, trueLabel: 'yes', falseLabel: 'no'),
+            Column::add()->title('Can accept jobs')->field('accept_job_status')->sortable()->toggleable(hasPermission: false, trueLabel: 'yes', falseLabel: 'no'),
+            Column::add()->title('Metro status')->field('non_metro')->sortable()->toggleable(hasPermission: false, trueLabel: 'Non-Metro', falseLabel: 'Metro'),
+            Column::add()->title('Seeking students')->field('seeking_students')->sortable()->toggleable(hasPermission: false, trueLabel: 'On', falseLabel: 'Off'),
+            Column::add()->title('Experienced')->field('experienced')->sortable()->toggleable(hasPermission: false, trueLabel: 'yes', falseLabel: 'no'),
+            Column::add()->title('Mature')->field('mature')->toggleable(hasPermission: false, trueLabel: 'yes', falseLabel: 'no'),
+            Column::add()->title('Date joined')->field('tutor_creat'),
+            Column::action('Action'),
+        ];
+    }
+
+    public function actions(): array
+    {
+        return [
+            Button::add('detail')
+                ->slot('Detail')
+                ->class('btn btn-outline-primary waves-effect waves-light btn-sm')
+                ->toggleDetail(),
+        ];
+    }
+
+    /**
+     * @param $tutor_id, $is_now: true or false, $schedule_date : '25/05/2024'
+     */
+    public function makeTutorInactive($tutor_id, $is_now, $schedule_date)
+    { 
+        try {
+            $tutor = Tutor::find($tutor_id);
+
+            if ($is_now) {
+                $tutor->update(['tutor_status' => 0]);
+                $comment = "Sent to inactive";
+                if ($tutor->state == 'QLD') {
+                    $params = ['tutor_name' => $tutor->tutor_name];
+                    $this->sendEmail($tutor->tutor_email, 'inactive-qld-tutor-email', $params);
+                }
+            } else {
+                if (!empty($schedule_date)) {
+                    $timestamp = \DateTime::createFromFormat('d/m/Y', $schedule_date)->getTimestamp();
+                    if (!$timestamp) throw new \Exception('Select valid date');
+
+                    TutorInactiveSchedule::updateOrCreate(
+                        ['tutor_id' => $tutor->id], 
+                        ['timestamp' => $timestamp]
+                    );
+                }
+                $comment = "Scheduled to send to inactive for " . $schedule_date;
+            }
+
+            $this->addTutorHistory([
+                'tutor_id' => $tutor->id,
+                'author' => auth()->user()->admin->admin_name,
+                'comment' => $comment
+            ]);
+
+            $this->dispatch('showToastrMessage', [
+                'status' => 'success',
+                'message' => 'The tutor is now inactive!'
+            ]);
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+    public function blockTutorFromJobs($tutor_id)
+    { 
+        try {
+            $tutor = Tutor::find($tutor_id);
+
+            $tutor->update([
+                'accept_job_status' => 0
+            ]);
+
+            $this->addTutorHistory([
+                'tutor_id' => $tutor->id,
+                'author' => auth()->user()->admin->admin_name,
+                'comment' => 'Blocked tutor from accepting jobs.'
+            ]);
+
+            $this->dispatch('showToastrMessage', [
+                'status' => 'success',
+                'message' => "The tutor can't accept jobs from now on!"
+            ]);
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+    
+    public function changeOnlineStatus($tutor_id)
+    { 
+        try {
+            $tutor = Tutor::find($tutor_id);
+            $status = $tutor->online_acceptable_status == 1 ? 0 : 1;
+
+            $tutor->update([
+                'online_acceptable_status' => $status
+            ]);
+
+            $this->addTutorHistory([
+                'tutor_id' => $tutor->id,
+                'author' => auth()->user()->admin->admin_name,
+                'comment' => 'The online status was changed to ' . $status
+            ]);
+
+            $this->dispatch('showToastrMessage', [
+                'status' => 'success',
+                'message' => "The online status was changed successfully!"
+            ]);
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+}

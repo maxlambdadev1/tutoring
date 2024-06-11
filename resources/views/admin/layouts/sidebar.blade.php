@@ -188,6 +188,20 @@
                 </ul>
             </div>
         </li>
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sidebarTutors" aria-expanded="false" aria-controls="sidebarTutors" class="side-nav-link">
+                <i class="uil uil-user-check"></i>
+                <span> Tutors </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarTutors">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="{{ route('admin.tutors.current-tutors') }}" wire:navigate>Current tutors</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
     @endcan
 
     <li class="side-nav-title side-nav-item">Collaborator</li>
