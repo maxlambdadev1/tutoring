@@ -5,15 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JobVolumeCount extends Model
+class TutorApplicationQueue extends Model
 {
     use HasFactory;
-    protected $table = 'alchemy_jobs_volume_count';
-
+    
+    protected $table = 'alchemy_tutor_application_queue';
+    
     protected $guarded = [];
-
-    public function job()
-    {
-        return $this->belongsTo(Job::class);
-    }
 }

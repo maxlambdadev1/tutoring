@@ -63,6 +63,10 @@ trait Functions
 		return null;
 	}
 
+	/**
+	 * @param $address : google address string
+	 * @return ['lat' => 123.5212, 'lon' => 89.02, 'address' => string, 'suburb' => suburb, 'state' => state]
+	 */
 	public function getCoord($address)
 	{
 		$ch = curl_init();
@@ -122,11 +126,12 @@ trait Functions
 	public function getAvailabilitiesFromString($str)
 	{
 		$availabilities = [];
+		$str = trim($str, ',');
 		$arr = explode(',', $str);
 		if (!empty($arr) && count($arr) > 0) {
 			foreach ($arr as $item) { //item : tp530...
 				$day = $this::DAY_SHOUTCUT[substr($item, 0, 1)]; //tue
-				$ampm = $this::AMPM_SHORTCUT[substr($item, 1, 1)]; //tue
+				$ampm = $this::AMPM_SHORTCUT[substr($item, 1, 1)]; //
 				$time = substr($item, 2); //530
 				$hour = $time;
 				$min = '00';
@@ -148,6 +153,7 @@ trait Functions
 	public function getAvailabilitiesFromString1($str)
 	{
 		$availabilities = [];
+		$str = trim($str, ',');
 		$arr = explode(',', $str);
 		if (!empty($arr) && count($arr) > 0) {
 			foreach ($arr as $item) { //item : tp530...

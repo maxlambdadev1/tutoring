@@ -92,6 +92,7 @@ class Edit extends Component
                 $body['photo'] = $directory . "/" . $image_name;
             }
             $body['user_id'] = $user->id;
+            $body['email'] = $user->email;
 
             $this->admin->storeAdmin($body);
 

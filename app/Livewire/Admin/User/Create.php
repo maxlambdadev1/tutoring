@@ -70,6 +70,7 @@ class Create extends Component
             $admin = new Admin();
             $body['photo'] = $photo_url;
             $body['user_id'] = $user->id;
+            $body['email'] = $user->email;
             $admin->storeAdmin($body);
 
             $this->resetValues();
