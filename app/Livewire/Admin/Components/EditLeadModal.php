@@ -145,7 +145,7 @@ class EditLeadModal extends Component
 
             $this->addJobHistory([
                 'job_id' => $job_id,
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => 'Stopped the automation for editing the lead.'
             ]);
 

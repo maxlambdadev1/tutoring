@@ -94,7 +94,7 @@ class SessionActionDetail extends Component
 
             $this->addSessionHistory([
                 'session_id' => $ses_id,
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => 'Added $5 penalty.'
             ]);
             $this->session = $this->session->fresh();
@@ -124,7 +124,7 @@ class SessionActionDetail extends Component
 
             $this->addSessionHistory([
                 'session_id' => $ses_id,
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => 'Sent penalty warning email to ' . $session->tutor->tutor_name,
             ]);
             $this->session = $this->session->fresh();
@@ -158,7 +158,7 @@ class SessionActionDetail extends Component
 
             $this->addSessionHistory([
                 'session_id' => $ses_id,
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => 'Sent penalty warning sms to ' . $session->tutor->tutor_name,
             ]);
             $this->session = $this->session->fresh();

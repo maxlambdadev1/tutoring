@@ -312,7 +312,7 @@ class AllLeadsTable extends PowerGridComponent
                 'last_updated' => (new \DateTime('now'))->format('d/m/Y H:i'),
             ]);
 
-            $admin = User::find(auth()->user()->id)->admin;
+            $admin = auth()->user()->admin;
             $this->addJobHistory([
                 'job_id' => $job_id,
                 'author' => $admin->admin_name,
@@ -361,7 +361,7 @@ class AllLeadsTable extends PowerGridComponent
 
             $this->addJobHistory([
                 'job_id' => $job_id,
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => $reason
             ]);
 
@@ -390,7 +390,7 @@ class AllLeadsTable extends PowerGridComponent
 
             $this->addJobHistory([
                 'job_id' => $job_id,
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => 'The lead was sent to the waiting list.'
             ]);
 
@@ -423,7 +423,7 @@ class AllLeadsTable extends PowerGridComponent
                 foreach ($waitings as $waiting) {
                     $waiting->update(['status' => 1]);
 
-                    $admin = User::find(auth()->user()->id)->admin;
+                    $admin = auth()->user()->admin;
                     $tutor = Tutor::find($waiting->tutor_id);
                     $child = $job->child;
 
@@ -466,7 +466,7 @@ class AllLeadsTable extends PowerGridComponent
 
             $this->addTutorHistory([
                 'tutor_id' => $job->tutor->id,
-                'author' => User::find(auth()->user()->id)->admin->admin_name ?? '',
+                'author' => auth()->user()->admin->admin_name ?? '',
                 'comment' => 'Admin allowed your request for sepcial-requirement job(job-id=' . $job->id .')'
             ]);
 
@@ -504,7 +504,7 @@ class AllLeadsTable extends PowerGridComponent
 
             $this->addTutorHistory([
                 'tutor_id' => $job->tutor->id,
-                'author' => User::find(auth()->user()->id)->admin->admin_name ?? '',
+                'author' => auth()->user()->admin->admin_name ?? '',
                 'comment' => 'Tutor rejected from special-requirement job - job-id=' . $job->id
             ]);
 

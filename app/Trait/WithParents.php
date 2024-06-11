@@ -30,7 +30,7 @@ trait WithParents {
 
             $this->addStudentHistory([
                 'child_id' => $child->id,
-                'author' => User::find(auth()->user()->id)->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name,
                 'comment' => "Sent student to inactive. Reason: " .$delete_student_reason
             ]);
 

@@ -208,6 +208,14 @@
                                                     }
                                                 })}" class="btn btn-success btn-sm">
                                         <input type="button" value="Match hot lead" class="btn btn-secondary btn-sm">
+                                        <input type="button" value="Delete lead" data-bs-toggle="modal" data-bs-target="#deleteLeadModal{{$row->id}}" class="btn btn-danger btn-sm">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <div class="other-action">
+                                        <input type="button" value="Send welcome email and SMS" x-on:click="function() { @this.call('sendWelcomeEmail', {{$row->id}}); }" class="btn btn-primary btn-sm">
                                         <input type="button" value="Send online tutoring email" x-on:click="function() { 
                                                 Swal.fire({
                                                     icon: 'warning',
@@ -218,14 +226,7 @@
                                                     if (result.isConfirmed) {
                                                         @this.call('sendOnlineEmail', {{$row->id}});
                                                     }
-                                                })}" class="btn btn-warning btn-sm">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="other-action">
-                                        <input type="button" value="Send welcome email and SMS" x-on:click="function() { @this.call('sendWelcomeEmail', {{$row->id}}); }" class="btn btn-primary btn-sm">
+                                                })}" class="btn btn-info btn-sm">
                                         <input type="button" value="Send to waiting list" x-on:click="function() {
                                                 Swal.fire({
                                                     type: 'warning',
@@ -237,13 +238,18 @@
                                                         @this.call('sendToWaitingList1', {{$row->id}});
                                                     }
                                             })}" class="btn btn-warning btn-sm">
-                                        <input type="button" value="Assign lead" data-bs-toggle="modal" data-bs-target="#assignLeadModal{{$row->id}}" class="btn btn-info btn-sm">
-                                        <input type="button" value="Edit lead" data-bs-toggle="modal" data-bs-target="#editLeadModal{{$row->id}}" class="btn btn-success btn-sm">
-                                        <input type="button" value="{{ $row->hidden == "Yes" ? 'Show lead' : 'Hide lead' }}" wire:click="toggleShowHideLead1({{$row->id}})" class="btn btn-secondary btn-sm">
-                                        <input type="button" value="Delete lead" data-bs-toggle="modal" data-bs-target="#deleteLeadModal{{$row->id}}" class="btn btn-danger btn-sm">
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="other-action">
+                                        <input type="button" value="Assign lead" data-bs-toggle="modal" data-bs-target="#assignLeadModal{{$row->id}}" class="btn btn-info btn-sm w-25">
+                                        <input type="button" value="Edit lead" data-bs-toggle="modal" data-bs-target="#editLeadModal{{$row->id}}" class="btn btn-success btn-sm w-25">
+                                        <input type="button" value="{{ $row->hidden == "Yes" ? 'Show lead' : 'Hide lead' }}" wire:click="toggleShowHideLead1({{$row->id}})" class="btn btn-secondary btn-sm w-25">
+                                    </div>
+                                </div>
+                                </div>
                             @endif
                         </div>
                         <div class="col-6 history-detail">

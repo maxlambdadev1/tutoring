@@ -90,7 +90,7 @@ class CancellationFeeTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('tutor_name', fn ($item) => $item->tutor->tutor_name)
+            ->add('tutor_name', fn ($item) => $item->tutor->tutor_name ?? '-')
             ->add('parent_first_name', fn ($item) => $item->parent->parent_first_name . ' ' . $item->parent->parent_last_name)
             ->add('child_name', fn ($item) => $item->child->child_name)
             ->add('reason', fn ($item) => $item->reason)
