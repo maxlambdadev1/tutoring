@@ -51,23 +51,24 @@ trait Mailable
 
     private function getFilteredContent($content, $params)
     {
+        if (isset($params['appid']))                $content = str_replace('%%appid%%', $params['appid'], $content);
         if (isset($params['attitude']))             $content = str_replace('%%attitude%%', $params['attitude'], $content);
         if (isset($params['adminfirstname']))       $content = str_replace('%%adminfirstname%%', $params['adminfirstname'], $content);
         if (isset($params['adminname']))            $content = str_replace('%%adminname%%', $params['adminname'], $content);
         if (isset($params['address']))              $content = str_replace('%%address%%', $params['address'], $content);
-        if (isset($params['amount']))              $content = str_replace('%%amount%%', $params['amount'], $content);
+        if (isset($params['amount']))               $content = str_replace('%%amount%%', $params['amount'], $content);
         if (isset($params['date']))                 $content = str_replace('%%date%%', $params['date'], $content);
         if (isset($params['cdate']))                $content = str_replace('%%cdate%%', $params['cdate'], $content);
         if (isset($params['email']))                $content = str_replace('%%email%%', $params['email'], $content);
         if (isset($params['grade']))                $content = str_replace('%%grade%%', $params['grade'], $content);
         if (isset($params['favourite']))            $content = str_replace('%%favourite%%', $params['favourite'], $content);
         if (isset($params['jobdate']))              $content = str_replace('%%jobdate%%', $params['jobdate'], $content);
-        if (isset($params['length']))              $content = str_replace('%%length%%', $params['length'], $content);
+        if (isset($params['length']))               $content = str_replace('%%length%%', $params['length'], $content);
         if (isset($params['mainresult']))           $content = str_replace('%%mainresult%%', $params['mainresult'], $content);
         if (isset($params['mind']))                 $content = str_replace('%%mind%%', $params['mind'], $content);
         if (isset($params['notes']))                $content = str_replace('%%notes%%', $params['notes'], $content);
-        if (isset($params['nextsessiondate']))     $content = str_replace('%%nextsessiondate%%', $params['nextsessiondate'], $content);
-        if (isset($params['nextsessiontime']))     $content = str_replace('%%nextsessiontime%%', $params['nextsessiontime'], $content);
+        if (isset($params['nextsessiondate']))      $content = str_replace('%%nextsessiondate%%', $params['nextsessiondate'], $content);
+        if (isset($params['nextsessiontime']))      $content = str_replace('%%nextsessiontime%%', $params['nextsessiontime'], $content);
         if (isset($params['onlinesessionurl']))     $content = str_replace('%%onlinesessionurl%%', $params['onlinesessionurl'], $content);
         if (isset($params['onlineURL']))            $content = str_replace('%%onlineURL%%', $params['onlineURL'], $content);
         if (isset($params['parentname']))           $content = str_replace('%%parentname%%', $params['parentname'], $content);

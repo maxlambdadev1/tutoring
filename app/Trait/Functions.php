@@ -9,6 +9,7 @@ use App\Models\ChildHistory;
 use App\Models\SessionHistory;
 use App\Models\TutorHistory;
 use App\Models\ParentHistory;
+use App\Models\TutorApplicationHistory;
 use Carbon\Carbon;
 
 trait Functions
@@ -330,6 +331,20 @@ trait Functions
 
 		TutorHistory::create([
 			'tutor_id' => $post['tutor_id'],
+			'author' => $post['author'],
+			'comment' => $post['comment'],
+			'date' => date('d/m/Y H:i')
+		]);
+	}
+	/**
+	 * @param $post = ['application_id' => , 'author' =>, 'comment' =>]
+	 */
+	public function addTutorApplicationHistory($post)
+	{
+		if (empty($post['author'])) $post['author'] = 'System';
+
+		TutorApplicationHistory::create([
+			'application_id' => $post['application_id'],
 			'author' => $post['author'],
 			'comment' => $post['comment'],
 			'date' => date('d/m/Y H:i')

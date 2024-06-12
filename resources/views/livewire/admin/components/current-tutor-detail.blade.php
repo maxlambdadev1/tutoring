@@ -37,7 +37,11 @@
                                     <div class="other-action">
                                         <a class="btn btn-secondary waves-effect waves-light btn-sm" href="https://alchemy.team/tutor/{{$row->id}}">Profile</a>
                                         <input type="button" value="Detail" data-bs-toggle="modal" data-bs-target="#tutorDetailModal{{$row->id}}" class="btn btn-primary btn-sm">
+                                        @if ($row->tutor_status == 1)
                                         <input type="button" value="Make inactive" data-bs-toggle="modal" data-bs-target="#makeTutorInactiveModal{{$row->id}}" class="btn btn-info btn-sm">
+                                        @else
+                                        <input type="button" value="Make active" wire:click="makeTutorActive({{$row->id}})" class="btn btn-info btn-sm">
+                                        @endif
                                         <input type="button" value="Block from jobs" wire:click="blockTutorFromJobs({{$row->id}})" class="btn btn-success btn-sm">
                                         <input type="button" value="{{ $row->online_acceptable_status ? 'Cannot accept online students' : 'Can accept online students'}}" 
                                             wire:click="changeOnlineStatus({{$row->id}})" class="btn btn-danger btn-sm">
