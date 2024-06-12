@@ -9,6 +9,7 @@ class TutorApplicationStatus extends Model
 {
     use HasFactory;
     
+    protected $primaryKey = 'application_id';
     protected $table = 'alchemy_tutor_application_status';
     
     protected $guarded = [];

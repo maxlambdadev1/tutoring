@@ -21,7 +21,7 @@ use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 
 
-class CurrentTutorsTable extends PowerGridComponent
+class PastTutorsTable extends PowerGridComponent
 {
 
     use Mailable, Functions;
@@ -53,7 +53,7 @@ class CurrentTutorsTable extends PowerGridComponent
                         $query->where('session_status', 2)->orWhere('session_status', 4);
                     });
             })
-            ->where('tutor_status', '=', '1')
+            ->where('tutor_status', '=', '0')
             ->groupBy('tutors.id');
 
         return $query->select('tutors.*', DB::raw('COUNT(alchemy_sessions.id) as total_sessions'));
@@ -130,40 +130,45 @@ class CurrentTutorsTable extends PowerGridComponent
     /**
      * @param $tutor_id, $is_now: true or false, $schedule_date : '25/05/2024'
      */
-    public function makeTutorInactive($tutor_id, $is_now, $schedule_date)
+    public function makeTutorActive($tutor_id)
     {
         try {
             $tutor = Tutor::find($tutor_id);
+            $tutor->update(['tutor_status' => 1]);
 
-            if ($is_now) {
-                $tutor->update(['tutor_status' => 0]);
-                $comment = "Sent to inactive";
-                if ($tutor->state == 'QLD') {
-                    $params = ['tutor_name' => $tutor->tutor_name];
-                    $this->sendEmail($tutor->tutor_email, 'inactive-qld-tutor-email', $params);
-                }
-            } else {
-                if (!empty($schedule_date)) {
-                    $timestamp = \DateTime::createFromFormat('d/m/Y', $schedule_date)->getTimestamp();
-                    if (!$timestamp) throw new \Exception('Select valid date');
-
-                    TutorInactiveSchedule::updateOrCreate(
-                        ['tutor_id' => $tutor->id],
-                        ['timestamp' => $timestamp]
-                    );
-                }
-                $comment = "Scheduled to send to inactive for " . $schedule_date;
-            }
+            // register current tutor to Tutorhub.
+            $user_name = 'nicroth';
+            $token = 'YS5C MwDY BnYR Xo7z iwt4 kj7T';
+            $endpoint = 'https://tutorhub.alchemytuition.com.au/wp-json/wp/v2/users';
+            $unique_password = 'Moschino121!';
+            $name = explode(' ',$tutor->tutor_name);
+            $user_info = array(
+                'username' => $tutor->tutor_email,
+                'name' => $tutor->tutor_name,
+                'email' => $tutor->tutor_email,
+                'password' => $unique_password,
+                'first_name' => $name[0],
+                'last_name' => $name[1],
+            );
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $endpoint);
+            curl_setopt($ch, CURLOPT_HEADER, 1);
+            curl_setopt($ch, CURLOPT_USERPWD, $user_name . ":" . $token);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($user_info));
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $output = curl_exec($ch);
 
             $this->addTutorHistory([
                 'tutor_id' => $tutor->id,
                 'author' => auth()->user()->admin->admin_name,
-                'comment' => $comment
+                'comment' => "This tutor changed to active."
             ]);
 
             $this->dispatch('showToastrMessage', [
                 'status' => 'success',
-                'message' => 'The tutor is now inactive!'
+                'message' => 'The tutor is now active!'
             ]);
         } catch (\Exception $e) {
             $this->dispatch('showToastrMessage', [

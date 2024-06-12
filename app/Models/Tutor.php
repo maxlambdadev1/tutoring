@@ -39,7 +39,10 @@ class Tutor extends Model
     public function jobs_volume_offer() {
         return $this->hasMany(JobVolumeCount::class);
     }
-        
+    public function price_tutors() {
+        return $this->hasMany(PriceTutor::class);
+    }
+            
     public function wwcc() {
         return $this->hasOne(TutorWwcc::class);
     }

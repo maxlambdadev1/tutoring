@@ -199,6 +199,15 @@
                     <li>
                         <a href="{{ route('admin.tutors.current-tutors') }}" wire:navigate>Current tutors</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.tutors.new-tutors') }}" wire:navigate>New tutors</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.tutors.past-tutors') }}" wire:navigate>Past tutors</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.tutors.tutor-application') }}" wire:navigate>Tutor application</a>
+                    </li>
                 </ul>
             </div>
         </li>
