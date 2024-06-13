@@ -50,8 +50,8 @@ class TutorApplicationTable extends PowerGridComponent
     public function datasource(): ?Builder
     {
         $query =  TutorApplication::query()
-            ->leftJoin('alchemy_tutor_application_status', function ($session) {
-                $session->on('alchemy_tutor_application.id', '=', 'alchemy_tutor_application_status.application_id');
+            ->leftJoin('alchemy_tutor_application_status', function ($status) {
+                $status->on('alchemy_tutor_application.id', '=', 'alchemy_tutor_application_status.application_id');
             });
 
         if (!empty($this->status)) $query = $query->where('application_status', '=', $this->status);

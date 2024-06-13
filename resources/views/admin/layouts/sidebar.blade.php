@@ -208,6 +208,18 @@
                     <li>
                         <a href="{{ route('admin.tutors.tutor-application') }}" wire:navigate>Tutor application</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.tutors.tutor-application-stats') }}" wire:navigate>Tutor application stats</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.tutors.offers-volume') }}" wire:navigate>Dormant tutors</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.tutors.tutor-check-in') }}" wire:navigate>Tutor check in</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.tutors.tutor-first-session') }}" wire:navigate>Tutor first session</a>
+                    </li>
                 </ul>
             </div>
         </li>

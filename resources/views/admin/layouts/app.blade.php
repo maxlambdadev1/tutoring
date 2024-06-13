@@ -65,6 +65,7 @@
     <script src="{{asset('vendor/jquery/jquery-3.6.0.min.js')}}"></script>
     <script src="{{asset('vendor/select2/select2.min.js')}}"></script>
     <script src="{{asset('vendor/bootstrap-timepicker.js')}}"></script>
+    <script src="{{asset('vendor/chart.min.js')}}"></script>
     <script src="{{asset('vendor/simplebar.min.js')}}"></script>
     <script src="{{asset('vendor/moment.min.js')}}"></script>
     <script src="{{asset('vendor/toast.min.js')}}"></script>
