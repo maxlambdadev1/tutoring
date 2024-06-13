@@ -1,0 +1,33 @@
+<div class="container mx-0">
+    <div class="row">
+        <div class="col-6">
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="mb-2">
+                        <label for="comment" class="form-label">Comment</label>
+                        <textarea class="form-control" x-ref="comment{{$row->id}}" id="comment" rows="5"></textarea>
+                    </div>
+                    <input type="button" wire:click="addComment({{$row->id}}, $refs.comment{{$row->id}}.value)" value="Add comment" class="btn btn-primary btn-sm form-control">
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="other-action">
+                        <input type="button" value="Make inactive" data-bs-toggle="modal" data-bs-target="#makeTutorInactiveModal{{$row->id}}" class="btn btn-info btn-sm w-100">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 history-detail">
+            @forelse ($row->history as $comment)
+            <div class="mb-1">
+                <div>{{ $comment->comment}}</div>
+                <span class="text-muted"><small>{{ $comment->author }} on {{ $comment->date }}</small></span>
+            </div>
+            @empty
+            There are no any comments for this application yet.
+            @endforelse
+        </div>
+    </div>
+    <livewire:admin.components.make-tutor-inactive-modal tutor_id="{{$row->id}}" :key="$row->id" />
+</div>

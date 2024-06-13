@@ -127,51 +127,6 @@ class CurrentTutorsTable extends PowerGridComponent
         }
     }
 
-    /**
-     * @param $tutor_id, $is_now: true or false, $schedule_date : '25/05/2024'
-     */
-    public function makeTutorInactive($tutor_id, $is_now, $schedule_date)
-    {
-        try {
-            $tutor = Tutor::find($tutor_id);
-
-            if ($is_now) {
-                $tutor->update(['tutor_status' => 0]);
-                $comment = "Sent to inactive";
-                if ($tutor->state == 'QLD') {
-                    $params = ['tutor_name' => $tutor->tutor_name];
-                    $this->sendEmail($tutor->tutor_email, 'inactive-qld-tutor-email', $params);
-                }
-            } else {
-                if (!empty($schedule_date)) {
-                    $timestamp = \DateTime::createFromFormat('d/m/Y', $schedule_date)->getTimestamp();
-                    if (!$timestamp) throw new \Exception('Select valid date');
-
-                    TutorInactiveSchedule::updateOrCreate(
-                        ['tutor_id' => $tutor->id],
-                        ['timestamp' => $timestamp]
-                    );
-                }
-                $comment = "Scheduled to send to inactive for " . $schedule_date;
-            }
-
-            $this->addTutorHistory([
-                'tutor_id' => $tutor->id,
-                'author' => auth()->user()->admin->admin_name,
-                'comment' => $comment
-            ]);
-
-            $this->dispatch('showToastrMessage', [
-                'status' => 'success',
-                'message' => 'The tutor is now inactive!'
-            ]);
-        } catch (\Exception $e) {
-            $this->dispatch('showToastrMessage', [
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ]);
-        }
-    }
     public function blockTutorFromJobs($tutor_id)
     {
         try {

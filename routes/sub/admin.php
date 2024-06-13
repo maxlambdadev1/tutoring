@@ -75,6 +75,10 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/new-tutors', \App\Livewire\Admin\Tutors\NewTutors::class)->name('new-tutors');
             Route::get('/past-tutors', \App\Livewire\Admin\Tutors\PastTutors::class)->name('past-tutors');
             Route::get('/tutor-application', \App\Livewire\Admin\Tutors\TutorApplication::class)->name('tutor-application');
+            Route::get('/tutor-application-stats', \App\Livewire\Admin\Tutors\TutorApplicationStats::class)->name('tutor-application-stats');
+            Route::get('/offers-volume', \App\Livewire\Admin\Tutors\OffersVolume::class)->name('offers-volume');
+            Route::get('/tutor-check-in', \App\Livewire\Admin\Tutors\TutorCheckIn::class)->name('tutor-check-in');
+            Route::get('/tutor-first-session', \App\Livewire\Admin\Tutors\TutorFirstSession::class)->name('tutor-first-session');
         });
         
     });

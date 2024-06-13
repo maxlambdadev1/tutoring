@@ -108,40 +108,6 @@
             </div>
         </div>
     </div>
-    <div id="makeTutorInactiveModal{{$row->id}}" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-modal="true" role="dialog" x-data="{is_now{{$row->id}} : true }">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Make tutor inactive</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="d-flex">
-                        <span class="form-label fw-bold">Now &nbsp;</span>
-                        <div>
-                            <input type="checkbox" id="is_now{{$row->id}}" checked name="is_now{{$row->id}}" data-switch="success" x-ref="is_now{{$row->id}}" x-on:change="is_now{{$row->id}} = !is_now{{$row->id}}">
-                            <label for="is_now{{$row->id}}" data-on-label="Yes" data-off-label="No"></label>
-                        </div>
-                    </div>
-                    <div x-show="is_now{{$row->id}} == false" class="mb-3">
-                        <label for="schedule_date{{$row->id}}" class="form-label">Schedule Date</label>
-                        <input type="text" class="form-control " name="schedule_date{{$row->id}}" id="schedule_date{{$row->id}}" x-ref="schedule_date{{$row->id}}">
-                    </div>
-                </div>
-                <div class="modal-footer" x-data="{ init() { 
-                    $('#schedule_date{{$row->id}}').datepicker({
-                            autoclose: true,
-                            format: 'dd/mm/yyyy',
-                            todayHighlight: true,
-                        });
-                    } }">
-                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary waves-effect waves-light" 
-                        wire:click="makeTutorInactive({{$row->id}}, is_now{{$row->id}}, $refs.schedule_date{{$row->id}}.value)"
-                        data-bs-dismiss="modal">Submit</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div>
+    <livewire:admin.components.make-tutor-inactive-modal tutor_id="{{$row->id}}" :key="$row->id" />
     <livewire:admin.components.edit-tutor-modal tutor_id="{{$row->id}}" :key="$row->id" />
 </div>
