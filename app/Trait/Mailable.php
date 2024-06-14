@@ -64,6 +64,7 @@ trait Mailable
         if (isset($params['favourite']))            $content = str_replace('%%favourite%%', $params['favourite'], $content);
         if (isset($params['jobdate']))              $content = str_replace('%%jobdate%%', $params['jobdate'], $content);
         if (isset($params['length']))               $content = str_replace('%%length%%', $params['length'], $content);
+        if (isset($params['link']))                 $content = str_replace('%%link%%', $params['link'], $content);
         if (isset($params['mainresult']))           $content = str_replace('%%mainresult%%', $params['mainresult'], $content);
         if (isset($params['mind']))                 $content = str_replace('%%mind%%', $params['mind'], $content);
         if (isset($params['notes']))                $content = str_replace('%%notes%%', $params['notes'], $content);
@@ -82,7 +83,9 @@ trait Mailable
         if (isset($params['q3']))                   $content = str_replace('%%q3%%', $params['q3'], $content);
         if (isset($params['q4']))                   $content = str_replace('%%q4%%', $params['q4'], $content);
         if (isset($params['reschedulejobdate']))    $content = str_replace('%%reschedulejobdate%%', $params['reschedulejobdate'], $content);
+        if (isset($params['referencefirstname']))   $content = str_replace('%%referencefirstname%%', $params['referencefirstname'], $content);
         if (isset($params['reason']))               $content = str_replace('%%reason%%', $params['reason'], $content);
+        if (isset($params['reasonlink']))           $content = str_replace('%%reasonlink%%', $params['reasonlink'], $content);
         if (isset($params['studentname']))          $content = str_replace('%%studentname%%', $params['studentname'], $content);
         if (isset($params['STUDENTNAME']))          $content = str_replace('%%STUDENTNAME%%', $params['STUDENTNAME'], $content);
         if (isset($params['studentfirstname']))     $content = str_replace('%%studentfirstname%%', $params['studentfirstname'], $content);
@@ -96,8 +99,8 @@ trait Mailable
         if (isset($params['subject']))              $content = str_replace('%%subject%%', $params['subject'], $content);
         if (isset($params['sdate']))                $content = str_replace('%%sdate%%', $params['sdate'], $content);
         if (isset($params['time']))                 $content = str_replace('%%time%%', $params['time'], $content);
-        if (isset($params['tutorabn']))            $content = str_replace('%%tutorabn%%', $params['tutorabn'], $content);
-        if (isset($params['tutoraddress']))            $content = str_replace('%%tutoraddress%%', $params['tutoraddress'], $content);
+        if (isset($params['tutorabn']))             $content = str_replace('%%tutorabn%%', $params['tutorabn'], $content);
+        if (isset($params['tutoraddress']))         $content = str_replace('%%tutoraddress%%', $params['tutoraddress'], $content);
         if (isset($params['tutorfirstname']))       $content = str_replace('%%tutorfirstname%%', $params['tutorfirstname'], $content);
         if (isset($params['tutorname']))            $content = str_replace('%%tutorname%%', $params['tutorname'], $content);
         if (isset($params['tutorprice']))           $content = str_replace('%%tutorprice%%', $params['tutorprice'], $content);

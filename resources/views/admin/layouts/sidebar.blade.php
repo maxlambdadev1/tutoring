@@ -220,6 +220,12 @@
                     <li>
                         <a href="{{ route('admin.tutors.tutor-first-session') }}" wire:navigate>Tutor first session</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.tutors.set-online-room') }}" wire:navigate>Set class room</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.tutors.have-references') }}" wire:navigate>Have references</a>
+                    </li>
                 </ul>
             </div>
         </li>

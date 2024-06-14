@@ -51,6 +51,10 @@ class Tutor extends Model
         return $this->hasOne(TutorWwccValidate::class);
     }
     
+    public function first_session() {
+        return $this->hasOne(TutorFirstSession::class);
+    }
+    
     public function getFirstNameAttribute()
     {
         return explode(' ', $this->tutor_name)[0];

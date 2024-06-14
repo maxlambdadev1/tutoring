@@ -30,6 +30,13 @@ trait Sessionable
         5 => 'Monitor',
         6 => 'Rescue'
     ];
+    public const TUTOR_FIRST_SESSION_STATUS = [
+        1 => 'Scheduling call',
+        2 => 'Call booked',
+        3 => 'Called',
+        4 => 'Awaiting follow up',
+        5 => 'Closed'
+    ];
 
     /**
      * If tutor didn't have a session,  record the current date to TutorFirstSession table.

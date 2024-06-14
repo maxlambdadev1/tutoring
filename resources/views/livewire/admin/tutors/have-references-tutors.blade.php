@@ -1,7 +1,7 @@
 <div>
     @php
-    $title = "Tutor First Session";
-    $breadcrumbs = ["Tutors", "First session"];
+    $title = "Tutors who have references";
+    $breadcrumbs = ["Tutors", "having references"];
     @endphp
     <x-custom-header :title="$title" :breadcrumbs="$breadcrumbs" />
 
@@ -9,7 +9,7 @@
         <div class="col-12">
             <div class="card mb-3">
                 <div class="card-body">
-                    <livewire:admin.tutors.tutor-first-session-table />
+                    <livewire:admin.tutors.have-references-tutor-table />
                 </div>
             </div>
         </div>
