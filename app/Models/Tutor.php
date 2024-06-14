@@ -14,9 +14,6 @@ class Tutor extends Model
     private $profile_path = 'uploads/tutor/profile';
     protected $guarded = [];
     protected $appends = ['first_name'];
-    // protected $casts = [
-    //     'availabilities' => 'array'
-    // ];
 
     public function user()
     {

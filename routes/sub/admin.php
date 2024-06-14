@@ -81,6 +81,7 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/tutor-first-session', \App\Livewire\Admin\Tutors\TutorFirstSession::class)->name('tutor-first-session');
             Route::get('/set-online-room', \App\Livewire\Admin\Tutors\SetOnlineRoom::class)->name('set-online-room');
             Route::get('/have-references', \App\Livewire\Admin\Tutors\HaveReferencesTutors::class)->name('have-references');
+            Route::get('/recruiter', \App\Livewire\Admin\Tutors\Recruiter::class)->name('recruiter');
         });
         
     });

@@ -226,6 +226,9 @@
                     <li>
                         <a href="{{ route('admin.tutors.have-references') }}" wire:navigate>Have references</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.tutors.recruiter') }}" wire:navigate>Recruiters</a>
+                    </li>
                 </ul>
             </div>
         </li>
