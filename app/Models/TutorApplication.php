@@ -14,6 +14,11 @@ class TutorApplication extends Model
     public function history() {
         return $this->hasMany(TutorApplicationHistory::class, 'application_id');
     }
+    
+    public function reference_history() {
+        return $this->hasMany(TutorApplicationReferenceHistory::class, 'application_id');
+    }
+
     public function metro_postcode() {
         return $this->belongsTo(MetroPostcode::class, 'postcode', 'postcode');
     }
