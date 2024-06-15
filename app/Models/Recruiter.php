@@ -11,29 +11,14 @@ class Recruiter extends Model
 
     protected $table = 'alchemy_recruiter';
 
-    protected $fillable = [
-        'user_id',
-        'ABN',
-        'bank_account_name',
-        'bsb',
-        'bank_account_number',
-        'id_photo',
-        'signature',
-        'first_name',
-        'last_name',
-        'email',
-        'phone',
-        'pass',
-        'stripe_user_id',
-        'access_token',
-        'stripe_publishable_key',
-        'status',
-        'logged_status',
-        'state',
-        'address',
-        'suburb',
-        'postcode',
-        'referral_key',
-        'last_updated',
-    ];
+    protected $guarded = [];
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
+    public function history() {
+        return $this->hasMany(RecruiterHistory::class);
+    }
 }

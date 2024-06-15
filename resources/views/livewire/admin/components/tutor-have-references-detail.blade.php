@@ -68,7 +68,7 @@
         </div>
     </div>
     <div class="row mt-3">
-        <div class="col-7">
+        <div class="col-6">
             <div class="row mb-2">
                 <div class="col-12">
                     <div class="mb-2">
@@ -87,7 +87,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-5 history-detail">
+        <div class="col-6 history-detail">
             @forelse ($row->reference_history as $item)
             <div class="mb-1">
                 <div>{{ $item->comment}}</div>
