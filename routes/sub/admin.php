@@ -84,5 +84,11 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/recruiter', \App\Livewire\Admin\Tutors\Recruiter::class)->name('recruiter');
         });
         
+        Route::group(['prefix' => 'wwcc', 'as' => 'wwcc.'], function() {
+            Route::get('/verify-wwcc', \App\Livewire\Admin\Wwcc\VerifyWwcc::class)->name('verify-wwcc');
+            Route::get('/chasing-wwcc', \App\Livewire\Admin\Wwcc\ChasingWwcc::class)->name('chasing-wwcc');
+            Route::get('/audit-wwcc', \App\Livewire\Admin\Wwcc\AuditWwcc::class)->name('audit-wwcc');
+        });
+        
     });
 });

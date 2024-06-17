@@ -457,4 +457,62 @@ trait Functions
 		curl_close($ch);
 		return $exec;
 	}
+	/**
+	 * format seconds to string
+	 * @param $sec : seconds ex: 12345
+	 * @return string : ex: '3 weeks 2 days' or '3 days 5 hours'..
+	 */
+	public function format_seconds($seconds) {
+		$seconds = (int)$seconds;
+        if ( $seconds === 0 ) {
+            return '0 secs';
+        }
+        // variables for holding values
+        $mins  = 0;
+        $hours = 0;
+        $days  = 0;
+        $weeks = 0;
+        // calculations
+        if ( $seconds >= 60 ) {
+            $mins = (int)($seconds / 60);
+            $seconds = $seconds % 60;
+        }
+        if ( $mins >= 60 ) {
+            $hours = (int)($mins / 60);
+            $mins = $mins % 60;
+        }
+        if ( $hours >= 24 ) {
+            $days = (int)($hours / 24);
+            $hours = $hours % 60;
+        }
+        if ( $days >= 7 ) {
+            $weeks = (int)($days / 7);
+            $days = $days % 7;
+        }
+        // format result
+		$result = '';
+		$counter = 0;
+        if ( $weeks ) {
+			$result .= "{$weeks} week(s) ";
+			$counter++;
+        }
+        if ( $days && $counter < 2) {
+			$result .= "{$days} day(s) ";
+			$counter++;
+        }
+        if ( $hours && $counter < 2) {
+			$result .= "{$hours} hour(s) ";
+			$counter++;
+        }
+        if ( $mins && $counter < 2) {
+			$result .= "{$mins} min ";
+			$counter++;
+        }
+        if ( $seconds && $counter < 2) {
+			$result .= "{$seconds} sec ";
+			$counter++;
+        }
+        $result = rtrim($result);
+        return $result;
+	}
 }

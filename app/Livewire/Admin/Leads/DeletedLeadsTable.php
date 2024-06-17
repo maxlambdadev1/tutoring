@@ -87,14 +87,14 @@ class DeletedLeadsTable extends PowerGridComponent
             ->add('last_updated', fn ($job) => $job->last_updated)
             ->add('job_type', fn ($job) => $job->job_type == 'regular' ? '' : $job->job_type)
             ->add('session_type_id', fn ($job) => $job->session_type->name)
-            ->add('parent_name', fn ($job) =>  $job->parent->parent_name)
-            ->add('parent_phone', fn ($job) =>  $job->parent->parent_phone)
-            ->add('parent_email', fn ($job) =>  $job->parent->parent_email)
-            ->add('student_name', fn ($job) =>  $job->child->child_name)
-            ->add('student_grade', fn ($job) =>  $job->child->child_year)
+            ->add('parent_first_name', fn ($job) =>  !empty($job->parent) ? $job->parent->parent_first_name . ' ' . $job->parent->parent_last_name : '-')
+            ->add('parent_phone', fn ($job) =>  $job->parent->parent_phone ?? '-')
+            ->add('parent_email', fn ($job) =>  $job->parent->parent_email ?? '-')
+            ->add('student_name', fn ($job) =>  $job->child->child_name ?? '-')
+            ->add('student_grade', fn ($job) =>  $job->child->child_year ?? '-')
             ->add('subject', fn ($job) =>  $job->subject)
-            ->add('state', fn ($job) =>  $job->parent->parent_state)
-            ->add('address', fn ($job) =>  $job->parent->parent_address . " " . $job->location)
+            ->add('state', fn ($job) =>  $job->parent->parent_state ?? '-')
+            ->add('address', fn ($job) =>  $job->parent->parent_address ?? '' . " " . $job->location ?? '-')
             ->add('source', fn ($job) =>  $job->source);
     }
 
@@ -105,7 +105,7 @@ class DeletedLeadsTable extends PowerGridComponent
             Column::add()->title('Date submitted')->field('last_updated')->sortable(),
             Column::add()->title('Lead Type')->field('job_type')->sortable(),
             Column::add()->title('Session Type')->field('session_type_id')->sortable(),
-            Column::add()->title('Parent')->field('parent_name'),
+            Column::add()->title('Parent')->field('parent_first_name'),
             Column::add()->title('Parent Phone')->field('parent_phone')->searchable()->sortable(),
             Column::add()->title('Parent Email')->field('parent_email')->searchable()->sortable(),
             Column::add()->title('Student')->field('student_name', 'child_name')->sortable()->searchable(),
