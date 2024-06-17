@@ -4,7 +4,9 @@ namespace App\Trait;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
-use App\Models\AlchemyParent;
+use App\Models\Tutor;
+use App\Models\TutorWwcc;
+use App\Models\TutorWwccValidate;
 use App\Models\Child;
 use App\Models\TutorApplication;
 use App\Models\TutorApplicationQueue;
@@ -90,6 +92,58 @@ trait WithTutors {
                 'comment' => "Changed status to " .$status
             ]);
             
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * block or unblock tutor from jobs
+     * @param $tutor_id
+     */
+    public function blockOrUnblockFromJobs($tutor_id)
+    {
+        try {
+            $tutor = Tutor::find($tutor_id);
+            $updated = $tutor->accept_job_status == 1 ? 0 : 1;
+            $tutor->update([
+                'accept_job_status' => $updated
+            ]);
+
+            $comment = $updated == 0 ? 'Blocked tutor from accepting jobs.' : 'Unblocked tutor from accepting jobs.';
+
+            $this->addTutorHistory([
+                'tutor_id' => $tutor_id,
+                'author' => auth()->user()->admin->admin_name,
+                'comment' => $comment
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception($e->getMessage());
+        }
+    }
+    
+    /**
+     * verify wwcc tutor
+     * @param $tutor_id
+     */
+    public function verifyWWCC($tutor_id)
+    {
+        try {
+            $tutor = Tutor::find($tutor_id);
+
+            $today = new \DateTime();
+            TutorWwcc::updateOrCreate([
+                'tutor_id' => $tutor_id
+            ], [
+                'verified_on' => $today->format('d/m/Y H:i'),
+                'verified_by' => auth()->user()->admin->admin_name
+            ]);
+
+            TutorWwccValidate::where('tutor_id', $tutor_id)->delete();
+
         } catch (\Exception $e) {
             DB::rollBack();
             throw new \Exception($e->getMessage());

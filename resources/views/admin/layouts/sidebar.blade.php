@@ -232,6 +232,26 @@
                 </ul>
             </div>
         </li>
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#wwcc" aria-expanded="false" aria-controls="sidebarThirdparty" class="side-nav-link">
+                <i class="uil uil-shield-exclamation"></i>
+                <span> WWCC </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="wwcc">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="{{ route('admin.wwcc.verify-wwcc') }}" wire:navigate>Verify WWCC </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.wwcc.chasing-wwcc') }}" wire:navigate>Chasing WWCC </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.wwcc.audit-wwcc') }}" wire:navigate>Audit WWCC </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
     @endcan
 
     <li class="side-nav-title side-nav-item">Collaborator</li>
