@@ -17,7 +17,7 @@ trait WithTutors {
     use Functions, Mailable;
 
     
-	public const APPLICATION_STATUS = array(
+	public const c = array(
         '1' => 'Applied as tutor',
         '2' => 'Scheduling interview',
         '3' => 'Interview scheduled',
@@ -28,6 +28,13 @@ trait WithTutors {
         '8' => 'No atar',
         '9' => 'Closed'
 	);
+
+    public const   FOLLOWUP_CATEGORY_FOR_STUDENT = [
+        '1' => 'Deleted lead - parent choice',
+        '2' => 'Deleted lead - unable to help',
+        '3' => 'Cancelled first session (no lessons happened)',
+        '4' => 'Cancelled lessons (had regular lessons)'
+    ];
 
     /**
      * @param $params = ['email' => , 'appid' => , 'tutorfirstname' => , 'tutoremail' => ]

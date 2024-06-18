@@ -22,7 +22,7 @@ class Child extends Model
     public function history() {
         return $this->hasMany(ChildHistory::class);
     }
-    
+        
     public function getFirstNameAttribute() {
         return explode(' ', $this->child_name)[0]; 
     }

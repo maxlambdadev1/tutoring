@@ -233,7 +233,7 @@
             </div>
         </li>
         <li class="side-nav-item">
-            <a data-bs-toggle="collapse" href="#wwcc" aria-expanded="false" aria-controls="sidebarThirdparty" class="side-nav-link">
+            <a data-bs-toggle="collapse" href="#wwcc" aria-expanded="false" aria-controls="sidebarWwcc" class="side-nav-link">
                 <i class="uil uil-shield-exclamation"></i>
                 <span> WWCC </span>
                 <span class="menu-arrow"></span>
@@ -248,6 +248,23 @@
                     </li>
                     <li>
                         <a href="{{ route('admin.wwcc.audit-wwcc') }}" wire:navigate>Audit WWCC </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#students" aria-expanded="false" aria-controls="sidebarStudents" class="side-nav-link">
+                <i class="uil uil-smile-beam"></i>
+                <span> Students </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="students">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="{{ route('admin.students.current-students') }}" wire:navigate>Current Students</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.students.past-students') }}" wire:navigate>Past Students</a>
                     </li>
                 </ul>
             </div>

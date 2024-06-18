@@ -90,5 +90,10 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/audit-wwcc', \App\Livewire\Admin\Wwcc\AuditWwcc::class)->name('audit-wwcc');
         });
         
+        Route::group(['prefix' => 'students', 'as' => 'students.'], function() {
+            Route::get('/current-students', \App\Livewire\Admin\Students\CurrentStudents::class)->name('current-students');
+            Route::get('/past-students', \App\Livewire\Admin\Students\PastStudents::class)->name('past-students');
+        });
+
     });
 });
