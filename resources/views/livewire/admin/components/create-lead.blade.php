@@ -176,14 +176,27 @@
                                         <x-form-textarea wire:model="inputData.students.student1.team_notes" name="team notes" label="Additional information(Comment for the team)" />
                                         <x-form-checkbox-custom wire:model="inputData.tutor_apply_offer" name="tutor_apply_offer" label="Apply tutor offer" x-model="tutorApplyOffer" />
                                         <div x-show="tutorApplyOffer == true" class="apply_offer" style="display: none;">
-                                            <x-form-select-origin wire:model="inputData.offer_type" name="offer_type" label="Offer type" :items="['Fixed','Percent']" />
+                                            <div class="mb-3">
+                                                <label for="offer_type" class="form-label">Offer type</label>
+                                                <select class="form-select" wire:model="inputData.offer_type" id="offer_type">
+                                                    <option value="">Please select</option>
+                                                    <option value="fixed">Fixed</option>
+                                                    <option value="percentage">Percent</option>
+                                                </select>
+                                            </div>
                                             <x-form-input wire:model="inputData.offer_amount" name="offer_amount" label="Offer amount" />
                                             <x-form-select-origin wire:model="inputData.offer_valid" name="offer_valid" label="Valid until" :items="$offer_valid_list" />
                                         </div>
                                         <hr>
                                         <x-form-checkbox-custom wire:model="inputData.parent_apply_discount" name="parent_apply_discount" label="Apply parent discount" x-model="parentApplyDiscount" />
                                         <div x-show="parentApplyDiscount == true" class="apply_discount" style="display: none;">
-                                            <x-form-select-origin wire:model="inputData.discount_type" name="discount_type" label="Discount type" :items="['Fixed','Percent']" />
+                                            <div class="mb-3">
+                                                <label for="inputData.discount_type" class="form-label">Discount type</label>
+                                                <select class="form-select" wire:model="discount_type" id="discount_type">
+                                                    <option value="">Please select</option>
+                                                    <option value="percentage">Percent</option>
+                                                </select>
+                                            </div>
                                             <x-form-input wire:model="inputData.discount_amount" name="discount_amount" label="Discount amount" placeholder="Discount amount" autocomplete />
                                         </div>
                                         <hr>

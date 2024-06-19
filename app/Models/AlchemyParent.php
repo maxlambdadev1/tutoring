@@ -27,8 +27,21 @@ class AlchemyParent extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function price_parent() {
+        return $this->hasOne(PriceParent::class, 'parent_id');
+    }
+    
     public function price_parent_discount() {
         return $this->hasOne(PriceParentDiscount::class, 'parent_id');
+    }
+    
+    public function parent_cc() {
+        return $this->hasOne(ParentCc::class, 'parent_id');
+    }
+    
+
+    public function history() {
+        return $this->hasMany(ParentHistory::class, 'parent_id');
     }
 
     public function getParentNameAttribute()

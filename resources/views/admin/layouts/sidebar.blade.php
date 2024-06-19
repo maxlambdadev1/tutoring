@@ -266,6 +266,26 @@
                     <li>
                         <a href="{{ route('admin.students.past-students') }}" wire:navigate>Past Students</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.students.add-students') }}" wire:navigate>Add Students</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#parents" aria-expanded="false" aria-controls="sidebarParents" class="side-nav-link">
+                <i class="uil  uil-users-alt"></i>
+                <span> Parents </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="parents">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="{{ route('admin.parents.current-parents') }}" wire:navigate>Parent list</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.parents.parents-payment-details') }}" wire:navigate>Parent payment list</a>
+                    </li>
                 </ul>
             </div>
         </li>

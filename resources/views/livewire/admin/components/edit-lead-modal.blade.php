@@ -97,7 +97,14 @@
                         <div class="col-md-6" x-data="{tutorApplyOffer : {{!empty($job->job_offer) ? 'true' : 'false'}}}">
                             <x-form-checkbox-custom wire:model="tutor_apply_offer" name="tutor_apply_offer" label="Apply tutor offer" x-model="tutorApplyOffer" />
                             <div x-show="tutorApplyOffer == true" class="apply_offer" style="display: none;">
-                                <x-form-select-origin wire:model="offer_type" name="offer_type" label="Offer type" :items="['Fixed','Percent']" />
+                                <div class="mb-3">
+                                    <label for="offer_type{{$job->id}}" class="form-label">Offer type</label>
+                                    <select class="form-select" wire:model="offer_type" id="offer_type{{$job->id}}">
+                                        <option value="">Please select</option>
+                                        <option value="fixed" >Fixed</option>
+                                        <option value="percentage" >Percent</option>
+                                    </select>
+                                </div>
                                 <x-form-input wire:model="offer_amount" name="offer_amount" label="Offer amount" />
                                 <x-form-select-origin wire:model="offer_valid" name="offer_valid" label="Valid until" :items="$offer_valid_list" />
                             </div>
@@ -105,7 +112,13 @@
                         <div class="col-md-6" x-data="{parentApplyDiscount : {{!empty($job->parent->price_parent_discount) ? 'true' : 'false'}}}">
                             <x-form-checkbox-custom wire:model="parent_apply_discount" name="parent_apply_discount" label="Apply parent discount" x-model="parentApplyDiscount" />
                             <div x-show="parentApplyDiscount == true" class="apply_discount" style="display: none;">
-                                <x-form-select-origin wire:model="discount_type" name="discount_type" label="Discount type" :items="['Fixed','Percent']" />
+                                <div class="mb-3">
+                                    <label for="discount_type{{$job->id}}" class="form-label">Discount type</label>
+                                    <select class="form-select" wire:model="discount_type" id="discount_type{{$job->id}}">
+                                        <option value="">Please select</option>
+                                        <option value="percentage" >Percent</option>
+                                    </select>
+                                </div>
                                 <x-form-input wire:model="discount_amount" name="discount_amount" label="Discount amount" placeholder="Discount amount" autocomplete />
                             </div>
                         </div>

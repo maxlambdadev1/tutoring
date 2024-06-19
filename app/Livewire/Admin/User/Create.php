@@ -50,7 +50,7 @@ class Create extends Component
                 'last_name'=> $this->last_name,
                 'phone'=> $this->phone,
                 'password'=> $this->password,
-                'role' => 1, //admin
+                'role' => 4, //admin
                 'admin_role_id'=> $this->admin_role_id,
                 'photo'=> '',
                 'user_id' => ''
