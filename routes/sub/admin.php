@@ -93,7 +93,12 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
         Route::group(['prefix' => 'students', 'as' => 'students.'], function() {
             Route::get('/current-students', \App\Livewire\Admin\Students\CurrentStudents::class)->name('current-students');
             Route::get('/past-students', \App\Livewire\Admin\Students\PastStudents::class)->name('past-students');
+            Route::get('/add-students', \App\Livewire\Admin\Students\AddStudents::class)->name('add-students');
         });
 
+        Route::group(['prefix' => 'parents', 'as' => 'parents.'], function() {
+            Route::get('/current-parents', \App\Livewire\Admin\Parents\ParentList::class)->name('current-parents');
+            Route::get('/parents-payment-details', \App\Livewire\Admin\Parents\ParentsPaymentList::class)->name('parents-payment-details');
+        });
     });
 });

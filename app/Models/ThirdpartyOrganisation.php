@@ -11,15 +11,6 @@ class ThirdpartyOrganisation extends Model
 
     protected $table = 'alchemy_thirdparty_organisation';
 
-    protected $fillable = [
-        'organisation_name',
-        'primary_contact_first_name',
-        'primary_contact_last_name',
-        'primary_contact_role',
-        'primary_contact_phone',
-        'primary_contact_email',
-        'email_for_billing',
-        'email_for_confirmations',
-        'comment',
-    ];
+    protected $guarded = [];
+    
 }

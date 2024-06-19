@@ -9,9 +9,9 @@ class ParentCc extends Model
 {
     use HasFactory;
 
-    protected $table = 'alchemy_parent_cc';
+    protected $table = 'alchemy_parent_cc';    
+    protected  $primaryKey = 'parent_id';
 
-    protected $fillable = [
-        'cc',
-    ];
+    protected $guarded = [];
+    
 }

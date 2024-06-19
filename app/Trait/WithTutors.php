@@ -17,7 +17,7 @@ trait WithTutors {
     use Functions, Mailable;
 
     
-	public const c = array(
+	public const APPLICATION_STATUS = array(
         '1' => 'Applied as tutor',
         '2' => 'Scheduling interview',
         '3' => 'Interview scheduled',

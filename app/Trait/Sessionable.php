@@ -327,6 +327,35 @@ trait Sessionable
             throw new \Exception($e->getMessage());
         }
     }
+    
+    public function sendCcSMS($parent_id, $child_id)
+    {
+        try {
+            $parent = AlchemyParent::find($parent_id);
+            $child = Child::find($child_id);
+            $admin = auth()->user()->admin;
+
+            $smsParams = [
+                'phone' => $parent->parent_phone,
+                'name' => $parent->parent_first_name . ' ' . $parent->parent_last_name
+            ];
+            $params = [
+                'parentfirstname' => $parent->parent_first_name,
+                'studentname' => $child->first_name,
+                'link' => $this->setRedirect('https://alchemy.team/paymentcc?email=' . $parent->parent_email),
+            ];
+            $this->sendSMS($smsParams, 'parent-payment-details-sms', $params);
+
+            $this->addParentHistory([
+                'author' => $admin->admin_name,
+                'comment' => 'Sent request payment SMS to ' . $parent->parent_email,
+                'parent_id' => $parent->id
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception($e->getMessage());
+        }
+    }
 
     public function createNextSessionLink($ses_id) {
         try {

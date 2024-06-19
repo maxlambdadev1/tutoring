@@ -87,6 +87,22 @@ trait WithLeads
         }
         return $children;
     }
+    
+    /**
+     * @param $str, $length
+     * @return Parents array
+     */
+    public function searchParents($str, $length)
+    {
+        $parents = [];
+        $query = AlchemyParent::where('parent_first_name', 'like', '%' . $str . '%')->where('parent_last_name', 'like', '%' . $str . '%')->where('parent_email', 'like', '%' . $str . '%')->orderBy('parent_first_name');
+        if (empty($length)) {
+            $parents = $query->get();
+        } else {
+            $parents = $query->limit($length)->get();
+        }
+        return $parents;
+    }
 
     public function searchParentsChildren($str, $length)
     {
@@ -163,7 +179,7 @@ trait WithLeads
 
             $user = User::updateOrCreate(
                 ['email' => $inputData['parent_email']],
-                ['role' => 3]
+                ['role' => 2]
             );
 
             $coords = $this->getCoord(urlencode($inputData['address']));
