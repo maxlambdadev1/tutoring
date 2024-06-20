@@ -286,6 +286,26 @@
                     <li>
                         <a href="{{ route('admin.parents.parents-payment-details') }}" wire:navigate>Parent payment list</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.parents.manual-payers') }}" wire:navigate>Manual payers</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.parents.parent-check-in') }}" wire:navigate>Parent check in</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#payments" aria-expanded="false" aria-controls="sidebarPayments" class="side-nav-link">
+                <i class="uil  uil-dollar-alt"></i>
+                <span> Payments </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="payments">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="{{ route('admin.payments.price-audit') }}" wire:navigate>Price audit</a>
+                    </li>
                 </ul>
             </div>
         </li>

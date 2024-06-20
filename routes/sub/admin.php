@@ -99,6 +99,12 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
         Route::group(['prefix' => 'parents', 'as' => 'parents.'], function() {
             Route::get('/current-parents', \App\Livewire\Admin\Parents\ParentList::class)->name('current-parents');
             Route::get('/parents-payment-details', \App\Livewire\Admin\Parents\ParentsPaymentList::class)->name('parents-payment-details');
+            Route::get('/manual-payers', \App\Livewire\Admin\Parents\ManualPayers::class)->name('manual-payers');
+            Route::get('/parent-check-in', \App\Livewire\Admin\Parents\ParentCheckIn::class)->name('parent-check-in');
+        });
+        
+        Route::group(['prefix' => 'payments', 'as' => 'payments.'], function() {
+            Route::get('/price-audit', \App\Livewire\Admin\Payments\PriceAudit::class)->name('price-audit');
         });
     });
 });
