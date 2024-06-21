@@ -74,9 +74,9 @@ trait WithLeads
 
     /**
      * @param $str, $length
-     * return @Children
+     * @return array 
      */
-    public function searchChildren($str, $length)
+    public function searchChildren($str, $length = '')
     {
         $children = [];
         $query = Child::where('child_name', 'like', '%' . $str . '%')->orderBy('child_name');
@@ -90,9 +90,9 @@ trait WithLeads
     
     /**
      * @param $str, $length
-     * @return Parents array
+     * @return array 
      */
-    public function searchParents($str, $length)
+    public function searchParents($str, $length = '')
     {
         $parents = [];
         $query = AlchemyParent::where('parent_first_name', 'like', '%' . $str . '%')->where('parent_last_name', 'like', '%' . $str . '%')->where('parent_email', 'like', '%' . $str . '%')->orderBy('parent_first_name');
@@ -104,7 +104,7 @@ trait WithLeads
         return $parents;
     }
 
-    public function searchParentsChildren($str, $length)
+    public function searchParentsChildren($str, $length = '')
     {
         try {
             $people = [];
@@ -129,15 +129,19 @@ trait WithLeads
         }
     }
 
-    public function searchParentAndChild($str, $length, $thirdparty_org_id)
+    /**
+     * @param $str : string, $length : int
+     * @return array (Session)
+     */
+    public function searchStudentsFromSession($str, $length = '')
     {
-        $query = AlchemyParent::where('parent_first_name', 'like', '%' . $str . '%')->orWhere('parent_last_name', 'like', '%' . $str . '%')->orWhere('parent_email', 'like', '%' . $str . '%')
-            ->orWhereHas('children', function ($query) use ($str) {
+        $query = Session::query()            
+            ->WhereHas('child', function ($query) use ($str) {
                 $query->where('child_name', 'like', '%' . $str . '%');
-            });
-        if (!empty($thirdparty_org_id) && intval($thirdparty_org_id) > 0) {
-            $query = $query::where('thirdparty_org_id', $thirdparty_org_id);
-        }
+            })         
+            ->groupBy('child_id', 'parent_id', 'tutor_id')
+            ->orderBy('child_id');
+
         if (empty($length)) {
             $parents = $query->get();
         } else {

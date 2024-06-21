@@ -105,6 +105,7 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
         
         Route::group(['prefix' => 'payments', 'as' => 'payments.'], function() {
             Route::get('/price-audit', \App\Livewire\Admin\Payments\PriceAudit::class)->name('price-audit');
+            Route::get('/edit-prices', \App\Livewire\Admin\Payments\EditPrices::class)->name('edit-prices');
         });
     });
 });
