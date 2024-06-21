@@ -306,6 +306,9 @@
                     <li>
                         <a href="{{ route('admin.payments.price-audit') }}" wire:navigate>Price audit</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.payments.edit-prices') }}" wire:navigate>Edit prices</a>
+                    </li>
                 </ul>
             </div>
         </li>

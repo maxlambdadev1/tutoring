@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Trait\ModelSelectable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SessionProgressReport extends Model
 {
-    use HasFactory;
+    use HasFactory, ModelSelectable;
 
     protected $table = 'alchemy_session_progress_report';
     protected $guarded = [];
