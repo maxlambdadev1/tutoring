@@ -7,6 +7,7 @@ use App\Models\Option;
 use App\Models\JobHistory;
 use App\Models\ChildHistory;
 use App\Models\SessionHistory;
+use App\Models\FailedPaymentHistory;
 use App\Models\TutorHistory;
 use App\Models\RecruiterHistory;
 use App\Models\ParentHistory;
@@ -388,6 +389,20 @@ trait Functions
 		if (empty($post['author'])) $post['author'] = 'System';
 
 		SessionHistory::create([
+			'session_id' => $post['session_id'],
+			'author' => $post['author'],
+			'comment' => $post['comment'],
+			'date' => date('d/m/Y H:i')
+		]);
+	}
+	/**
+	 * @param $post = ['session_id' => 123, 'author' => '', 'comment' => 'abcde']
+	 */
+	public function addFailedPaymentHistory($post)
+	{
+		if (empty($post['author'])) $post['author'] = 'System';
+
+		FailedPaymentHistory::create([
 			'session_id' => $post['session_id'],
 			'author' => $post['author'],
 			'comment' => $post['comment'],

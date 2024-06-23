@@ -9,12 +9,8 @@ class FailedPaymentHistory extends Model
 {
     use HasFactory;
     
-    protected $table = 'alchemy_children';
+    protected $table = 'alchemy_failed_payment_history';
 
-    protected $fillable = [
-        'session_id',
-        'author',
-        'comment',
-        'date',
-    ];
+    protected $guarded = [];
+
 }

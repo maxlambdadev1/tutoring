@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card mb-3">
-                <div class="card-body mb-3">
+                <div class="card-body">
                     <div class="row" x-data="{isSearching : @entangle('is_searching'), showDropdown : false}">
                         <div class="col-md-12">
                             <div class="mb-3">

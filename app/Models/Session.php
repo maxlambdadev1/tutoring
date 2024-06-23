@@ -34,6 +34,10 @@ class Session extends Model
     public function history() {
         return $this->hasMany(SessionHistory::class);
     }
+    
+    public function failed_payment_history() {
+        return $this->hasMany(FailedPaymentHistory::class);
+    }
 
     public function getSessionTimeAmpmAttribute() {
         return Carbon::createFromFormat('H:i', $this->session_time)->format('h:i A');
