@@ -309,6 +309,15 @@
                     <li>
                         <a href="{{ route('admin.payments.edit-prices') }}" wire:navigate>Edit prices</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.payments.failed-payments') }}" wire:navigate>Failed payments</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.payments.manual-payments') }}" wire:navigate>Manual payments</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.payments.margins') }}" wire:navigate>Margins</a>
+                    </li>
                 </ul>
             </div>
         </li>
