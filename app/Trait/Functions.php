@@ -4,10 +4,14 @@ namespace App\Trait;
 
 use App\Models\CancellationFeeHistory;
 use App\Models\Option;
+use App\Models\UniqueUrl;
 use App\Models\JobHistory;
 use App\Models\ChildHistory;
 use App\Models\SessionHistory;
 use App\Models\FailedPaymentHistory;
+use App\Models\HolidayTutorHistory;
+use App\Models\HolidayStudentHistory;
+use App\Models\HolidayReplacementHistory;
 use App\Models\TutorHistory;
 use App\Models\RecruiterHistory;
 use App\Models\ParentHistory;
@@ -354,6 +358,48 @@ trait Functions
 		]);
 	}
 	/**
+	 * @param $post = ['holiday_id' => , 'author' =>, 'comment' =>]
+	 */
+	public function addHolidayTutorHistory($post)
+	{
+		if (empty($post['author'])) $post['author'] = 'System';
+
+		HolidayTutorHistory::create([
+			'holiday_id' => $post['holiday_id'],
+			'author' => $post['author'],
+			'comment' => $post['comment'],
+			'date' => date('d/m/Y H:i')
+		]);
+	}
+	/**
+	 * @param $post = ['holiday_id' => , 'author' =>, 'comment' =>]
+	 */
+	public function addHolidayStudentHistory($post)
+	{
+		if (empty($post['author'])) $post['author'] = 'System';
+
+		HolidayStudentHistory::create([
+			'holiday_id' => $post['holiday_id'],
+			'author' => $post['author'],
+			'comment' => $post['comment'],
+			'date' => date('d/m/Y H:i')
+		]);
+	}
+	/**
+	 * @param $post = ['holiday_id' => , 'author' =>, 'comment' =>]
+	 */
+	public function addHolidayReplacementHistory($post)
+	{
+		if (empty($post['author'])) $post['author'] = 'System';
+
+		HolidayReplacementHistory::create([
+			'holiday_id' => $post['holiday_id'],
+			'author' => $post['author'],
+			'comment' => $post['comment'],
+			'date' => date('d/m/Y H:i')
+		]);
+	}
+	/**
 	 * @param $post = ['application_id' => , 'author' =>, 'comment' =>]
 	 */
 	public function addTutorApplicationReferenceHistory($post)
@@ -477,7 +523,7 @@ trait Functions
 	 * @param $sec : seconds ex: 12345
 	 * @return string : ex: '3 weeks 2 days' or '3 days 5 hours'..
 	 */
-	public function format_seconds($seconds) {
+	public function formatSeconds($seconds) {
 		$seconds = (int)$seconds;
         if ( $seconds === 0 ) {
             return '0 secs';
@@ -529,5 +575,18 @@ trait Functions
         }
         $result = rtrim($result);
         return $result;
+	}
+	/**
+	 * @param $url:string
+	 * @return $short_url
+	 */
+	public function generateUniqueUrl($url) {
+        $short_url = substr(sha1(mt_rand()),17,6);
+		UniqueUrl::create([
+			'long_url' => $url,
+			'short_url' => $short_url,
+			'date_created' => date('d/m/Y H:i')
+		]);
+		return $short_url;
 	}
 }

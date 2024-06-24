@@ -57,8 +57,9 @@ trait Mailable
         if (isset($params['adminname']))            $content = str_replace('%%adminname%%', $params['adminname'], $content);
         if (isset($params['address']))              $content = str_replace('%%address%%', $params['address'], $content);
         if (isset($params['amount']))               $content = str_replace('%%amount%%', $params['amount'], $content);
-        if (isset($params['date']))                 $content = str_replace('%%date%%', $params['date'], $content);
         if (isset($params['cdate']))                $content = str_replace('%%cdate%%', $params['cdate'], $content);
+        if (isset($params['currentyear']))          $content = str_replace('%%currentyear%%', $params['currentyear'], $content);
+        if (isset($params['date']))                 $content = str_replace('%%date%%', $params['date'], $content);
         if (isset($params['email']))                $content = str_replace('%%email%%', $params['email'], $content);
         if (isset($params['grade']))                $content = str_replace('%%grade%%', $params['grade'], $content);
         if (isset($params['favourite']))            $content = str_replace('%%favourite%%', $params['favourite'], $content);
