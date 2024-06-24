@@ -321,6 +321,20 @@
                 </ul>
             </div>
         </li>
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#end-of-holiday" aria-expanded="false" aria-controls="sidebarEndofholiday" class="side-nav-link">
+                <i class="uil   uil-sunset"></i>
+                <span> End of holiday </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="end-of-holiday">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="{{ route('admin.end-of-holiday.new-year-tutor') }}" wire:navigate>Tutor list</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
     @endcan
 
     <li class="side-nav-title side-nav-item">Collaborator</li>

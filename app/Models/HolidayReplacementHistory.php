@@ -10,11 +10,6 @@ class HolidayReplacementHistory extends Model
     use HasFactory;
     
     protected $table = 'alchemy_holiday_replacement_history';
-
-    protected $fillable = [
-        'holiday_id',
-        'author',
-        'comment',
-        'date',
-    ];
+    protected $guarded = [];
+    
 }

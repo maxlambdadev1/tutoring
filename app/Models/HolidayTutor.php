@@ -11,12 +11,15 @@ class HolidayTutor extends Model
 
     protected $table = 'alchemy_holiday_tutor';
 
-    protected $fillable = [
-        'tutor_id',
-        'status',
-        'year',
-        'url',
-        'date_created',
-        'date_last_modified',
-    ];
+    protected $guarded = [];
+    
+    public function tutor()
+    {
+        return $this->belongsTo(Tutor::class);
+    }
+ 
+    public function history() {
+        return $this->hasMany(HolidayTutorHistory::class, 'holiday_id');
+    }
+
 }

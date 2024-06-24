@@ -11,12 +11,20 @@ class PriceTutor extends Model
     use HasFactory, ModelSelectable;
 
     protected $table = 'alchemy_price_tutor';
+    protected $guarded = [];
+    
+    public function parent()
+    {
+        return $this->belongsTo(AlchemyParent::class);
+    }
+    
+    public function child()
+    {
+        return $this->belongsTo(Child::class);
+    }
 
-    protected $fillable = [
-        'tutor_id',
-        'parent_id',
-        'child_id',
-        'f2f',
-        'online',
-    ];
+    public function tutor() {
+        return $this->belongsTo(Tutor::class);
+    }
+    
 }

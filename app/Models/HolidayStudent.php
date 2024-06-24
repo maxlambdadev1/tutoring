@@ -10,14 +10,9 @@ class HolidayStudent extends Model
     use HasFactory;
 
     protected $table = 'alchemy_holiday_student';
-
-    protected $fillable = [
-        'child_id',
-        'status',
-        'year',
-        'last_tutor',
-        'reason',
-        'date_created',
-        'date_last_modified',
-    ];
+    protected $guarded = [];
+    
+    public function history() {
+        return $this->hasMany(HolidayStudentHistory::class, 'holiday_id');
+    }
 }

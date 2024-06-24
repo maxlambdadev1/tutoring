@@ -10,12 +10,10 @@ class HolidayReplacement extends Model
     use HasFactory;
     
     protected $table = 'alchemy_holiday_replacement';
+    protected $guarded = [];
 
-    protected $fillable = [
-        'child_id',
-        'year',
-        'replacement_id',
-        'date_created',
-        'date_last_modified',
-    ];
+    public function history() {
+        return $this->hasMany(HolidayReplacementHistory::class, 'holiday_id');
+    }
+
 }

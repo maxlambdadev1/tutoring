@@ -11,7 +11,6 @@ class HolidayTemp extends Model
 
     protected $table = 'alchemy_holiday_temp';
 
-    protected $fillable = [
-        'tutor_id',
-    ];
+    protected $guarded = [];
+
 }

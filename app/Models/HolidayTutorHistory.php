@@ -11,10 +11,7 @@ class HolidayTutorHistory extends Model
 
     protected $table = 'alchemy_holiday_tutor_history';
 
-    protected $fillable = [
-        'holiday_id',
-        'author',
-        'comment',
-        'date',
-    ];
+    protected $guarded = [];
+   
+
 }

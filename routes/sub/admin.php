@@ -110,5 +110,9 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/manual-payments', \App\Livewire\Admin\Payments\ManualPayments::class)->name('manual-payments');
             Route::get('/margins', \App\Livewire\Admin\Payments\Margins::class)->name('margins');
         });
+        
+        Route::group(['prefix' => 'end-of-holiday', 'as' => 'end-of-holiday.'], function() {
+            Route::get('/new-year-tutor', \App\Livewire\Admin\EndOfHoliday\NewYearTutor::class)->name('new-year-tutor');
+        });
     });
 });
