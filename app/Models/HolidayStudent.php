@@ -15,4 +15,16 @@ class HolidayStudent extends Model
     public function history() {
         return $this->hasMany(HolidayStudentHistory::class, 'holiday_id');
     }
+    
+    public function reach_parent() {
+        return $this->hasOne(HolidayReachParent::class, 'holiday_id');
+    }
+
+    public function tutor() {
+        return $this->belongsTo(Tutor::class, 'last_tutor');
+    }
+    
+    public function child() {
+        return $this->belongsTo(Child::class);
+    }
 }

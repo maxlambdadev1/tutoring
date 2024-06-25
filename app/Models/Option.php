@@ -11,8 +11,6 @@ class Option extends Model
 
     protected $table = 'alchemy_options';
 
-    protected $fillable = [
-        'option_name',
-        'option_value',
-    ];
+    protected $guarded = [];
+    
 }
