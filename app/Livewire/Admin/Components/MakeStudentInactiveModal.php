@@ -11,6 +11,7 @@ class MakeStudentInactiveModal extends Component
     use WithParents;
 
     public $child;
+    public $is_holiday_student = false;
 
     public function mount($child_id) {
         $this->child = Child::find($child_id);
@@ -23,7 +24,7 @@ class MakeStudentInactiveModal extends Component
 
     public function makeStudentInactive1($child_id, $delete_student_reason, $followup, $disable_future_follow_up_reason) {
         try {
-            $this->makeStudentInactive($child_id, $delete_student_reason, $followup, $disable_future_follow_up_reason);
+            $this->makeStudentInactive($child_id, $delete_student_reason, $followup, $disable_future_follow_up_reason, $this->is_holiday_student);
 
             $this->dispatch('showToastrMessage', [
                 'status' => 'success',

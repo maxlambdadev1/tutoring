@@ -113,6 +113,8 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
         
         Route::group(['prefix' => 'end-of-holiday', 'as' => 'end-of-holiday.'], function() {
             Route::get('/new-year-tutor', \App\Livewire\Admin\EndOfHoliday\NewYearTutor::class)->name('new-year-tutor');
+            Route::get('/new-year-student', \App\Livewire\Admin\EndOfHoliday\NewYearStudent::class)->name('new-year-student');
+            Route::get('/new-year-student-not-scheduled', \App\Livewire\Admin\EndOfHoliday\NewYearStudentNotScheduled::class)->name('new-year-student-not-scheduled');
         });
     });
 });

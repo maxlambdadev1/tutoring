@@ -69,6 +69,7 @@ trait Mailable
         if (isset($params['mainresult']))           $content = str_replace('%%mainresult%%', $params['mainresult'], $content);
         if (isset($params['mind']))                 $content = str_replace('%%mind%%', $params['mind'], $content);
         if (isset($params['notes']))                $content = str_replace('%%notes%%', $params['notes'], $content);
+        if (isset($params['nolink']))               $content = str_replace('%%nolink%%', $params['nolink'], $content);
         if (isset($params['nextsessiondate']))      $content = str_replace('%%nextsessiondate%%', $params['nextsessiondate'], $content);
         if (isset($params['nextsessiontime']))      $content = str_replace('%%nextsessiontime%%', $params['nextsessiontime'], $content);
         if (isset($params['onlinesessionurl']))     $content = str_replace('%%onlinesessionurl%%', $params['onlinesessionurl'], $content);

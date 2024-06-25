@@ -332,6 +332,12 @@
                     <li>
                         <a href="{{ route('admin.end-of-holiday.new-year-tutor') }}" wire:navigate>Tutor list</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.end-of-holiday.new-year-student') }}" wire:navigate>Student - not continuing</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.end-of-holiday.new-year-student-not-scheduled') }}" wire:navigate>Student - no lesson scheduled</a>
+                    </li>
                 </ul>
             </div>
         </li>
