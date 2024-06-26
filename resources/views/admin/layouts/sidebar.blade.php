@@ -345,18 +345,21 @@
             </div>
         </li>
         <li class="side-nav-item">
-            <a data-bs-toggle="collapse" href="#end-of-holiday" aria-expanded="false" aria-controls="sidebarEndofholiday" class="side-nav-link">
+            <a data-bs-toggle="collapse" href="#reports" aria-expanded="false" aria-controls="sidebarReports" class="side-nav-link">
                 <i class="uil  uil-document"></i>
                 <span> Reports </span>
                 <span class="menu-arrow"></span>
             </a>
-            <div class="collapse" id="end-of-holiday">
+            <div class="collapse" id="reports">
                 <ul class="side-nav-second-level">
                     <li>
                         <a href="{{ route('admin.reports.daily-report') }}" wire:navigate>Daily report</a>
                     </li>
                     <li>
                         <a href="{{ route('admin.reports.conversion-report') }}" wire:navigate>Conversion report</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.reports.all-sessions') }}" wire:navigate>All sessions</a>
                     </li>
                 </ul>
             </div>

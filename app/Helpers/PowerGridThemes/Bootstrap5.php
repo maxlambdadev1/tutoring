@@ -32,7 +32,7 @@ class Bootstrap5 extends Bootstrap5Base
             ->thAction('')
             ->tdAction('')
             ->tr('')
-            ->th('', 'white-space: nowrap;min-width: 50px;font-size: 0.8rem;color: #6b6a6a;padding-top: 12px;padding-bottom: 12px;')
+            ->th('', 'white-space: nowrap;min-width: 50px;max-width: 200px;font-size: 0.8rem;color: #6b6a6a;padding-top: 12px;padding-bottom: 12px;')
             ->tbody('')
             ->tdBodyEmpty('', 'vertical-align: middle; line-height: normal;')
             ->tdBodyTotalColumns('', 'font-size: 0.875rem; line-height: 1.25rem; --tw-text-opacity: 1; color: rgb(76 79 82 / var(--tw-text-opacity)); padding-left: 0.75rem; padding-right: 0.75rem; padding-top: 0.5rem; padding-bottom: 0.5rem;')

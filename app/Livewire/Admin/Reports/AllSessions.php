@@ -2,8 +2,11 @@
 
 namespace App\Livewire\Admin\Reports;
 
+use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('admin.layouts.app')]
 class AllSessions extends Component
 {
     public function render()

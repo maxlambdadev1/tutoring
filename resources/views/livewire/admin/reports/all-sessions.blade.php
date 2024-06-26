@@ -1,3 +1,18 @@
 <div>
-    {{-- Success is as dangerous as failure. --}}
+    @php
+    $title = "All sessions";
+    $breadcrumbs = ["Reports", "All sessions"];
+    @endphp
+    <x-custom-header :title="$title" :breadcrumbs="$breadcrumbs" />
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <livewire:admin.reports.all-sessions-table />
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
