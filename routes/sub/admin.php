@@ -115,6 +115,12 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/new-year-tutor', \App\Livewire\Admin\EndOfHoliday\NewYearTutor::class)->name('new-year-tutor');
             Route::get('/new-year-student', \App\Livewire\Admin\EndOfHoliday\NewYearStudent::class)->name('new-year-student');
             Route::get('/new-year-student-not-scheduled', \App\Livewire\Admin\EndOfHoliday\NewYearStudentNotScheduled::class)->name('new-year-student-not-scheduled');
+            Route::get('/replacement', \App\Livewire\Admin\EndOfHoliday\Replacement::class)->name('replacement');
+        });
+        
+        Route::group(['prefix' => 'reports', 'as' => 'reports.'], function() {
+            Route::get('/daily-report', \App\Livewire\Admin\Reports\DailyReport::class)->name('daily-report');
+            Route::get('/conversion-report', \App\Livewire\Admin\Reports\ConversionReport::class)->name('conversion-report');
         });
     });
 });

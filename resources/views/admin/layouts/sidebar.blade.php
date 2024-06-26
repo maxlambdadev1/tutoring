@@ -338,6 +338,26 @@
                     <li>
                         <a href="{{ route('admin.end-of-holiday.new-year-student-not-scheduled') }}" wire:navigate>Student - no lesson scheduled</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.end-of-holiday.replacement') }}" wire:navigate>Replacement</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#end-of-holiday" aria-expanded="false" aria-controls="sidebarEndofholiday" class="side-nav-link">
+                <i class="uil  uil-document"></i>
+                <span> Reports </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="end-of-holiday">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="{{ route('admin.reports.daily-report') }}" wire:navigate>Daily report</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.reports.conversion-report') }}" wire:navigate>Conversion report</a>
+                    </li>
                 </ul>
             </div>
         </li>
