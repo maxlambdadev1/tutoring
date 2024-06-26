@@ -27,6 +27,10 @@ class Session extends Model
         return $this->belongsTo(Child::class);
     }
     
+    public function session_status_value() {
+        return $this->belongsTo(SessionStatus::class, 'session_status');
+    }
+    
     public function prev_session() {
         return $this->belongsTo(self::class, 'session_previous_session_id');
     }

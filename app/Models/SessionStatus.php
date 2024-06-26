@@ -11,7 +11,8 @@ class SessionStatus extends Model
 
     protected $table = 'alchemy_session_status';
 
-    protected $fillable = [
-        'status',
-    ];
+
+    protected $guarded = [];
+
+    
 }
