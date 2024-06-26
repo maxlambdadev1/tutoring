@@ -16,4 +16,8 @@ class HolidayReplacement extends Model
         return $this->hasMany(HolidayReplacementHistory::class, 'holiday_id');
     }
 
+    public function replacement_tutor () {
+        return $this->belongsTo(ReplacementTutor::class, 'replacement_id');
+    }
+
 }

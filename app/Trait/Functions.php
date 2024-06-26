@@ -505,6 +505,9 @@ trait Functions
 		return $oldest;
 	}
 
+	/**
+	 * get short url from long url for using as phone link
+	 */
 	public function setRedirect($url)
 	{
 		$ch = curl_init();
