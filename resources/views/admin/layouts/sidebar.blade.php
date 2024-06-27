@@ -44,6 +44,9 @@
                     <li>
                         <a href="{{ route('admin.setting.availabilities') }}" wire:navigate>Availabilities</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.setting.general') }}" wire:navigate>General settings</a>
+                    </li>
                     
                 </ul>
             </div>
