@@ -12,5 +12,6 @@ class Option extends Model
     protected $table = 'alchemy_options';
 
     protected $guarded = [];
+    protected  $primaryKey = 'option_id';
     
 }

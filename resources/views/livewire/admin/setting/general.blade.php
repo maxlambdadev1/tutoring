@@ -30,7 +30,7 @@
                                     <select name="tutor_sms_state" id="tutor_sms_state" class="form-select " wire:model="tutor_sms_state">
                                         <option value="">All States</option>
                                         @forelse ($states as $state)
-                                        <option value="{{$state->name}}" >{{$state->name}}</option>
+                                        <option value="{{$state->name}}">{{$state->name}}</option>
                                         @empty
                                         @endforelse
                                     </select>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="text-center">
                             <input type="button" x-show="isSaveTutorAnnouncementBtnClicked" disabled value="Processing..." class="btn btn-secondary btn-sm">
-                            <input type="button" x-show="!isSaveTutorAnnouncementBtnClicked" value="Save" class="btn btn-outline-primary waves-effect waves-light btn-sm" x-on:click="function() { 
+                            <input type="button" x-show="!isSaveTutorAnnouncementBtnClicked" value="Send SMS" class="btn btn-outline-primary waves-effect waves-light btn-sm" x-on:click="function() { 
                                 Swal.fire({
                                     icon: 'info',
                                     title: 'Are you sure?',
@@ -81,7 +81,7 @@
                                     <select name="parent_sms_state" id="parent_sms_state" class="form-select " wire:model="parent_sms_state">
                                         <option value="">All States</option>
                                         @forelse ($states as $state)
-                                        <option value="{{$state->name}}" >{{$state->name}}</option>
+                                        <option value="{{$state->name}}">{{$state->name}}</option>
                                         @empty
                                         @endforelse
                                     </select>
@@ -114,7 +114,7 @@
                         </div>
                         <div class="text-center">
                             <input type="button" x-show="isSaveParentAnnouncementBtnClicked" disabled value="Processing..." class="btn btn-secondary btn-sm">
-                            <input type="button" x-show="!isSaveParentAnnouncementBtnClicked" value="Save" class="btn btn-outline-primary waves-effect waves-light btn-sm" x-on:click="function() { 
+                            <input type="button" x-show="!isSaveParentAnnouncementBtnClicked" value="Save SMS" class="btn btn-outline-primary waves-effect waves-light btn-sm" x-on:click="function() { 
                                 Swal.fire({
                                     icon: 'info',
                                     title: 'Are you sure?',
@@ -127,6 +127,81 @@
                                 })}">
                         </div>
                         <hr />
+                    </div>
+                    <div class="d-flex mb-3">
+                        <span class="form-label fw-bold">Job Disable/Enable &nbsp;</span>
+                        <div>
+                            <input type="checkbox" wire:model="job_switch" id="job_switch" name="job_switch" data-switch="success" wire:change="changeJobSwitch">
+                            <label for="job_switch" data-on-label="Yes" data-off-label="No"></label>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12 col-md-5">
+                            <div class="input-group">
+                                <span class="input-group-text"> Online lesson limitation</span>
+                                <input type="number" class="form-control" name="online_limit" id="online_limit" wire:model="online_limit">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" wire:click="saveOnlineLessonLimit" class="btn btn-outline-info waves-effect waves-light my-1 my-md-0">Save</button>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12 col-md-5">
+                            <div class="input-group">
+                                <span class="input-group-text"> Experienced tutor limitation</span>
+                                <input type="number" class="form-control" name="experience_limit" id="experience_limit" wire:model="experience_limit">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" wire:click="saveExperiencedTutorLimit" class="btn btn-primary  my-1 my-md-0">Save</button>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12 col-md-3 py-1">
+                            <div class="input-group">
+                                <span class="input-group-text">Bookings</span>
+                                <input type="number" class="form-control" name="bookings" id="bookings" wire:model="daily_target.booking">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 py-1">
+                            <div class="input-group">
+                                <span class="input-group-text">Conversions</span>
+                                <input type="number" class="form-control" name="conversion" id="conversion" wire:model="daily_target.conversion">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 py-1">
+                            <div class="input-group">
+                                <span class="input-group-text">1st sessions</span>
+                                <input type="number" class="form-control" name="first_session" id="first_session" wire:model="daily_target.first_session">
+                            </div>
+                        </div>
+                        <div class="col-md-2 py-1">
+                            <button type="button" wire:click="saveDailyTarget" class="btn btn-info ">Save</button>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12 col-md-3 py-1">
+                            <div class="input-group">
+                                <span class="input-group-text">F2F Cron (minutes)</span>
+                                <input type="number" class="form-control" name="f2f_cron" id="f2f_cron" wire:model="cron_time.f2f_cron">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 py-1">
+                            <div class="input-group">
+                                <span class="input-group-text">Online Cron (minutes)</span>
+                                <input type="number" class="form-control" name="number_tutors_online" id="number_tutors_online" wire:model="cron_time.number_tutors_online">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 py-1">
+                            <div class="input-group">
+                                <span class="input-group-text">Number of tutors</span>
+                                <input type="number" class="form-control" name="online_cron" id="online_cron" wire:model="cron_time.online_cron">
+                            </div>
+                        </div>
+                        <div class="col-md-2 py-1">
+                            <button type="button" wire:click="saveCronTime" class="btn btn-success ">Save</button>
+                        </div>
                     </div>
                 </div>
             </div>
