@@ -361,6 +361,9 @@
                     <li>
                         <a href="{{ route('admin.reports.all-sessions') }}" wire:navigate>All sessions</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.reports.team-goals') }}" wire:navigate>Team goals</a>
+                    </li>
                 </ul>
             </div>
         </li>
