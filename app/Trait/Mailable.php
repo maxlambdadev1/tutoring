@@ -8,20 +8,30 @@ use Illuminate\Support\Facades\Mail;
 
 trait Mailable
 {
-    public function sendEmail($sendTo, $title, $params)
+    /**
+     * send template email according to $title when $params is not null, else send $customBody as email content
+     * @param $sendTo : email address, $title: title, $params : array, $customBody : string
+     */
+    public function sendEmail($sendTo, $title, $params, $customBody = null)
     {
         if (empty($send_to)) return;
         if (!empty($title)) {
-            $body = $this->getFilteredContent($this->getMailTemplate($title), $params);
-            $subject = $this->getFilteredContent($this->getMailTemplate($title . '-subject'), $params);
+            if (!empty($params)) {
+                $body = $this->getFilteredContent($this->getMailTemplate($title), $params);
+                $subject = $this->getFilteredContent($this->getMailTemplate($title . '-subject'), $params);
+            } else {
+                $body = $customBody;
+                $subject = $title;
+            }
         }
 
         // Mail::to($sendTo)->send(new \App\Mail\MainMail($body, $subject));
     }
-/**
- * @param $smsParams=['name' => , 'phone' => ], $title : string, $params = ['a' => , 'b..' => ..], $type : true or false
- */
-    public function sendSms($smsParams, $title, $params, $type = false)
+    /**
+     * send template sms when $params is not null, else send $title as sms content
+     * @param $smsParams=['name' => , 'phone' => ], $title : string, $params = ['a' => , 'b..' => ..], $type : true or false
+     */
+    public function sendSms($smsParams, $title, $params = [], $type = false)
     {
         if (empty($smsParams['phone'])) return;
         if (empty($smsParams['name'])) $smsParams['name'] = 'Contact';
@@ -41,12 +51,12 @@ trait Mailable
 
     private function getMailTemplate($title)
     {
-        return Option::where('option_name', $title)->first()->value;
+        return Option::where('option_name', $title)->first()->value ?? '';
     }
 
     private function getSmsTemplate($title)
     {
-        return Option::where('option_name', $title)->first()->value;
+        return Option::where('option_name', $title)->first()->value ?? $title;
     }
 
     private function getFilteredContent($content, $params)

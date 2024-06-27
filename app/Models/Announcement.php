@@ -10,13 +10,11 @@ class Announcement extends Model
     use HasFactory;
 
     protected $table = 'alchemy_announcements';
+    protected $guarded = [];  
+    protected  $primaryKey = 'an_id';
 
-    protected $fillable = [
-        'an_text',
-        'an_posted_by',
-        'an_date',
-        'an_time',
-        'who',
-        'flag'
-    ];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'an_posted_by');
+    }
 }
