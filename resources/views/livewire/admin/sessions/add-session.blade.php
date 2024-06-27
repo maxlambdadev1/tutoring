@@ -107,7 +107,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" >
+                    <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="session_date" class="form-label">Session date</label>
@@ -156,10 +156,14 @@
                     <div class="text-center" x-data="{ init() { 
                         $('#session_date').datepicker({
                                 autoclose: true,
-                                format: 'dd/mm/yyyy',
+                                format: 'yyyy',
+                                viewMode: 'years', 
+                                minViewMode: 'years',
                                 todayHighlight: true,
-                            }).on('changeDate', function (e) {
-                                let date =  e.format(0, 'dd/mm/yyyy');
+                            }).on('changeDate', function (e) {    
+                                let year = e.date.getFullYear();
+                                let formattedYear = year.toString();
+                                console.log('aaa', $formattedYear);
                                 @this.set('session_date', date);   
                             });
                         $('#session_time').datetimepicker({
