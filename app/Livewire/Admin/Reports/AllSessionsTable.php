@@ -22,7 +22,7 @@ class AllSessionsTable extends PowerGridComponent
     public string $sortField = 'id';
     public string $sortDirection = 'asc';
     
-    public $thirdparty_org_id;
+    public $google_ads = 0;
 
     public function setUp(): array
     {
@@ -52,6 +52,8 @@ class AllSessionsTable extends PowerGridComponent
             ->leftJoin('users', function ($user) {
                 $user->on('tutors.user_id', '=', 'users.id');
             });
+        
+        if ($this->google_ads) $query = $query->where('google_ads', 1);
 
         return $query->select('alchemy_sessions.*');
     }

@@ -364,6 +364,9 @@
                     <li>
                         <a href="{{ route('admin.reports.team-goals') }}" wire:navigate>Team goals</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.reports.all-sessions-google') }}" wire:navigate>Google Ads Booking Sessins</a>
+                    </li>
                 </ul>
             </div>
         </li>

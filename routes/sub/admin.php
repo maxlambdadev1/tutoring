@@ -123,6 +123,7 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/conversion-report', \App\Livewire\Admin\Reports\ConversionReport::class)->name('conversion-report');
             Route::get('/all-sessions', \App\Livewire\Admin\Reports\AllSessions::class)->name('all-sessions');
             Route::get('/team-goals', \App\Livewire\Admin\Reports\TeamGoals::class)->name('team-goals');
+            Route::get('/all-sessions-google', \App\Livewire\Admin\Reports\AllSessionsGoogle::class)->name('all-sessions-google');
         });
     });
 });
