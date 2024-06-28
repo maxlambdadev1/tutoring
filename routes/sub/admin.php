@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
         Route::get('/setting/session-types', \App\Livewire\Admin\Setting\SessionTypes::class)->name('setting.session-types');
         Route::get('/setting/availabilities', \App\Livewire\Admin\Setting\Availabilities::class)->name('setting.availabilities');
         Route::get('/setting/general', \App\Livewire\Admin\Setting\General::class)->name('setting.general');
+        Route::get('/setting/templates', \App\Livewire\Admin\Setting\TemplateSettings::class)->name('setting.templates');
     });
 
     Route::middleware('can:action-manager')->group(function() {
