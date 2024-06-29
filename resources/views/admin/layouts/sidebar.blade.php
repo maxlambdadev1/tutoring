@@ -367,6 +367,9 @@
                     <li>
                         <a href="{{ route('admin.reports.all-sessions-google') }}" wire:navigate>Google Ads Booking Sessins</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.reports.monthly-report') }}" wire:navigate>Monthly report</a>
+                    </li>
                 </ul>
             </div>
         </li>
