@@ -156,15 +156,11 @@
                     <div class="text-center" x-data="{ init() { 
                         $('#session_date').datepicker({
                                 autoclose: true,
-                                format: 'yyyy',
-                                viewMode: 'years', 
-                                minViewMode: 'years',
+                                format: 'dd/mm/yyyy',
                                 todayHighlight: true,
                             }).on('changeDate', function (e) {    
-                                let year = e.date.getFullYear();
-                                let formattedYear = year.toString();
-                                console.log('aaa', $formattedYear);
-                                @this.set('session_date', date);   
+                                var session_date = e.format(0, 'dd/mm/yyyy');
+                                @this.set('session_date', session_date);   
                             });
                         $('#session_time').datetimepicker({
                             format: 'LT',                       
