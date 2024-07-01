@@ -10,12 +10,6 @@ class NewsNotification extends Model
     use HasFactory;
 
     protected $table = 'news_notification';
-
-    protected $fillable = [
-        'send_id',
-        'receive_id',
-        'notifiable_id',
-        'type',
-        'read',
-    ];
+    protected $guarded = [];
+    
 }
