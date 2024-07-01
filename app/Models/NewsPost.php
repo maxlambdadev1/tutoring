@@ -10,14 +10,6 @@ class NewsPost extends Model
     use HasFactory;
 
     protected $table = 'news_post';
-
-    protected $fillable = [
-        'user_id',
-        'content',
-        'file',
-        'tagged_tutor',
-        'allow',
-        'type',
-        'pin',
-    ];
+    protected $guarded = [];
+    
 }

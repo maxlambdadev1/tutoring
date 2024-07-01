@@ -11,18 +11,19 @@ class TutorReview extends Model
 
     protected $table = 'alchemy_tutor_review';
 
-    protected $fillable = [
-        'tutor_id',
-        'parent_id',
-        'child_id',
-        'progress_report_id',
-        'rating',
-        'rating_comment',
-        'approved',
-        'emailed',
-        'hidden',
-        'reject',
-        'type',
-        'date_lastupdated',
-    ];
+    protected $guarded = [];
+    
+    public function tutor() {
+        return $this->belongsTo(Tutor::class);
+    }
+    
+    public function parent() {
+        return $this->belongsTo(AlchemyParent::class);
+    }
+    
+    public function child() {
+        return $this->belongsTo(Child::class);
+    }
+    
+    
 }

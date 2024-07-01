@@ -379,6 +379,20 @@
                 </ul>
             </div>
         </li>
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#commnuity" aria-expanded="false" aria-controls="sidebarCommunity" class="side-nav-link">
+                <i class="uil uil-comments"></i>
+                <span> Community </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="commnuity">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="{{ route('admin.community.feedback') }}" wire:navigate>Feedback</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
     @endcan
 
     <li class="side-nav-title side-nav-item">Collaborator</li>

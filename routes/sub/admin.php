@@ -128,5 +128,9 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/all-sessions-google', \App\Livewire\Admin\Reports\AllSessionsGoogle::class)->name('all-sessions-google');
             Route::get('/monthly-report', \App\Livewire\Admin\Reports\MonthlyReport::class)->name('monthly-report');
         });
+        
+        Route::group(['prefix' => 'community', 'as' => 'community.'], function() {
+            Route::get('/feedback', \App\Livewire\Admin\Community\Feedback::class)->name('feedback');
+        });
     });
 });
