@@ -10,7 +10,7 @@ class JobOffer extends Model
     use HasFactory;
 
     protected $table = 'alchemy_jobs_offer';
-
+    protected  $primaryKey = 'job_id';
 
     protected $guarded = [];
     

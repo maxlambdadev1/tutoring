@@ -50,6 +50,9 @@
                     <li>
                         <a href="{{ route('admin.setting.templates') }}" wire:navigate>Template settings</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.setting.lead-setting') }}" wire:navigate>Lead settings</a>
+                    </li>
                     
                 </ul>
             </div>
