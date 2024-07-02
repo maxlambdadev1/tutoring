@@ -131,6 +131,7 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
         
         Route::group(['prefix' => 'community', 'as' => 'community.'], function() {
             Route::get('/feedback', \App\Livewire\Admin\Community\Feedback::class)->name('feedback');
+            Route::get('/all-feed', \App\Livewire\Admin\Community\AllFeed::class)->name('all-feed');
         });
     });
 });
