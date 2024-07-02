@@ -53,7 +53,12 @@
                     <li>
                         <a href="{{ route('admin.setting.lead-setting') }}" wire:navigate>Lead settings</a>
                     </li>
-                    
+                    <li>
+                        <a href="{{ route('admin.setting.referral-setting') }}" wire:navigate>Referral settings</a>
+                    </li>  
+                    <li>
+                        <a href="{{ route('admin.setting.promo-page') }}" wire:navigate>Promo page settings</a>
+                    </li>                    
                 </ul>
             </div>
         </li>
