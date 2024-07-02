@@ -12,4 +12,9 @@ class NewsPost extends Model
     protected $table = 'news_post';
     protected $guarded = [];
     
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
 }

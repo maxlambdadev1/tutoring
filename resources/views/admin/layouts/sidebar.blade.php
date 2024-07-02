@@ -398,6 +398,9 @@
                     <li>
                         <a href="{{ route('admin.community.feedback') }}" wire:navigate>Feedback</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.community.all-feed') }}" wire:navigate>All feed</a>
+                    </li>
                 </ul>
             </div>
         </li>
