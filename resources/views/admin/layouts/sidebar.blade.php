@@ -58,6 +58,9 @@
                     </li>  
                     <li>
                         <a href="{{ route('admin.setting.promo-page') }}" wire:navigate>Promo page settings</a>
+                    </li>  
+                    <li>
+                        <a href="{{ route('admin.setting.email-sms') }}" wire:navigate>Email and SMS settings</a>
                     </li>                    
                 </ul>
             </div>
