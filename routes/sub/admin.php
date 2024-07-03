@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
         Route::get('/setting/lead-setting', \App\Livewire\Admin\Setting\LeadSetting::class)->name('setting.lead-setting');
         Route::get('/setting/referral-setting', \App\Livewire\Admin\Setting\ReferralSetting::class)->name('setting.referral-setting');
         Route::get('/setting/promo-page', \App\Livewire\Admin\Setting\PromoPage::class)->name('setting.promo-page');
+        Route::get('/setting/email-sms', \App\Livewire\Admin\Setting\EmailSms::class)->name('setting.email-sms');
     });
 
     Route::middleware('can:action-manager')->group(function() {
