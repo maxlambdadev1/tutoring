@@ -31,25 +31,25 @@ export default defineConfig({
             ],
             refresh: true,
         }),
-        viteStaticCopy({
-            targets: [
-                {
-                    src: 'resources/fonts',
-                    dest: ''
-                },
-                {
-                    src: 'resources/images',
-                    dest: ''
-                },
-                {
-                    src: 'resources/json',
-                    dest: ''
-                },
-                {
-                    src: 'resources/libs',
-                    dest: ''
-                },
-            ]
-        }),
+        // viteStaticCopy({
+        //     targets: [
+        //         {
+        //             src: 'resources/fonts',
+        //             dest: ''
+        //         },
+        //         {
+        //             src: 'resources/images',
+        //             dest: ''
+        //         },
+        //         {
+        //             src: 'resources/json',
+        //             dest: ''
+        //         },
+        //         {
+        //             src: 'resources/libs',
+        //             dest: ''
+        //         },
+        //     ]
+        // }),
     ],
 });
