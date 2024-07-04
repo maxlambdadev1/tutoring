@@ -147,7 +147,7 @@ class DailyFirstSessionsTable extends PowerGridComponent
             ->add('session_reason', fn ($ses) =>  $ses->session_reason ?? '-')
             ->add('session_charge_time', fn ($ses) =>  $ses->session_charge_time ?? '-')
             ->add('session_feedback', fn ($ses) =>  $ses->session_feedback ?? '-')
-            ->add('type_id', fn ($ses) =>  $ses->type_id =  1 ? 'Face To Face' : 'Online');
+            ->add('type_id', fn ($ses) =>  $ses->type_id ==  1 ? 'Face To Face' : 'Online');
     }
 
     public function columns(): array
