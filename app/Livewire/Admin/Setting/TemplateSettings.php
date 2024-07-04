@@ -27,13 +27,12 @@ class TemplateSettings extends Component
     {
         try {
             if (!empty($this->option_name) && !empty($this->option_value)) {
-                $option = Option::where('option_name', $this->option_name)->first();
-                if (!empty($option)) {
-                    $option->update([
-                        'option_value' => $this->option_value
-                    ]);
-                }
-
+                Option::updateOrCreate([
+                    'option_name' => $this->option_name
+                ], [
+                    'option_value' => $this->option_value
+                ]);
+                
                 $this->dispatch('showToastrMessage', [
                     'status' => 'success',
                     'message' => 'Saved successfully!'
