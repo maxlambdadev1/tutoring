@@ -17,11 +17,10 @@ use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 
 
-class PreviousSessionsTable extends PowerGridComponent
+class UnconfirmedSessionsTable extends PowerGridComponent
 {
     public string $sortField = 'id';
     public string $sortDirection = 'desc';
-
 
 
     public function setUp(): array
@@ -53,9 +52,7 @@ class PreviousSessionsTable extends PowerGridComponent
             ->leftJoin('tutors', function ($tutor) {
                 $tutor->on('alchemy_sessions.tutor_id', '=', 'tutors.id');
             })
-            ->where(function ($query) {
-                $query->where('session_status', 2)->orWhere('session_status', 4);
-            })
+            ->where('session_status', 1)
             ->where('tutors.user_id', auth()->user()->id);
 
         return $query->select('alchemy_sessions.*');
@@ -76,8 +73,7 @@ class PreviousSessionsTable extends PowerGridComponent
             ->add('id')
             ->add('child_name', fn ($ses) => $ses->child->child_name ?? '-')
             ->add('session_date', fn ($ses) => $ses->session_date . ' ' . $ses->session_time)
-            ->add('type_id', fn ($ses) =>  $ses->type_id ==  1 ? 'Face To Face' : 'Online')
-            ->add('session_tutor_notes', fn ($ses) =>  $ses->session_tutor_notes ?? '-');
+            ->add('type_id', fn ($ses) =>  $ses->type_id ==  1 ? 'Face To Face' : 'Online');
     }
 
     public function columns(): array
@@ -87,7 +83,6 @@ class PreviousSessionsTable extends PowerGridComponent
             Column::add()->title('Student name')->field('child_name')->sortable()->searchable(),
             Column::add()->title('Session Date')->field('session_date'),
             Column::add()->title('Lesson type')->field('type_id')->sortable()->hidden(isHidden: true, isForceHidden: false),
-            Column::add()->title('Your notes')->field('session_tutor_notes')->sortable()->hidden(isHidden: true, isForceHidden: false),
         ];
     }
 

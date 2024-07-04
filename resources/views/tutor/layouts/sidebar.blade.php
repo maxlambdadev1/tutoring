@@ -18,6 +18,9 @@
                 <li>
                     <a href="{{ route('tutor.sessions.previous-sessions') }}" wire:navigate>Previous sessions</a>
                 </li>
+                <li>
+                    <a href="{{ route('tutor.sessions.unconfirmed-sessions') }}" wire:navigate>Unconfirmed sessions</a>
+                </li>
             </ul>
         </div>
     </li>
