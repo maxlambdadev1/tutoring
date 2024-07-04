@@ -10,12 +10,11 @@ class NewsComment extends Model
     use HasFactory;
 
     protected $table = 'news_comment';
-
-    protected $fillable = [
-        'post_id',
-        'user_id',
-        'content',
-        'file',
-        'allow',
-    ];
+    protected $guarded = [];
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
 }

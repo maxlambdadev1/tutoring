@@ -55,11 +55,13 @@
     <!-- Livewire Styles -->
     @livewireStyles
     <!-- App css -->
+    <link href="{{asset('vendor/bootstrap/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('template/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('vendor/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('template/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style" />
-    <link href="{{asset('build/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style" />
+    <!-- <link href="{{asset('build/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style" /> -->
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin.js'])
     @yield('css-library')
     <script src="{{asset('vendor/bootstrap/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('vendor/jquery/jquery-3.6.0.min.js')}}"></script>
@@ -268,8 +270,8 @@
     <!-- Livewire Scripts -->
     @livewireScripts
     <script src="{{asset('template/js/app.min.js')}}"></script>
-    <script src="{{asset('build/js/app2.js')}}" data-navigate-once></script>
-    <script src="{{asset('build/js/admin.js')}}" data-navigate-once></script>
+    <!-- <script src="{{asset('build/js/app2.js')}}" data-navigate-once></script>
+    <script src="{{asset('build/js/admin.js')}}" data-navigate-once></script> -->
 </body>
 
 </html>
