@@ -19,4 +19,7 @@ Route::group(['middleware' => ['auth', 'role:tutor', 'verified'], 'as' => 'tutor
 
     Route::view('dashboard', 'tutor.dashboard')->name('dashboard');
 
+    Route::group(['prefix' => 'sessions', 'as' => 'sessions.'], function() {
+        Route::get('/previous-sessions', \App\Livewire\Tutor\Sessions\PreviousSession::class)->name('previous-sessions');
+    });
 });

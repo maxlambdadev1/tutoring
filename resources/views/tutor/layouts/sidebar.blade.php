@@ -7,4 +7,18 @@
         </a>
     </li>
     
+    <li class="side-nav-item">
+        <a data-bs-toggle="collapse" href="#sessions" aria-expanded="false" aria-controls="sidebarThirdparty" class="side-nav-link">
+            <i class="uil  uil-calendar-alt"></i>
+            <span> Sessions </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <div class="collapse" id="sessions">
+            <ul class="side-nav-second-level">
+                <li>
+                    <a href="{{ route('tutor.sessions.previous-sessions') }}" wire:navigate>Previous sessions</a>
+                </li>
+            </ul>
+        </div>
+    </li>
 </ul>
