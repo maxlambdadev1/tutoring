@@ -18,6 +18,10 @@ Route::group(['middleware' => ['auth', 'role:tutor', 'verified'], 'as' => 'tutor
     // Volt::route('confirm-password', 'tutor.auth.confirm-password')->name('password.confirm');
 
     Route::view('dashboard', 'tutor.dashboard')->name('dashboard');
+    
+    Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function() {
+        Route::get('/all-jobs', \App\Livewire\Tutor\Jobs\AllJobs::class)->name('all-jobs');
+    });
 
     Route::group(['prefix' => 'sessions', 'as' => 'sessions.'], function() {
         Route::get('/previous-sessions', \App\Livewire\Tutor\Sessions\PreviousSession::class)->name('previous-sessions');

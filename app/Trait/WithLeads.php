@@ -8,7 +8,6 @@ use App\Models\ReplacementTutor;
 use App\Models\AlchemyParent;
 use App\Models\BookingTarget;
 use App\Models\Child;
-use App\Models\TutorFirstSession;
 use App\Models\Session;
 use App\Models\User;
 use App\Models\Job;
@@ -23,6 +22,7 @@ use App\Models\WaitingLeadOffer;
 use App\Trait\Functions;
 use App\Trait\Mailable;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use PhpParser\Node\Stmt\TryCatch;
 
 trait WithLeads
@@ -406,6 +406,15 @@ trait WithLeads
                 'tutor_id' => $tutor_id
             ]);
         }
+    }
+
+    /**
+     * get the array of tutor's id in JobIgnore from each job
+     * @param $job_id : Job id
+     * @return array : Tutor id array
+     */
+    public function getIgnoredTutorsForJob($job_id) {
+        return JobIgnore::where('job_id', $job_id)->pluck('tutor_id')->toArray();
     }
 
     /**
