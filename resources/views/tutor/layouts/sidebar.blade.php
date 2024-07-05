@@ -21,6 +21,9 @@
                 <li>
                     <a href="{{ route('tutor.sessions.unconfirmed-sessions') }}" wire:navigate>Unconfirmed sessions</a>
                 </li>
+                <li>
+                    <a href="{{ route('tutor.sessions.scheduled-sessions') }}" wire:navigate>Upcoming sessions</a>
+                </li>
             </ul>
         </div>
     </li>
