@@ -35,11 +35,11 @@
                         </li>
                     </ul>
                     @if ($type == 'instance-f2f')
-                    @json($jobs)
+                    @json(count($jobs))
                     @elseif ($type == 'instance-online')
-                    @json($jobs)
+                    @json(count($jobs))
                     @elseif ($type == 'waiting-list')
-                    @json($jobs)
+                    @json(count($jobs))
                     @endif
                 </div>
             </div>

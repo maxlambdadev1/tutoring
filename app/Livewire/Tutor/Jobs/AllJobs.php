@@ -4,7 +4,9 @@ namespace App\Livewire\Tutor\Jobs;
 
 use App\Trait\Functions;
 use App\Models\Job;
+use App\Models\RejectedJob;
 use App\Models\WaitingLeadOffer;
+use App\Trait\PriceCalculatable;
 use App\Trait\WithLeads;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -12,7 +14,7 @@ use Livewire\Component;
 #[Layout('tutor.layouts.app')]
 class AllJobs extends Component
 {
-    use Functions, WithLeads;
+    use Functions, WithLeads, PriceCalculatable;
 
     public $type = 'instance-f2f';
     public $jobs = [];
@@ -46,6 +48,8 @@ class AllJobs extends Component
     public function getJobs()
     {
         $tutor = $this->tutor;
+        $tutor_lat = $tutor->lat ?? 0;
+        $tutor_lon = $tutor->lon ?? 0;
 
         $job_status_value = $this->getOption('job-status') ?? false;
         if (!$job_status_value) {
@@ -73,10 +77,51 @@ class AllJobs extends Component
                 if (empty($job->date)) continue;
 
                 if ($job->job_status == 3) {
-                    $waiting_leads_offers_count = WaitingLeadOffer::where('status', 0)->where('job_id', $job->id)->get();
+                    $waiting_leads_offers_count = WaitingLeadOffer::where('status', 0)->where('job_id', $job->id)->count();
                     if ($waiting_leads_offers_count > 0) continue;
                 }
 
+                $av_exp = explode(',', $job->date);
+                $formatted_date = [];
+                foreach ($av_exp as $av) {
+                    $av_booking = $this->getAvailabilitiesFromString1($av)[0];
+                    $ses_date = $this->generateSessionDate($av, $job->start_date);
+                    $formatted_date = [
+                        'date' => $av_booking,
+                        'av' => $av,
+                        'full_date' => explode(' ', $av_booking)[0] . ' ' . $ses_date['date'] . ' at ' . $ses_date['time']
+                    ];
+                    $job->formatted_date = $formatted_date;
+                }
+                $job->create_time = \DateTime::createFromFormat('d/m/Y H:i', $job->create_time)->format('Y-m-d H:i');
+
+                $child = $job->child;
+                if (!empty($child)) {
+                    $parent = $child->parent;
+                    if ($parent->parent_state != $tutor->state) continue;
+
+                    $child_lat = $parent->parent_lat ?? 0;
+                    $child_lon = $parent->parent_lon ?? 0;
+                    $distance = $this->calcDistance($child_lat, $child_lon, $tutor_lat, $tutor_lon);
+                    $job->distance = $distance;
+
+                    $job_offer = $job->job_offer;
+                    if (!empty($job_offer)) {
+                        $datetime = new \DateTime('Australia/Sydney');
+                        $job->job_type  = 'hot';
+                        if ($job_offer->expiry == 'permanent') {
+                            if ($job_offer->offer_type == 'fixed') $job->job_offer_price = $this->getCoreTutorPrice($job->session_type_id) + $job_offer->offer_amount;
+                        } elseif ($datetime->getTimestamp() <= $job_offer->expiry) {
+                            if ($job_offer->offer_type == 'fixed')  $job->job_offer_price = $this->getCoreTutorPrice($job->session_type_id) + $job_offer->offer_amount;
+                        }
+                    }
+
+                    $rejected_jobs = RejectedJob::where('tutor_id', $tutor->id)->first();
+                    if (!empty($rejected_jobs)) {
+                        $rejected_exp = explode(',', $rejected_jobs->job_ids);
+                        if (in_array($job->id, $rejected_exp)) continue;
+                    }
+                }
 
 
                 $jobs[] = $job;

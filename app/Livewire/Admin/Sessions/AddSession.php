@@ -68,7 +68,7 @@ class AddSession extends Component
                     $query->where('session_status', 2)->orWhere('session_status', 4);
                 })->get();
 
-                if (!empty($this->prev_sessions)) {
+                if (!$this->prev_sessions->isEmpty()) { 
                     $this->prev_session_id = $this->prev_sessions[0];
                     $session = Session::find($this->prev_session_id);
                     $this->subjects = [$session->session_subject];
