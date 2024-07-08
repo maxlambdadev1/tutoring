@@ -112,4 +112,18 @@ trait PriceCalculatable
             'offer_type' => $offer_type
         ]);
     }
+    /**
+     * get tutor price from session_types table according to session_type_id
+     * @param $session_type_id : 1 or 2
+     */
+    public function getCoreTutorPrice($session_type_id) {
+        return SessionType::find($session_type_id)->tutor_price;
+    }
+    /**
+     * get session price from session_types table according to session_type_id
+     * @param $session_type_id : 1 or 2
+     */
+    public function getCoreSessionPrice($session_type_id) {
+        return SessionType::find($session_type_id)->session_price;
+    }
 }

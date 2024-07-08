@@ -155,8 +155,8 @@ trait Functions
 	}
 
 	/**
-	 * @param "ma7,tp530,Sp6"
-	 * @return ['Monday 7:00AM','Tuesday 5:30PM','Sunday 6:00PM'] 
+	 * @param $str : string "ma7,tp530,Sp6"
+	 * @return array : ['Monday 7:00AM','Tuesday 5:30PM','Sunday 6:00PM'] 
 	 */
 	public function getAvailabilitiesFromString1($str)
 	{
@@ -182,12 +182,12 @@ trait Functions
 	}
 
 	/**
-	 * @param $dateString: 'ma7,tp630',  $date: 'ASAP' or '23/05/2024'
-	 * @return ['date' => '27/05/2023', 'time' => '19:30']
+	 * @param $date_str: 'ma7,tp630',  $start_date: 'ASAP' or '23/05/2024'
+	 * @return array : ['date' => '27/05/2023', 'time' => '19:30']
 	 */
-	public function generateSessionDate($dateString, $start_date)
+	public function generateSessionDate($date_str, $start_date)
 	{
-		$av_date = explode(' ', $this->getAvailabilitiesFromString1($dateString)[0]); //['Monday', ''7:00AM']
+		$av_date = explode(' ', $this->getAvailabilitiesFromString1($date_str)[0]); //['Monday', ''7:00AM']
 		$datetime = new \DateTime('now');
 		if (!empty($start_date)) {
 			$datetime = $datetime->createFromFormat('d/m/Y', $start_date);
@@ -203,7 +203,7 @@ trait Functions
 
 	/**
 	 * @param $date = 23/05/2024, $day = 'Monday'
-	 * @return DateTime - '27/05/2024' - more than 2 days.
+	 * @return \DateTime - '27/05/2024' - more than 2 days.
 	 */
 	public function getNextDateByDay($date, $day)
 	{
@@ -214,7 +214,7 @@ trait Functions
 			$datetime = $datetime->modify("next {$day}");
 		}
 		if (($datetime->getTimestamp() - $curr_date->getTimestamp()) < 172800) {
-			$datetime = $this->get_next_date_by_day($datetime->modify("next {$day}")->format('d/m/Y'), $day);
+			$datetime = $this->getNextDateByDay($datetime->modify("next {$day}")->format('d/m/Y'), $day);
 		}
 		return $datetime;
 	}
@@ -591,5 +591,26 @@ trait Functions
 			'date_created' => date('d/m/Y H:i')
 		]);
 		return $short_url;
+	}
+	/**
+	 * get distance from first position to second position
+	 * @param $latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo : float
+	 * @return $distance : float
+	 */
+	public function calcDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo) {
+		$earthRadius = 6371000;
+
+		$latFrom = deg2rad($latitudeFrom);
+		$lonFrom = deg2rad($longitudeFrom);
+		$latTo = deg2rad($latitudeTo);
+		$lonTo = deg2rad($longitudeTo);
+		
+		$lonDelta = $lonTo - $lonFrom;
+		$a = pow(cos($latTo) * sin($lonDelta), 2) +
+			pow(cos($latFrom) * sin($latTo) - sin($latFrom) * cos($latTo) * cos($lonDelta), 2);
+		$b = sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta);
+		
+		$angle = atan2(sqrt($a), $b);
+		return ($angle * $earthRadius)/1000;
 	}
 }

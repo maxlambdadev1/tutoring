@@ -31,11 +31,11 @@ Route::get('/', function() {
 // require __DIR__.'/auth.php';
 
 
-// ----- ADMIN -----
-Route::domain(env('ADMIN'))->group(base_path('routes/sub/admin.php'));
 
 // ----- TUTOR -----
 Route::domain(env('TUTOR'))->group(base_path('routes/sub/tutor.php'));
+// ----- ADMIN -----
+Route::domain(env('ADMIN'))->group(base_path('routes/sub/admin.php'));
 
 // ----- PARENT ----
 Route::domain(env('PARENT'))->group(base_path('routes/sub/parent.php'));

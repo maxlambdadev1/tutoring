@@ -10,9 +10,6 @@ class RejectedJob extends Model
     use HasFactory;
 
     protected $table = 'alchemy_rejected_jobs';
-
-    protected $fillable = [
-        'tutor_id',
-        'job_ids',
-    ];
+    protected $guarded = [];
+    
 }
