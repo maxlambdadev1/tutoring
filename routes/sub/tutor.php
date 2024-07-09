@@ -23,5 +23,6 @@ Route::group(['middleware' => ['auth', 'role:tutor', 'verified'], 'as' => 'tutor
         Route::get('/previous-sessions', \App\Livewire\Tutor\Sessions\PreviousSession::class)->name('previous-sessions');
         Route::get('/unconfirmed-sessions', \App\Livewire\Tutor\Sessions\UnconfirmedSession::class)->name('unconfirmed-sessions');
         Route::get('/scheduled-sessions', \App\Livewire\Tutor\Sessions\ScheduledSession::class)->name('scheduled-sessions');
+        Route::get('/add-session', \App\Livewire\Tutor\Sessions\AddSession::class)->name('add-session');
     });
 });
