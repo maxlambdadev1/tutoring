@@ -144,7 +144,7 @@ trait Sessionable
     public function addSession($post)
     {
         try {
-            if (empty($post['type'] || empty($post['session_date']) ||  empty($post['session_time'])) || $post['type'] == 'first' && (empty($post['subject']) || empty($post['child_id']) || empty($post['tutor_id'])) || $post['type'] !== 'first' && empty($post['prev_session_id'])) throw new \Exception('Input all data correctly');
+            if ((empty($post['type']) || empty($post['session_date']) ||  empty($post['session_time'])) || $post['type'] == 'first' && (empty($post['subject']) || empty($post['child_id']) || empty($post['tutor_id'])) || $post['type'] !== 'first' && empty($post['prev_session_id'])) throw new \Exception('Input all data correctly');
 
             $is_first = 0;
             $prev_session_id = null;
@@ -171,17 +171,16 @@ trait Sessionable
                 $prev_session = Session::find($prev_session_id);
                 if (empty($prev_session)) throw new \Exception('Previous session not found');
                 $session_subject = $prev_session->session_subject;
-                $session_type_id = $prev_session->type_id;
+                $session_type_id = $prev_session->type_id ?? 1;
                 $child = $prev_session->child;
                 $child_id = $child->id;
                 $parent = $child->parent;
                 $tutor = $prev_session->tutor;
             }
-            $session_price = $this->calcSessionPrice($parent->id, $session_type_id);
-            $tutor_price = $this->calcTutorPrice($tutor->id, $parent->id, $child->id, $session_type_id);
-
+            $session_price = $this->calcSessionPrice($parent->id, $session_type_id); 
+            $tutor_price = $this->calcTutorPrice($tutor->id, $parent->id, $child->id, $session_type_id); 
             /** add logic for stripe user */
-
+            
             $session = Session::create([
                 'session_status' => $session_status,
                 'tutor_id' => $tutor->id,
