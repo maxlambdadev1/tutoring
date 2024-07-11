@@ -46,4 +46,11 @@
         </div>
     </li>
     
+    <li class="side-nav-item">
+        <a href="{{route('tutor.your-students')}}" class="side-nav-link" wire:navigate>
+            <i class="uil  uil-smile-beam"></i>
+            <span> Your students </span>
+        </a>
+    </li>
+
 </ul>
