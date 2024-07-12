@@ -52,5 +52,11 @@
             <span> Your students </span>
         </a>
     </li>
+    <li class="side-nav-item">
+        <a href="{{route('tutor.payments')}}" class="side-nav-link" wire:navigate>
+            <i class="uil  uil-dollar-alt"></i>
+            <span> Payments </span>
+        </a>
+    </li>
 
 </ul>
