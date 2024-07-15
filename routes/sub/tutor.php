@@ -32,4 +32,8 @@ Route::group(['middleware' => ['auth', 'role:tutor', 'verified'], 'as' => 'tutor
     
     Route::get('/your-students', \App\Livewire\Tutor\YourStudents::class)->name('your-students');
     Route::get('/payments', \App\Livewire\Tutor\Payments::class)->name('payments');
+    
+    Route::group(['prefix' => 'your-detail', 'as' => 'your-detail.'], function() {
+        Route::get('/update-detail', \App\Livewire\Tutor\YourDetail\UpdateDetail::class)->name('update-detail');
+    });
 });
