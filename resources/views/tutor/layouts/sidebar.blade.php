@@ -59,4 +59,18 @@
         </a>
     </li>
 
+    <li class="side-nav-item">
+        <a data-bs-toggle="collapse" href="#your-detail" aria-expanded="false" aria-controls="sidebarYourDetail" class="side-nav-link">
+            <i class="uil  uil-user"></i>
+            <span> Your detail </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <div class="collapse" id="your-detail">
+            <ul class="side-nav-second-level">
+                <li>
+                    <a href="{{ route('tutor.your-detail.update-detail') }}" wire:navigate>Update detail</a>
+                </li>
+            </ul>
+        </div>
+    </li>
 </ul>
