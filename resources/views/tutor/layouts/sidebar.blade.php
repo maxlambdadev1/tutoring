@@ -68,7 +68,13 @@
         <div class="collapse" id="your-detail">
             <ul class="side-nav-second-level">
                 <li>
-                    <a href="{{ route('tutor.your-detail.update-detail') }}" wire:navigate>Update detail</a>
+                    <a href="{{ route('tutor.your-detail.update-detail') }}" wire:navigate>Personal Info</a>
+                </li>
+                <li>
+                    <a href="{{ route('tutor.your-detail.update-subjects') }}" wire:navigate>Subjects</a>
+                </li>
+                <li>
+                    <a href="{{ route('tutor.your-detail.update-availabilities') }}" wire:navigate>Availabilities</a>
                 </li>
             </ul>
         </div>
