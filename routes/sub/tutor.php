@@ -35,5 +35,7 @@ Route::group(['middleware' => ['auth', 'role:tutor', 'verified'], 'as' => 'tutor
     
     Route::group(['prefix' => 'your-detail', 'as' => 'your-detail.'], function() {
         Route::get('/update-detail', \App\Livewire\Tutor\YourDetail\UpdateDetail::class)->name('update-detail');
+        Route::get('/update-subjects', \App\Livewire\Tutor\YourDetail\UpdateSubjects::class)->name('update-subjects');
+        Route::get('/update-availabilities', \App\Livewire\Tutor\YourDetail\UpdateAvailabilities::class)->name('update-availabilities');
     });
 });
