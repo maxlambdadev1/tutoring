@@ -76,6 +76,12 @@
                 <li>
                     <a href="{{ route('tutor.your-detail.update-availabilities') }}" wire:navigate>Availabilities</a>
                 </li>
+                <li>
+                    <a href="{{ route('tutor.your-detail.update-payment') }}" wire:navigate>Payment</a>
+                </li>
+                <li>
+                    <a href="{{ route('tutor.your-detail.update-wwcc') }}" wire:navigate>WWCC</a>
+                </li>
             </ul>
         </div>
     </li>
