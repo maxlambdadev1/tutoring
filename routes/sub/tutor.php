@@ -39,5 +39,6 @@ Route::group(['middleware' => ['auth', 'role:tutor', 'verified'], 'as' => 'tutor
         Route::get('/update-availabilities', \App\Livewire\Tutor\YourDetail\UpdateAvailabilities::class)->name('update-availabilities');
         Route::get('/update-payment', \App\Livewire\Tutor\YourDetail\UpdatePayment::class)->name('update-payment');
         Route::get('/update-wwcc', \App\Livewire\Tutor\YourDetail\UpdateWwcc::class)->name('update-wwcc');
+        Route::get('/profile', \App\Livewire\Tutor\YourDetail\Profile::class)->name('profile');
     });
 });

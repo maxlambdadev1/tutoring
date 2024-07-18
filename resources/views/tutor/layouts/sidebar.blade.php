@@ -82,6 +82,9 @@
                 <li>
                     <a href="{{ route('tutor.your-detail.update-wwcc') }}" wire:navigate>WWCC</a>
                 </li>
+                <li>
+                    <a href="{{ route('tutor.your-detail.profile') }}" wire:navigate>Profile</a>
+                </li>
             </ul>
         </div>
     </li>
