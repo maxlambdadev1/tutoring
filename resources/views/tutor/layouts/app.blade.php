@@ -42,6 +42,44 @@
     <script type="text/javascript" src="{{asset('vendor/toastr/toastr.min.js')}}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY&libraries=places" async defer></script>
 
+    <!-- include FilePond library -->
+    <!-- <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script> -->
+    {{--<!-- include FilePond plugins -->
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+    <link
+        href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet"
+    />
+    <link
+        href="https://unpkg.com/filepond-plugin-image-edit/dist/filepond-plugin-image-edit.css"
+        rel="stylesheet"
+    />
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-edit/dist/filepond-plugin-image-edit.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.min.js"></script> --}}
+
+    <link href="{{asset('vendor/filepond/assets/filepond.css')}}" rel="stylesheet" />
+    <link href="{{asset('vendor/filepond/assets/filepond-plugin-image-preview.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('vendor/filepond/assets/filepond-plugin-file-poster.min.css')}}" rel="stylesheet" />
+    <script src="{{asset('vendor/filepond/assets/filepond.js')}}"></script>
+    <script src="{{asset('vendor/filepond/assets/filepond-plugin-file-encode.min.js')}}"></script>
+    <script src="{{asset('vendor/filepond/assets/filepond-plugin-file-validate-type.min.js')}}"></script>
+    <script src="{{asset('vendor/filepond/assets/filepond-plugin-file-validate-size.min.js')}}"></script>
+    <script src="{{asset('vendor/filepond/assets/filepond-plugin-image-exif-orientation.min.js')}}"></script>
+    <script src="{{asset('vendor/filepond/assets/filepond-plugin-image-preview.min.js')}}"></script>
+    <script src="{{asset('vendor/filepond/assets/filepond-plugin-image-crop.min.js')}}"></script>
+    <script src="{{asset('vendor/filepond/assets/filepond-plugin-image-resize.min.js')}}"></script>
+    <script src="{{asset('vendor/filepond/assets/filepond-plugin-image-transform.min.js')}}"></script>
+    <script src="{{asset('vendor/filepond/assets/filepond-plugin-file-poster.min.js')}}"></script>
+    <script src="{{asset('vendor/filepond/assets/filepond-plugin-image-editor.min.js')}}"></script>
+    <!-- include FilePond jQuery adapter -->
+    <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+    <link href="{{asset('vendor/filepond/assets/pintura.css')}}" rel="stylesheet" />
 </head>
 
 <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
@@ -232,6 +270,7 @@
     @yield('script')
     @livewireScripts
     <script src="{{asset('template/js/app.min.js')}}"></script>
-    <!-- <script src="{{asset('build/js/app2.js')}}" data-navigate-once></script>
-    </body>
+    <!-- <script src="{{asset('build/js/app2.js')}}" data-navigate-once></script> -->
+</body>
+
 </html>

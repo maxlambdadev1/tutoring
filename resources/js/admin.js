@@ -34,6 +34,10 @@ $(document).ready(function () {
     $(document).on('showToastrMessage', event => {
         let data = event.detail[0];
         toastr[data.status](data.message, data.title ?? '');
+        if (data.flag) setTimeout(() => {
+            location.reload();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 3000);
     })
 
 });

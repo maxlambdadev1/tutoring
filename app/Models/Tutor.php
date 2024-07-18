@@ -22,7 +22,7 @@ class Tutor extends Model
 
     public function getPhoto()
     {
-        return $this->photo ? $this->photo : 'images/no_avatar.png';
+        return $this->photo ? 'storage/' . $this->photo : 'images/no_avatar.png';
     }
     
     public function history() {
