@@ -41,4 +41,7 @@ Route::group(['middleware' => ['auth', 'role:tutor', 'verified'], 'as' => 'tutor
         Route::get('/update-wwcc', \App\Livewire\Tutor\YourDetail\UpdateWwcc::class)->name('update-wwcc');
         Route::get('/profile', \App\Livewire\Tutor\YourDetail\Profile::class)->name('profile');
     });
+    
+    Route::get('/refer-friends', \App\Livewire\Tutor\ReferFriends::class)->name('refer-friends');
+    
 });

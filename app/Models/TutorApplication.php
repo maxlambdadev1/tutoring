@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class TutorApplication extends Model
 {
@@ -27,4 +28,7 @@ class TutorApplication extends Model
         return $this->hasOne(TutorApplicationStatus::class, 'application_id');
     }
 
+    public function getDateSubmittedAmpmAttribute() {
+        return Carbon::createFromFormat('d/m/Y H:i', $this->date_submitted)->format('d/m/Y h:i A');
+    }
 }
