@@ -10,6 +10,7 @@ use App\Models\TutorWwccValidate;
 use App\Models\Child;
 use App\Models\TutorApplication;
 use App\Models\TutorApplicationQueue;
+use App\Models\TutorSpecialReferralEmail;
 use App\Trait\Functions;
 
 trait WithTutors {
@@ -153,6 +154,30 @@ trait WithTutors {
 
         } catch (\Exception $e) {
             DB::rollBack();
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * if the tutor created in 30 dyas and exist the tutor_special_referral_email, result is true, else false.
+     * @param mixed $tutor_id
+     * @throws \Exception
+     * @return bool
+     */
+    public function getReferralSpecial($tutor_id) {
+        try {
+            $tutor = Tutor::find($tutor_id);
+            $today = new \DateTime('now');
+            $created_at = \DateTime::createFromFormat('d/m/Y', trim($tutor->tutor_creat));
+            if ($today >= $created_at) {
+                $interval = $today->diff($created_at);
+                if ($interval->days <= 30) {
+                    $tutor_special = TutorSpecialReferralEmail::where('tutor_id', $tutor_id)->first();
+                    if (!empty($tutor_special)) return true;
+                }
+            }
+            return false;
+        } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }

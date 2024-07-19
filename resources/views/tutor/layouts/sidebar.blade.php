@@ -88,4 +88,36 @@
             </ul>
         </div>
     </li>
+    <li class="side-nav-item">
+        <a href="{{route('tutor.refer-friends')}}" class="side-nav-link" wire:navigate>
+            <i class="uil  uil-users-alt"></i>
+            <span> Refer friends </span>
+        </a>
+    </li>
+    @if (!empty(auth()->user()->tutor->online_url))
+    <li class="side-nav-item">
+        <a href="{{auth()->user()->tutor->online_url}}" target="_blank" class="side-nav-link" >
+            <i class="uil  uil-desktop"></i>
+            <span> Your online classroom </span>
+        </a>
+    </li>
+    @endif
+
+    @php 
+        $shared_secret = 'happykahala!0987654321@1234567890#';
+        $secret = sha1(auth()->user()->id . $shared_secret);
+        $private_url = base64_encode(serialize([
+            'user_session' => auth()->user()->id,
+            'login_name' => auth()->user()->tutor->tutor_email,
+            'hash' => $secret
+        ]));
+        $private_url = 'https://tutorhub.alchemytuition.com.au?url=' . $private_url;
+    @endphp
+    <li class="side-nav-item">
+        <a href="{{$private_url}}" class="side-nav-link" target="_blank">
+            <i class="uil  uil-github-alt"></i>
+            <span> Tutor hub </span>
+        </a>
+    </li>
+
 </ul>
