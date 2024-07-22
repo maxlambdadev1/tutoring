@@ -63,6 +63,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(Tutor::class);
     }
+    
+    public function recruiter()
+    {
+        return $this->hasOne(Recruiter::class);
+    }
 
     public function storeUser($body)
     {
