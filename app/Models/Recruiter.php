@@ -21,4 +21,9 @@ class Recruiter extends Model
     public function history() {
         return $this->hasMany(RecruiterHistory::class);
     }
+    
+    public function getPhoto()
+    {
+        return  'images/no_avatar.png';
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\View\Components\Admin\Layouts\AppLayout as AdminAppLayout;
 use App\View\Components\Tutor\Layouts\AppLayout as TutorAppLayout;
+use App\View\Components\Recruiter\Layouts\AppLayout as RecruiterAppLayout;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         //
         Blade::component('admin-app-layout', AdminAppLayout::class);
         Blade::component('tutor-app-layout', TutorAppLayout::class);
+        Blade::component('recruiter-app-layout', RecruiterAppLayout::class);
 
         Paginator::useBootstrapFive();
 
