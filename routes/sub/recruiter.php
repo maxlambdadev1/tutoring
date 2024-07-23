@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 Route::middleware('guest')->group(function () {
-    Volt::route('register', 'recruiter.auth.register')->name('recruiter.register');
+    // Volt::route('register', 'recruiter.auth.register')->name('recruiter.register');
+    Route::get('/register', \App\Livewire\Recruiter\Auth\Register::class)->name('register');
     Volt::route('forgot-password', 'recruiter.auth.forgot-password')->name('recruiter.password.request');
     Volt::route('reset-password/{token}', 'recruiter.auth.reset-password')->name('password.reset');        
     Volt::route('login', 'recruiter.auth.login')->name('recruiter.login');
