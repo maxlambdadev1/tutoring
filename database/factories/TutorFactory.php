@@ -30,7 +30,7 @@ class TutorFactory extends Factory
             'state' => $this->faker->randomElement(['NSW', 'VIC', 'QLD']),
             'tutor_name' => $tutor_name,
             'preferred_first_name' => $firstName,
-            'birthday' => $this->faker->date(),
+            'birthday' => $this->faker->date('d/m/Y'),
             'gender' => $this->faker->randomElement(['Male', 'Female']),
             'tutor_phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->streetAddress(),
