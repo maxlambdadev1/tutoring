@@ -40,7 +40,7 @@ class TutorFactory extends Factory
             'lon' => $this->faker->longitude(),
             'abn' => Str::random(10),
             'wwcc_application_number' => Str::random(10),
-            // 'availabilities' => '',
+            'availabilities' => 'ma7,tp530,Sp6',
             'referral_key' => Str::random(6),
         ];
     }
