@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             AvailabilitySeeder::class,
             SessionTypeSeeder::class,
             SubjectSeeder::class,
+            AnnouncementSeeder::class,
         ]);
 
         \App\Models\Admin::factory(11)->create();

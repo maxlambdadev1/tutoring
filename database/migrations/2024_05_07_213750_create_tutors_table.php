@@ -67,6 +67,7 @@ return new class extends Migration
 
             $table->text('availabilities')->nullable();
             $table->string('tutor_creat')->nullable();
+            $table->boolean('tutor_status')->default(1);
             $table->text('notes')->nullable();
             $table->string('notes_last_updated')->nullable();
             $table->string('last_updated')->nullable();
