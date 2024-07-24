@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('alchemy_announcements', function (Blueprint $table) {
             $table->id('an_id');
-            $table->text('an_text');
-            $table->integer('an_posted_by')->comment('user id from alchemy_user table');
-            $table->string('an_date');
-            $table->string('an_time');
+            $table->text('an_text')->nullable();
+            $table->integer('an_posted_by')->comment('user id from alchemy_user table')->nullable();
+            $table->string('an_date')->nullable();
+            $table->string('an_time')->nullable();
             $table->smallInteger('who')->default(1);
             $table->tinyInteger('flag')->default(0);
             $table->timestamps();
