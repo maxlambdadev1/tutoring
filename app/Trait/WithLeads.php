@@ -63,7 +63,7 @@ trait WithLeads
     public function searchTutors($str, $length)
     {
         $tutors = [];
-        $query = Tutor::where('tutor_name', 'like', '%' . $str . '%')->orwhere('tutor_email', 'like', '%' . $str . '%')->orderBy('tutor_name');
+        $query = Tutor::where('tutor_name', 'like', '%' . $str . '%')->orwhere('tutor_email', 'like', '%' . $str . '%')->orwhere('tutor_phone', 'like', '%' . $str . '%')->orderBy('tutor_name');
         if (empty($length)) {
             $tutors = $query->get();
         } else {
@@ -95,7 +95,7 @@ trait WithLeads
     public function searchParents($str, $length = '')
     {
         $parents = [];
-        $query = AlchemyParent::where('parent_first_name', 'like', '%' . $str . '%')->where('parent_last_name', 'like', '%' . $str . '%')->where('parent_email', 'like', '%' . $str . '%')->orderBy('parent_first_name');
+        $query = AlchemyParent::where('parent_first_name', 'like', '%' . $str . '%')->orWhere('parent_last_name', 'like', '%' . $str . '%')->orWhere('parent_email', 'like', '%' . $str . '%')->orwhere('parent_phone', 'like', '%' . $str . '%')->orderBy('parent_first_name');
         if (empty($length)) {
             $parents = $query->get();
         } else {

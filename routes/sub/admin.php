@@ -137,5 +137,7 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/feedback', \App\Livewire\Admin\Community\Feedback::class)->name('feedback');
             Route::get('/all-feed', \App\Livewire\Admin\Community\AllFeed::class)->name('all-feed');
         });
+        
+        Route::get('/search', \App\Livewire\Admin\SearchDetail::class)->name('search');
     });
 });

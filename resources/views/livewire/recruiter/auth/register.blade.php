@@ -276,7 +276,6 @@
             },
             async toStep2() {
                 try {
-                    let isExistingUser = await @this.call('checkUser');
 
                     if (!this.first_name) throw new Error('Please enter your first name');
                     if (!this.last_name) throw new Error('Please enter your last name');
@@ -288,6 +287,7 @@
                     if (!this.state) throw new Error('Please enter your state');
                     if (!this.password || this.password != this.password_confirmation) throw new Error("Passwords don't match");
 
+                    let isExistingUser = await @this.call('checkUser');
                     if (!isExistingUser) {
                         this.goStep(2);
                         this.max_step = 2;

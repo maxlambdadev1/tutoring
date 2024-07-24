@@ -16,7 +16,7 @@ class Admin extends Model
 
     public function getPhoto()
     {
-        return $this->photo ? $this->photo : 'images/no_avatar.jpg';
+        return $this->photo ? 'storage/' . $this->photo : 'images/no_avatar.jpg';
     }
     
     public function user()
