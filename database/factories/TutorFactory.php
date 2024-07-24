@@ -41,6 +41,7 @@ class TutorFactory extends Factory
             'abn' => Str::random(10),
             'wwcc_application_number' => Str::random(10),
             'availabilities' => 'ma7,tp530,Sp6',
+            'tutor_creat' => $this->faker->date('d/m/Y'),
             'referral_key' => Str::random(6),
         ];
     }
