@@ -28,7 +28,7 @@ class LeadSetting extends Component
     {
         $hot_lead = [
             'offer' => 5,
-            'age' => '',
+            'age' => 0,
             'lead_type' => ''
         ];
 
