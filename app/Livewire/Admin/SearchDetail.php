@@ -16,7 +16,7 @@ class SearchDetail extends Component
     {
         $focus = Request::get('focus');
         $id = Request::get('id');        
-        $this->focus = $focus ?? 'tutor';
+        $this->focus = $focus ?? '';
         $this->id = $id ?? '';
     }
 
