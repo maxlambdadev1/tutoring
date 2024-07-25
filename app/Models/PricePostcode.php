@@ -10,8 +10,7 @@ class PricePostcode extends Model
     use HasFactory;
 
     protected $table = 'alchemy_price_postcode';
-
-    protected $fillable = [
-        'price',
-    ];
+    protected $guarded = [];
+    protected  $primaryKey = 'postcode';
+    
 }

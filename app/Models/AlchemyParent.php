@@ -31,6 +31,10 @@ class AlchemyParent extends Model
         return $this->hasOne(PriceParent::class, 'parent_id');
     }
     
+    public function price_postcode() {
+        return $this->belongsTo(PricePostcode::class, 'parent_postcode');
+    }
+    
     public function price_tutors() {
         return $this->hasMany(PriceTutor::class, 'parent_id');
     }

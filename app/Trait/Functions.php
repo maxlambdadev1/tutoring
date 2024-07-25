@@ -81,8 +81,8 @@ trait Functions
 		curl_setopt($ch, CURLOPT_URL, "https://maps.googleapis.com/maps/api/geocode/json?address={$address}&key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$geocodeObject = json_decode(curl_exec($ch));
-		file_put_contents('coord.txt', print_r($geocodeObject, true));
-		file_put_contents('coord_address.txt', print_r($address, true));
+		// file_put_contents('coord.txt', print_r($geocodeObject, true));
+		// file_put_contents('coord_address.txt', print_r($address, true));
 		curl_close($ch);
 
 		// get latitude and longitude from geocode object
