@@ -45,3 +45,7 @@ Route::group(['middleware' => ['auth', 'role:tutor', 'verified'], 'as' => 'tutor
     Route::get('/refer-friends', \App\Livewire\Tutor\ReferFriends::class)->name('refer-friends');
     
 });
+
+Route::group(['as' => 'pages'], function() {
+    Route::get('/apply', \App\Livewire\Tutor\Pages\ApplyTutorApplication::class)->name('apply');
+});

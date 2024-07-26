@@ -3,17 +3,20 @@
 }
 
 .bootstrap-timepicker-widget.timepicker-orient-top {
-    bottom: auto!important;
-    top: calc(1.5em + 0.9rem + 2px)!important;
+    bottom: auto !important;
+    top: calc(1.5em + 0.9rem + 2px) !important;
 }
+
 .dripicons-plus {
     cursor: pointer;
 }
+
 .custom-flex {
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .avail_hours {
     padding: 5px 3px;
     background-color: var(--ct-input-border-color);
@@ -22,7 +25,66 @@
     margin: auto;
     margin-bottom: 5px;
 }
+
 .avail_hours.active {
     background-color: var(--ct-primary);
     color: #fff;
+}
+
+body.custom-body {
+    color: #333;
+    font-family: 'Nunito', sans-serif;
+}
+
+body.custom-body p {
+    font-size: 1rem;
+}
+
+.btn-light {
+    color: #333 !important;
+    background-color: #eee !important;
+    min-width: 90px !important;
+    font-size: 0.9em !important;
+    border: none !important;
+}
+
+.btn-light:hover {
+    background-color: #ccc !important;
+}
+
+.custom_label {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: .5rem;
+}
+label.error {
+    display: block;
+    font-size: 12px;
+    color: #900;
+}
+.form-control.error {
+    border-color: #900;
+}
+.application_subjects li {
+    display: inline-block;
+    margin-right: 20px !important;
+    margin-bottom: 5px;
+}
+.custom_style {
+    box-sizing: border-box;
+    padding: 15px;
+    background: #fef8ee;
+    border: 1px solid #f0b849;
+    display: block;
+    width: 100%;
+    word-break: break-word;
+}
+.bg-custom-warning {
+    background-color: #ffa200;
+}
+.bg-custom-warning:hover {
+    background-color: #ffa200;
+}
+.text-custom-warning {
+    background-color: #ffa200;
 }
