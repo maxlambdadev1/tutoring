@@ -2,7 +2,7 @@
     @section('title')
     Apply to work with us // Alchemy Tuition
     @endsection
-    @section('meta')
+    @section('description')
     Think you'd make a great tutor? We would love to get to know you! Our application process is quick and easy. Start your application now!
     @endsection
 

@@ -36,7 +36,10 @@ body.custom-body {
     font-family: 'Nunito', sans-serif;
 }
 
-body.custom-body p {
+body.custom-body h1 {
+    font-size: 2.5rem;
+}
+body.custom-body p, body.custom-body h6 {
     font-size: 1rem;
 }
 
@@ -87,4 +90,44 @@ label.error {
 }
 .text-custom-warning {
     background-color: #ffa200;
+}
+
+.hero_reference {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+}
+.hero_text {
+    color: #fff;
+}
+.hero_text h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+}
+.hero_image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000;
+    background-image: url(images/success_hero.jpg);
+    background-position: center center!important;
+    background-size: cover!important;
+}
+.hero_desc {
+    padding: 50px 50px;
+}
+.hero_desc h1 {
+    font-weight: 700;
+}
+.hero_footer {
+    background-color: #000;
+    height: 145px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hero_footer img {
+    width: 100px;
+    image-rendering: -webkit-optimize-contrast;
 }
