@@ -52,6 +52,10 @@ class Tutor extends Model
         return $this->hasOne(TutorFirstSession::class);
     }
     
+    public function metro_postcode() {
+        return $this->belongsTo(MetroPostcode::class, 'postcode', 'postcode');
+    }
+    
     public function getFirstNameAttribute()
     {
         return explode(' ', $this->tutor_name)[0];

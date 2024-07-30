@@ -30,21 +30,15 @@
                         <div class="col-md-6 mb-3">
                             <div class="fw-bold mb-1">Your current status</div>
                             <div class="form-check mb-1">
-                                <input type="radio" id="current_status1" name="current_status" class="form-check-input" value="1" 
-                                    x-on:change="current_status = 1"
-                                    wire:model="current_status">
+                                <input type="radio" id="current_status1" name="current_status" class="form-check-input" value="1" x-on:change="current_status = 1" wire:model="current_status">
                                 <label class="form-check-label" for="current_status1">Currently studying at University (or planning to attend in the next 12 months)</label>
                             </div>
                             <div class="form-check mb-1">
-                                <input type="radio" id="current_status2" name="current_status" class="form-check-input" value="2" 
-                                    x-on:change="current_status = 2"
-                                    wire:model="current_status">
+                                <input type="radio" id="current_status2" name="current_status" class="form-check-input" value="2" x-on:change="current_status = 2" wire:model="current_status">
                                 <label class="form-check-label" for="current_status2">Graduated from University in the last 3 years</label>
                             </div>
                             <div class="form-check mb-1">
-                                <input type="radio" id="current_status3" name="current_status" class="form-check-input" value="3" 
-                                    x-on:change="current_status = 3"
-                                    wire:model="current_status">
+                                <input type="radio" id="current_status3" name="current_status" class="form-check-input" value="3" x-on:change="current_status = 3" wire:model="current_status">
                                 <label class="form-check-label" for="current_status3">Other</label>
                             </div>
                         </div>
@@ -72,7 +66,7 @@
                                 <input type="text" class="form-control " name="currentstudy2" id="currentstudy2" wire:model="currentstudy">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" x-show="current_status != 3">
                             <div class="mb-3">
                                 <label for="career" class="form-label">What is your goal career:</label>
                                 <input type="text" class="form-control " name="career" id="career" wire:model="career">
@@ -177,29 +171,29 @@
         </div>
     </div>
 </div>
-    <script type="module">
-        import {
-            // // Image editor
-            openEditor,
-            processImage,
-            createDefaultImageReader,
-            createDefaultImageWriter,
-            createDefaultImageOrienter,
+<script type="module">
+    import {
+        // // Image editor
+        openEditor,
+        processImage,
+        createDefaultImageReader,
+        createDefaultImageWriter,
+        createDefaultImageOrienter,
 
-            // // Only needed if loading legacy image editor data
-            legacyDataToImageState,
+        // // Only needed if loading legacy image editor data
+        legacyDataToImageState,
 
-            // // Import the editor default configuration
-            getEditorDefaults,
+        // // Import the editor default configuration
+        getEditorDefaults,
 
-        } from "{{asset('vendor/filepond/assets/pintura.js')}}";
+    } from "{{asset('vendor/filepond/assets/pintura.js')}}";
     $(function() {
         let profile_server_id = '';
         // First register any plugins
         $.fn.filepond.registerPlugin(
             FilePondPluginFileValidateType,
             FilePondPluginImageEditor,
-            FilePondPluginFilePoster            
+            FilePondPluginFilePoster
         );
 
         const filepondOptions = {
@@ -253,8 +247,8 @@
             imageResizeTargetWidth: 1024,
             imageResizeMode: 'cover',
             imageResizeUpscale: false,
-            allowFilePoster : true,
-            allowImageEditor : true,
+            allowFilePoster: true,
+            allowImageEditor: true,
             filePosterMaxHeight: 256,
 
             // FilePond Image Editor plugin properties
@@ -300,5 +294,4 @@
             @this.call('updateProfile', profile_server_id);
         })
     })
-    
 </script>

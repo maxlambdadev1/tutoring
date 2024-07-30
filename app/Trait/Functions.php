@@ -12,11 +12,14 @@ use App\Models\FailedPaymentHistory;
 use App\Models\HolidayTutorHistory;
 use App\Models\HolidayStudentHistory;
 use App\Models\HolidayReplacementHistory;
+use App\Models\MetroPostcode;
 use App\Models\TutorHistory;
 use App\Models\RecruiterHistory;
 use App\Models\ParentHistory;
+use App\Models\Tutor;
 use App\Models\TutorApplicationHistory;
 use App\Models\TutorApplicationReferenceHistory;
+use App\Models\TutorSpecialReferralEmail;
 use Carbon\Carbon;
 
 trait Functions
@@ -73,7 +76,7 @@ trait Functions
 
 	/**
 	 * @param $address : google address string
-	 * @return ['lat' => 123.5212, 'lon' => 89.02, 'address' => string, 'suburb' => suburb, 'state' => state]
+	 * @return array: ['lat' => 123.5212, 'lon' => 89.02, 'address' => string, 'suburb' => suburb, 'state' => state]
 	 */
 	public function getCoord($address)
 	{
@@ -612,5 +615,20 @@ trait Functions
 		
 		$angle = atan2(sqrt($a), $b);
 		return ($angle * $earthRadius)/1000;
+	}
+
+	/**
+	 * check where the postcode exist or not.
+	 * @param mixed $postcode
+	 * @return bool
+	 */
+	public function checkMetro($postcode) {
+		$metro_postcode = MetroPostcode::where('postcode', $postcode)->first();
+		if (!empty($metro_postcode)) return true;
+		else return false;
+	}
+
+	public function referralXeroBill($tutor, $referred_tutor_name, $special=0) {
+
 	}
 }

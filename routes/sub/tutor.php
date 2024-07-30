@@ -1,8 +1,13 @@
 <?php
 
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Tutor\TutorController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+
+
+Route::get('/register', \App\Livewire\Tutor\Auth\Register::class)->name('register');
+Route::get('/check-user', [TutorController::class, 'checkUser'])->name('check-user');
 
 Route::middleware('guest')->group(function () {
     // Volt::route('register', 'tutor.auth.register')->name('tutor.register');

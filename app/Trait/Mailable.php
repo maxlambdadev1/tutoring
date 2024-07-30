@@ -28,7 +28,7 @@ trait Mailable
         // Mail::to($sendTo)->send(new \App\Mail\MainMail($body, $subject));
     }
     /**
-     * send template sms when $params is not null, else send $title as sms content
+     * send template sms when template is not null, else send $title as sms content
      * @param $smsParams=['name' => , 'phone' => ], $title : string, $params = ['a' => , 'b..' => ..], $type : true or false
      */
     public function sendSms($smsParams, $title, $params = [], $type = false)

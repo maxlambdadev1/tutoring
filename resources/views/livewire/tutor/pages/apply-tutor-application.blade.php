@@ -609,7 +609,7 @@
                         <input type="button" id="prev_page_7" class="btn btn-light py-2" value="Previous" x-on:click="goStep(7)">
                         <input type="button" id="submit" class="btn bg-custom-warning py-2" value="Submit" x-on:click="submit" style="font-size:0.9rem;"
                         x-show="loading == false">
-                        <div class="me-3 spinner-border text-muted" x-show="loading == true"></div>
+                        <div class="ms-3 spinner-border text-muted" x-show="loading == true"></div>
                     </div>
                     <div x-show="submit_result == true" class="custom_style final_error d-none mt-3" style="background-color: #feeef6;">
                         <p class="m-0">Something went wrong! Please try it in a bit later again!</p>
