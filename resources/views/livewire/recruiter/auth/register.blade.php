@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid" x-show="step > 0">
         <div class="row mb-5 bg-white">
             <div class="col-md-3 text-center py-2 py-md-3" :class="{'bg-info' : step == 1, 'cursor-pointer' : 1 <= max_step}" x-on:click="changeStep(1)">
                 <div class="fs-4 fw-bold">Step 1</div>
@@ -266,13 +266,13 @@
             },
             goStep(step) {
                 this.step = step;
+                if (step > this.max_step) this.max_step = step;
             },
             changeStep(step) {
                 if (step <= this.max_step) this.goStep(step);
             },
             toStep1() {
                 this.goStep(1);
-                this.max_step = 1;
             },
             async toStep2() {
                 try {
@@ -290,7 +290,6 @@
                     let isExistingUser = await @this.call('checkUser');
                     if (!isExistingUser) {
                         this.goStep(2);
-                        this.max_step = 2;
                     } else throw new Error('The user already existed.');
 
                 } catch (error) {
@@ -305,7 +304,6 @@
                     if (!this.bank_account_number) throw new Error('Please enter valid bank account number');
 
                     this.goStep(3);
-                    this.max_step = 3;
                 } catch (error) {
                     toastr.error(error.message);
                 }
@@ -319,7 +317,6 @@
                     this.signature_img = canvas.toDataURL("image/png");
 
                     this.goStep(4);
-                    this.max_step = 4;
                 } catch (error) {
                     toastr.error(error.message);
                 }

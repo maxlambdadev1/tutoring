@@ -131,3 +131,13 @@ label.error {
     width: 100px;
     image-rendering: -webkit-optimize-contrast;
 }
+
+.subject-item label {
+    background: rgb(169, 169, 169);
+}
+.subject-item input:checked + label {
+    background: rgb(63, 88, 114);
+}
+.avail_hours input:checked + label {
+    background-color:#FE9C0E !important ;
+}

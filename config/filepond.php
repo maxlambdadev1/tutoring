@@ -37,7 +37,8 @@ return [
     |
     */
     'middleware' => [
-        'web', 'auth',
+        // 'web', 'auth',
+        'web',
     ],
 
     /*
