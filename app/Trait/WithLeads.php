@@ -10,6 +10,7 @@ use App\Models\BookingTarget;
 use App\Models\Child;
 use App\Models\Session;
 use App\Models\User;
+use App\Models\RejectedJob;
 use App\Models\Job;
 use App\Models\JobReschedule;
 use App\Models\JobIgnore;
@@ -21,13 +22,14 @@ use App\Models\ThirdpartyOrganisation;
 use App\Models\WaitingLeadOffer;
 use App\Trait\Functions;
 use App\Trait\Mailable;
+use App\Trait\PriceCalculatable;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use PhpParser\Node\Stmt\TryCatch;
 
 trait WithLeads
 {
-    use Functions, Mailable;
+    use Functions, Mailable, PriceCalculatable;
 
     public const LEAD_SOURCE = [
         'Phone',
@@ -87,7 +89,7 @@ trait WithLeads
         }
         return $children;
     }
-    
+
     /**
      * @param $str, $length
      * @return array 
@@ -135,19 +137,19 @@ trait WithLeads
      */
     public function searchStudentsFromSession($str, $length = '')
     {
-        $query = Session::query()            
+        $query = Session::query()
             ->WhereHas('child', function ($query) use ($str) {
                 $query->where('child_name', 'like', '%' . $str . '%');
-            })         
+            })
             ->groupBy('child_id', 'parent_id', 'tutor_id')
             ->orderBy('child_id');
 
         if (empty($length)) {
-            $parents = $query->get();
+            $sessions = $query->get();
         } else {
-            $parents = $query->limit($length)->get();
+            $sessions = $query->limit($length)->get();
         }
-        return $parents;
+        return $sessions;
     }
 
     public function CreateJobFromData($inputData)
@@ -413,7 +415,8 @@ trait WithLeads
      * @param $job_id : Job id
      * @return array : Tutor id array
      */
-    public function getIgnoredTutorsForJob($job_id) {
+    public function getIgnoredTutorsForJob($job_id)
+    {
         return JobIgnore::where('job_id', $job_id)->pluck('tutor_id')->toArray();
     }
 
@@ -774,5 +777,107 @@ trait WithLeads
         } else {
             PriceParentDiscount::where('parent_id', $parent_id)->delete();
         }
+    }
+
+    /**
+     * get all jobs according to the tutor.
+     * @param mixed $tutor_id
+     * @return array: Job
+     */
+    public function getAllJobs($tutor_id)
+    {
+        $tutor = Tutor::find($tutor_id);
+        $under_18 = $tutor->under18 ?? false;
+        $experienced_limit = $this->getOption('experience-limit') ?? 50;
+
+        $tutor_lat = $tutor->lat ?? 0;
+        $tutor_lon = $tutor->lon ?? 0;
+
+        $job_status_value = $this->getOption('job-status') ?? false;
+        if (!$job_status_value) {
+            return [];
+        }
+
+        $query = Job::where('hidden', 0);
+        if (!$tutor->online_acceptable_status) $query = $query->whereNot('session_type_id', 2);
+        if ($under_18) $query = $query->whereNot('session_type_id', 1);
+
+        $temp_jobs = $query->whereIn('job_status', [0,3])->get();
+        $jobs = [];
+        if (!empty($temp_jobs)) {
+            foreach ($temp_jobs as $job) {
+                $ignored_tutors = $this->getIgnoredTutorsForJob($job->id);
+                if (!empty($ignored_tutors) && in_array($tutor->id, $ignored_tutors)) continue;
+
+                if (!!$job->vaccinated && $job->session_type_id == 1 && !$tutor->vaccinated) continue;
+
+                if (empty($job->date)) continue;
+
+                if ($job->job_status == 3) {
+                    $waiting_leads_offers_count = WaitingLeadOffer::where('status', 0)->where('job_id', $job->id)->count();
+                    if ($waiting_leads_offers_count > 0) continue;
+                }
+
+                $job->create_time = \DateTime::createFromFormat('d/m/Y H:i', $job->create_time)->format('Y-m-d H:i');
+
+                $child = $job->child;
+                if (!empty($child)) {
+                    $parent = $child->parent;
+                    if ($parent->parent_state != $tutor->state) continue;
+
+                    $child_lat = $parent->parent_lat ?? 0;
+                    $child_lon = $parent->parent_lon ?? 0;
+                    $distance = $this->calcDistance($child_lat, $child_lon, $tutor_lat, $tutor_lon);
+                    $job->distance = number_format($distance, 2, '.', '');
+
+                    $job_offer = $job->job_offer;
+                    if (!empty($job_offer)) {
+                        $datetime = new \DateTime('Australia/Sydney');
+                        $job->job_type  = 'hot';
+                        if ($job_offer->expiry == 'permanent') {
+                            if ($job_offer->offer_type == 'fixed') $job->job_offer_price = $this->getCoreTutorPrice($job->session_type_id) + $job_offer->offer_amount;
+                        } elseif ($datetime->getTimestamp() <= $job_offer->expiry) {
+                            if ($job_offer->offer_type == 'fixed')  $job->job_offer_price = $this->getCoreTutorPrice($job->session_type_id) + $job_offer->offer_amount;
+                        }
+                    }
+
+                    $rejected_jobs = RejectedJob::where('tutor_id', $tutor->id)->first();
+                    if (!empty($rejected_jobs)) {
+                        $rejected_exp = explode(',', $rejected_jobs->job_ids);
+                        if (in_array($job->id, $rejected_exp)) continue;
+                    }
+                    
+                    $job->coords = [
+                        'lat' => $job->parent->parent_lat ?? 0,
+                        'lon' => $job->parent->parent_lon ?? 0
+                    ];
+
+                    $can_accept_job = true;
+                    $can_accept_job_reason = '';
+                    if (!$tutor->have_wwcc) {
+                        $can_accept_job == false;
+                        $can_accept_job_reason = "You do not have a valid Working With Children Check or application number on file, and can therefore not accept jobs.";
+                    }
+                    if (!$tutor->accept_job_status) {
+                        $can_accept_job == false;
+                        $can_accept_job_reason = "Please get in touch via live chat if you wish to work with a student listed here.";
+                    }
+                    if ($job->experienced_tutor && !$tutor->experienced) {
+                        $can_accept_job == false;
+                        $can_accept_job_reason = "You need to complete ".$experienced_limit." lessons to view the details of this job opportunity.";
+                    }
+                    if (!empty($job->gender) && $job->gender != $tutor->gender) {
+                        $can_accept_job == false;
+                        $can_accept_job_reason = $job->gender . " tutor only.";
+                    }
+
+                    $job->can_accept_job = $can_accept_job;
+                    $job->can_accept_job_reason = $can_accept_job_reason;
+                }
+                $jobs[] = $job;
+            }
+        }
+
+        return $jobs;
     }
 }

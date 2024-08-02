@@ -16,6 +16,9 @@
         <div class="collapse" id="sidebarJobs">
             <ul class="side-nav-second-level">
                 <li>
+                    <a href="{{ route('tutor.jobs.jobs-map') }}" wire:navigate>Jobs map</a>
+                </li>
+                <li>
                     <a href="{{ route('tutor.jobs.all-jobs') }}" wire:navigate>All jobs</a>
                 </li>
             </ul>

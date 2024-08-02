@@ -77,6 +77,15 @@ class Tutor extends Model
         return true;
     }
     
+    public function getUnder18Attribute()
+    {
+        $today = new \DateTime('now');
+        $birth = \DateTime::createFromFormat('d/m/Y', trim($this->birthday));
+        $interval = $today->diff($birth);
+        if ($interval->y < 18) return true;
+        return false;
+    }
+    
     public function getMatureAttribute()
     {
         $today = new \DateTime('now');
