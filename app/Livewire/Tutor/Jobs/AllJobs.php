@@ -106,8 +106,6 @@ class AllJobs extends Component
                         if (in_array($job->id, $rejected_exp)) continue;
                     }
                 }
-
-
                 $jobs[] = $job;
             }
         }

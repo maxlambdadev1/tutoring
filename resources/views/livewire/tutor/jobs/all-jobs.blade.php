@@ -16,6 +16,13 @@
                             Please ensure you read the details of each opportunity carefully and only accept students you are confident you can commit to long term; the long term relationship is where the magic happens!</p>
                         <p class="mb-0">For all <b>Instant Accept</b> jobs the parent has provided their available times and days, and if you can match these then you can accept the student instantly.
                             For <b>Waiting List</b> opportunities, you provide the days and times that you can do and we offer them to the parent, allowing 48 hours to respond.</p>
+                        @if (!$tutor->have_wwcc)
+                        <p class="my-1 text-warning">You do not have a valid Working With Children Check or application number on file, and can therefore not accept jobs. Update your WWCC details <a href="{{route('tutor.your-detail.update-detail')}}" wire:navigate>here</a>
+                        </p>
+                        @endif
+                        @if (!$tutor->accept_job_status)
+                        <p class="my-1 text-warning">Please get in touch via live chat if you wish to work with a student listed here.</p>
+                        @endif
                     </div>
                     <ul class="nav nav-tabs mb-3 d-block d-md-flex">
                         <li class="nav-item">
@@ -46,7 +53,9 @@
             @else
             <p>Showing {{count($jobs)}} jobs</p>
             @foreach ($jobs as $job)
-            @php $btn_disabled = false; @endphp
+            @php $btn_disabled = false; 
+                if (!$tutor->have_wwcc || !$tutor->accept_job_status) $btn_disabled = true; 
+            @endphp
             @if (!!$under_18 && $job->session_type_id == 1)
             @else
             <div class="card mb-2 ribbon-box">
@@ -73,16 +82,16 @@
                             @php $btn_disabled = true; @endphp
                             <p class="my-1 text-danger">{{$job->prefered_gender}} tutor only</p>
                             @endif
-                            @if (!!$job->vaccinated && !$tutor->vaccinated && $job->session_type_id == 1)
+                            @if (!!$job->experienced_tutor && !$tutor->experienced_tutor)
                             @php $btn_disabled = true; @endphp
                             <p class="my-1 text-danger">This job is for only experienced tutors.</p>
                             @endif
                         </div>
                         @if ($btn_disabled)
-                        <button type="button" disabled class="btn btn-outline-success" >
+                        <button type="button" disabled class="btn btn-outline-success">
                             Detail</button>
                         @else
-                        <a type="button" href="/jobs/{{$job->id}}" wire:navigate class="btn btn-outline-success" >
+                        <a type="button" href="/jobs/{{$job->id}}" wire:navigate class="btn btn-outline-success">
                             Detail</a>
                         @endif
                     </div>

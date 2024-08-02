@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth', 'role:tutor', 'verified'], 'as' => 'tutor
     
     Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function() {
         Route::get('/all-jobs', \App\Livewire\Tutor\Jobs\AllJobs::class)->name('all-jobs');
+        Route::get('/jobs-map', \App\Livewire\Tutor\Jobs\JobsMap::class)->name('jobs-map');
         Route::get('/{job_id}', \App\Livewire\Tutor\Jobs\Detail::class)->name('detail');
     });
 

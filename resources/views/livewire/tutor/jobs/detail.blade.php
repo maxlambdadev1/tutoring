@@ -5,6 +5,7 @@
     @endphp
     <x-custom-header :title="$title" :breadcrumbs="$breadcrumbs" />
 
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY&libraries=places&loading=async" async defer></script> -->
     <div class="row" x-data="job_detail_init">
         <div class="col-12">
             <div class="card mb-3">
@@ -224,8 +225,7 @@
                 this.setRoute(directionsService, directionsDisplay, start, end, map);
             },
             acceptJob() {
-                try {                            
-                    console.log('aaa');
+                try {                  
                     if (this.job_availability == '') throw new Error('Please select session date');
                     if (this.$refs.special_request_content.value != '' && this.special_request_response == '') throw new Error('Please input the response');
                     
