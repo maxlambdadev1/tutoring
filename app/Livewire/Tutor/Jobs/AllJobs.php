@@ -20,13 +20,9 @@ class AllJobs extends Component
     public $jobs = [];
     public $tutor;
     public $under_18 = false;
-    public $online_limit;
-    public $experienced_limit;
 
     public function mount()
     {
-        $this->online_limit = $this->getOption('online-limit');
-        $this->experienced_limit = $this->getOption('experience-limit') ?? 50;
         $tutor = auth()->user()->tutor;
 
         $today = new \DateTime('now');
@@ -81,18 +77,6 @@ class AllJobs extends Component
                     if ($waiting_leads_offers_count > 0) continue;
                 }
 
-                $av_exp = explode(',', $job->date);
-                $formatted_date = [];
-                foreach ($av_exp as $av) {
-                    $av_booking = $this->getAvailabilitiesFromString1($av)[0];
-                    $ses_date = $this->generateSessionDate($av, $job->start_date);
-                    $formatted_date = [
-                        'date' => $av_booking,
-                        'av' => $av,
-                        'full_date' => explode(' ', $av_booking)[0] . ' ' . $ses_date['date'] . ' at ' . $ses_date['time']
-                    ];
-                    $job->formatted_date = $formatted_date;
-                }
                 $job->create_time = \DateTime::createFromFormat('d/m/Y H:i', $job->create_time)->format('Y-m-d H:i');
 
                 $child = $job->child;

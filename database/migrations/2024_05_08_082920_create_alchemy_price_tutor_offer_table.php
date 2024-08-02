@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('parent_id');
             $table->integer('child_id');
             $table->float('offer_amount');
-            $table->float('online_offer_amount');
+            $table->float('online_offer_amount')->default(0);
             $table->string('offer_type', 100);
             $table->timestamps();
             $table->softDeletes();

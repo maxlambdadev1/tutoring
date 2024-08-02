@@ -26,6 +26,11 @@ class AlchemyParent extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'parent_state', 'name');
+    }
 
     public function price_parent() {
         return $this->hasOne(PriceParent::class, 'parent_id');

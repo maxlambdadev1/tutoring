@@ -2,6 +2,7 @@
 
 namespace App\Trait;
 
+use App\Models\AlchemyParent;
 use App\Models\CancellationFeeHistory;
 use App\Models\Option;
 use App\Models\UniqueUrl;
@@ -185,10 +186,13 @@ trait Functions
 	}
 
 	/**
-	 * @param $date_str: 'ma7,tp630',  $start_date: 'ASAP' or '23/05/2024'
+	 * generate session date and time from first day(ma7) of date_str. if type is true, time is G:i, else, time is g:iA
+	 * @param $date_str: 'ma7,tp630',  
+	 * @param $start_date: 'ASAP' or '23/05/2024'
+	 * @param $type: true or false
 	 * @return array : ['date' => '27/05/2023', 'time' => '19:30']
 	 */
-	public function generateSessionDate($date_str, $start_date)
+	public function generateSessionDate($date_str, $start_date, $type = true)
 	{
 		$av_date = explode(' ', $this->getAvailabilitiesFromString1($date_str)[0]); //['Monday', ''7:00AM']
 		$datetime = new \DateTime('now');
@@ -198,9 +202,13 @@ trait Functions
 				$datetime = new \DateTime('now');
 			}
 		}
+		
+		if (!$type) $time = $av_date[1]; //7:00PM
+		else $time = Carbon::createFromFormat('g:iA', $av_date[1])->format('G:i'); //19:00
+
 		return [
 			'date' => $this->getNextDateByDay($datetime->format('d/m/Y'), $av_date[0])->format('d/m/Y'),
-			'time' => Carbon::createFromFormat('g:iA', $av_date[1])->format('G:i') //19:00
+			'time' => $time
 		];
 	}
 
@@ -630,5 +638,58 @@ trait Functions
 
 	public function referralXeroBill($tutor, $referred_tutor_name, $special=0) {
 
+	}
+
+	/**
+	 * return the difference hours of timezone in parent state and tutor state
+	 * @param mixed $tutor_id
+	 * @param mixed $parent_id
+	 * @return float|int
+	 */
+	public function getTimezoneDiffHours($parent_id, $tutor_id)  {
+		if (empty($parent_id) || empty($tutor_id)) return 0;
+		$parent = AlchemyParent::find($parent_id);
+		$tutor = Tutor::find($tutor_id);
+		if (empty($parent) || empty($tutor)) return 0;
+
+		$daylight = $this->getOption('daylight');
+		$parent_state = $parent->state ?? null;
+		$tutor_state = $tutor->state ?? null;
+		if (empty($tutor_state) || empty($parent_state) || empty($daylight)) return 0;
+
+		if (!!$daylight) return $parent_state->summer - $tutor_state->summer;
+		else return $parent_state->winter - $parent_state->winter;
+	}
+
+	/**
+	 * return the calculated time based on hour difference. 
+	 * @param string $time: '10:00 PM'
+	 * @param float $hour_diff : 1.5
+	 * @param bool $type : true or false
+	 * @return string : '8:30 PM' or '11:30 PM'
+	 */
+	public function calculateTime($time, $hour_diff, $type = true) {		
+        if ($type) $timestamp = strtotime($time) - $hour_diff * 60 * 60;
+        else $timestamp = strtotime($time) + $hour_diff * 60 * 60;
+        return date('g:i A', $timestamp);
+	}
+
+	/**
+	 * return updated avaialbilities string based on timezone diff.
+	 * @param mixed $av_str: 'mp9,Sa1130'
+	 * @param mixed $hour_diff: 1.5
+	 * @param mixed $type: true or false
+	 * @return string :'mp730,Sa10'
+	 */
+	public function convertTimezone($av_str, $hour_diff, $type = true) {
+		$av_arr = $this->getAvailabilitiesFromString($av_str);
+		$arr = [];
+		foreach ($av_arr as $item) {
+			$day = explode('-', $item)[0]; //mon
+			$time = explode('-', $item)[1]; //7:30 AM
+			$converted_time = $this->calculateTime($time, $hour_diff, $type); //ex: 9:00 AM
+			$arr[] = $day . '-'. $converted_time;
+		}
+		return $this->generateBookingAvailability($arr);
 	}
 }

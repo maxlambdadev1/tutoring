@@ -111,6 +111,8 @@ trait Mailable
         if (isset($params['subject']))              $content = str_replace('%%subject%%', $params['subject'], $content);
         if (isset($params['sdate']))                $content = str_replace('%%sdate%%', $params['sdate'], $content);
         if (isset($params['time']))                 $content = str_replace('%%time%%', $params['time'], $content);
+        if (isset($params['thirdpartyorgname']))    $content = str_replace('%%thirdpartyorgname%%', $params['thirdpartyorgname'], $content);
+        if (isset($params['thirdpartyorgcontactfirstname']))  $content = str_replace('%%thirdpartyorgcontactfirstname%%', $params['thirdpartyorgcontactfirstname'], $content);
         if (isset($params['tutorabn']))             $content = str_replace('%%tutorabn%%', $params['tutorabn'], $content);
         if (isset($params['tutoraddress']))         $content = str_replace('%%tutoraddress%%', $params['tutoraddress'], $content);
         if (isset($params['tutorfirstname']))       $content = str_replace('%%tutorfirstname%%', $params['tutorfirstname'], $content);
@@ -118,6 +120,7 @@ trait Mailable
         if (isset($params['tutorprice']))           $content = str_replace('%%tutorprice%%', $params['tutorprice'], $content);
         if (isset($params['tutorprofilelink']))     $content = str_replace('%%tutorprofilelink%%', $params['tutorprofilelink'], $content);
         if (isset($params['tutornumber']))          $content = str_replace('%%tutornumber%%', $params['tutornumber'], $content);
+        if (isset($params['tutornotes']))           $content = str_replace('%%tutornotes%%', $params['tutornotes'], $content);
         if (isset($params['tutoremail']))           $content = str_replace('%%tutoremail%%', $params['tutoremail'], $content);
         if (isset($params['tutorphone']))           $content = str_replace('%%tutorphone%%', $params['tutorphone'], $content);
         if (isset($params['userfirstname']))        $content = str_replace('%%userfirstname%%', $params['userfirstname'], $content);
