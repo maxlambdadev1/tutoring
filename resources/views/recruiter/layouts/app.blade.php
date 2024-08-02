@@ -40,7 +40,7 @@
     <script src="{{asset('vendor/jquery.validate.min.js')}}"></script>
     <link href="{{asset('vendor/toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="{{asset('vendor/toastr/toastr.min.js')}}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY&libraries=places" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY&libraries=places&loading=async" async defer></script>
 
     <!-- include FilePond library -->
     <!-- <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script> -->

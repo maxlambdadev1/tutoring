@@ -15,12 +15,13 @@
     <!-- Livewire Styles -->
     @livewireStyles
     <!-- App css -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY&libraries=places&loading=async" async defer></script>
     <link href="{{asset('vendor/bootstrap/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('template/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('vendor/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('template/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style" />
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin.js', 'resources/js/tutor.js'])
     @yield('css-library')
 
     {{-- Script --}}
@@ -40,7 +41,6 @@
     <script src="{{asset('vendor/jquery.validate.min.js')}}"></script>
     <link href="{{asset('vendor/toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="{{asset('vendor/toastr/toastr.min.js')}}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY&libraries=places" async defer></script>
 
     <!-- include FilePond library -->
     <!-- <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script> -->

@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('description')->nullable();
+            $table->float('summer')->default(0.0);
+            $table->float('winter')->default(0.0);
             $table->timestamps();
             $table->softDeletes();
         });

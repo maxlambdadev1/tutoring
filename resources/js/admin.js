@@ -14,23 +14,24 @@ const removeItem = function (removed_time, ele) {
         }
     })
 }
+
 $(document).ready(function () {
-        toastr.options = {
-            'closeButton': true,
-            'debug': false,
-            'newestOnTop': false,
-            'progressBar': false,
-            'positionClass': 'toast-top-right',
-            'preventDuplicates': false,
-            'showDuration': '1000',
-            'hideDuration': '1000',
-            'timeOut': '5000',
-            'extendedTimeOut': '1000',
-            'showEasing': 'swing',
-            'hideEasing': 'linear',
-            'showMethod': 'fadeIn',
-            'hideMethod': 'fadeOut',
-        }
+    toastr.options = {
+        'closeButton': true,
+        'debug': false,
+        'newestOnTop': false,
+        'progressBar': false,
+        'positionClass': 'toast-top-right',
+        'preventDuplicates': false,
+        'showDuration': '1000',
+        'hideDuration': '1000',
+        'timeOut': '5000',
+        'extendedTimeOut': '1000',
+        'showEasing': 'swing',
+        'hideEasing': 'linear',
+        'showMethod': 'fadeIn',
+        'hideMethod': 'fadeOut',
+    }
     $(document).on('showToastrMessage', event => {
         let data = event.detail[0];
         toastr[data.status](data.message, data.title ?? '');
@@ -41,3 +42,4 @@ $(document).ready(function () {
     })
 
 });
+

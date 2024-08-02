@@ -20,6 +20,11 @@ class Tutor extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'state', 'name');
+    }
+    
     public function getPhoto()
     {
         return $this->photo ? 'storage/' . $this->photo : 'images/no_avatar.png';

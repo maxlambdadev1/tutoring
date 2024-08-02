@@ -17,7 +17,7 @@
                         <p class="mb-0">For all <b>Instant Accept</b> jobs the parent has provided their available times and days, and if you can match these then you can accept the student instantly.
                             For <b>Waiting List</b> opportunities, you provide the days and times that you can do and we offer them to the parent, allowing 48 hours to respond.</p>
                     </div>
-                    <ul class="nav nav-tabs mb-3">
+                    <ul class="nav nav-tabs mb-3 d-block d-md-flex">
                         <li class="nav-item">
                             <a href="#instance-f2f" data-bs-toggle="tab" aria-expanded="false" class="nav-link {{$type == 'instance-f2f' ? 'active bg-light' : ''}}" wire:click="changeType('instance-f2f')">
                                 <span class="d-md-block">Instance Accept Face-To-Face</span>
@@ -34,15 +34,66 @@
                             </a>
                         </li>
                     </ul>
-                    @if ($type == 'instance-f2f')
-                    @json(count($jobs))
-                    @elseif ($type == 'instance-online')
-                    @json(count($jobs))
-                    @elseif ($type == 'waiting-list')
-                    @json(count($jobs))
-                    @endif
                 </div>
             </div>
+            @if (count($jobs) > 0)
+            @if (!!$under_18 && $type=='instance-f2f')
+            <div class="text-center my-5">
+                <span class="alert alert-danger" role="alert">
+                    <strong>You will be able to work with face-to-face students once you turn 18 and submit your Working with Children Check. Until then please check out our online student opportunities to find a student that is right for you!</strong>
+                </span>
+            </div>
+            @else
+            <p>Showing {{count($jobs)}} jobs</p>
+            @foreach ($jobs as $job)
+            @php $btn_disabled = false; @endphp
+            @if (!!$under_18 && $job->session_type_id == 1)
+            @else
+            <div class="card mb-2 ribbon-box">
+                <div class="card-body py-2">
+                    @if ($job->job_type == 'replacement')
+                    <div class="ribbon-two ribbon-two-info"><span>Replacement</span></div>
+                    @elseif ($job->job_type == 'hot')
+                    @if ($job->session_type_id == 1 && !empty($job->job_offer_price))
+                    <div class="ribbon-two ribbon-two-danger"><span>${{$job->job_offer_price}}p/h</span></div>
+                    @else
+                    <div class="ribbon-two ribbon-two-danger"><span>HOT</span></div>
+                    @endif
+                    @endif
+                    <div class="d-flex align-items-center">
+                        <div class="text-center flex-grow-1 pe-2">
+                            <p class="fw-bold mb-1">{{$job->session_type_id == 1 ? 'FACE TO FACE' : 'ONLINE'}}</p>
+                            <div class="fw-bold">
+                                Year {{$job->child->child_year ?? ''}} // {{$job->subject}} // {{$job->parent->parent_state ?? ''}} // {{$job->location}}
+                            </div>
+                            @if ($job->session_type_id == 1)
+                            <div class="text-muted"><i class="uil uil-location-point"></i>{{round($job->distance, 2)}}km away from you</div>
+                            @endif
+                            @if (!empty($job->prefered_gender) && $tutor->gender != $job->prefered_gender)
+                            @php $btn_disabled = true; @endphp
+                            <p class="my-1 text-danger">{{$job->prefered_gender}} tutor only</p>
+                            @endif
+                            @if (!!$job->vaccinated && !$tutor->vaccinated && $job->session_type_id == 1)
+                            @php $btn_disabled = true; @endphp
+                            <p class="my-1 text-danger">This job is for only experienced tutors.</p>
+                            @endif
+                        </div>
+                        @if ($btn_disabled)
+                        <button type="button" disabled class="btn btn-outline-success" >
+                            Detail</button>
+                        @else
+                        <a type="button" href="/jobs/{{$job->id}}" wire:navigate class="btn btn-outline-success" >
+                            Detail</a>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endif
+            @endforeach
+            @endif
+            @else
+            <p>There are no jobs</p>
+            @endif
         </div>
     </div>
 </div>

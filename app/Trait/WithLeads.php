@@ -475,7 +475,7 @@ trait WithLeads
                 'seeking_students_timestamp' => time()
             ]);
 
-            $datetime = new \DateTime('Australia/Sydney');
+            $datetime = new \DateTime(env('TIMEZONE'));
             if (!empty($job->job_offer)) {
                 $job_offer = $job->job_offer;
                 if ($job_offer->expiry == 'permanent' || $job_offer->expiry >= $datetime->getTimestamp()) {
@@ -520,7 +520,7 @@ trait WithLeads
             $params = [
                 'firstname' => $tutor->first_name,
                 'studentname' => $child->child_name,
-                'studentfirstname' => $child->child_first_name,
+                'studentfirstname' => $child->first_name,
                 'grade' => $child->child_year,
                 'date' => $session_date,
                 'time' => $session_time,
