@@ -56,4 +56,5 @@ Route::group(['middleware' => ['auth', 'role:tutor', 'verified'], 'as' => 'tutor
 Route::group(['as' => 'pages'], function() {
     Route::get('/apply', \App\Livewire\Tutor\Pages\ApplyTutorApplication::class)->name('apply');
     Route::get('/application-success', \App\Livewire\Tutor\Pages\ApplicationSuccess::class)->name('application-success');
+    Route::get('/book-now', \App\Livewire\Tutor\Pages\BookLead::class)->name('book-now');
 });
