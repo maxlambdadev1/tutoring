@@ -9,11 +9,6 @@ class PostcodeDb extends Model
 {
     use HasFactory;
 
-    protected $table = 'session_types';
-
-    protected $fillable = [
-        'code',
-        'name',
-        'description',
-    ];
+    protected $table = 'postcode_db';
+    protected $guarded = [];
 }

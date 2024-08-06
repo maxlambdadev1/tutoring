@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
             Route::get('/focus-leads', \App\Livewire\Admin\Leads\FocusLeads::class)->name('focus-leads');
             Route::get('/deleted-leads', \App\Livewire\Admin\Leads\DeletedLeads::class)->name('deleted-leads');
             Route::get('/waiting-list', \App\Livewire\Admin\Leads\WaitingList::class)->name('waiting-list');
+            Route::get('/find-tutor', \App\Livewire\Admin\Leads\FindTutor::class)->name('find-tutor');
             Route::get('/replacement-tutor', \App\Livewire\Admin\Leads\ReplacementTutor::class)->name('replacement-tutor');
             Route::get('/special-requirement-approval', \App\Livewire\Admin\Leads\SpecialRequirementApproval::class)->name('special-requirement-approval');
         });        

@@ -55,6 +55,7 @@
     <!-- Livewire Styles -->
     @livewireStyles
     <!-- App css -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY&libraries=marker&loading=async"></script>
     <link href="{{asset('vendor/bootstrap/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('template/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
@@ -79,7 +80,6 @@
     <script src="{{asset('vendor/jquery.validate.min.js')}}"></script>
     <link href="{{asset('vendor/toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="{{asset('vendor/toastr/toastr.min.js')}}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY&libraries=places&loading=async" async defer></script>
 </head>
 
 <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
@@ -272,10 +272,6 @@
                 <div class="modal-body">
                 <livewire:admin.components.search-modal-content />
                 </div>
-                <!-- <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary waves-effect waves-light">Save changes</button>
-                </div> -->
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
