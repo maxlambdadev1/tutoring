@@ -24,6 +24,7 @@ use App\Trait\Functions;
 use App\Trait\Mailable;
 use App\Trait\PriceCalculatable;
 use Carbon\Carbon;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use PhpParser\Node\Stmt\TryCatch;
 
@@ -802,7 +803,7 @@ trait WithLeads
         if (!$tutor->online_acceptable_status) $query = $query->whereNot('session_type_id', 2);
         if ($under_18) $query = $query->whereNot('session_type_id', 1);
 
-        $temp_jobs = $query->whereIn('job_status', [0,3])->get();
+        $temp_jobs = $query->whereIn('job_status', [0, 3])->get();
         $jobs = [];
         if (!empty($temp_jobs)) {
             foreach ($temp_jobs as $job) {
@@ -846,7 +847,7 @@ trait WithLeads
                         $rejected_exp = explode(',', $rejected_jobs->job_ids);
                         if (in_array($job->id, $rejected_exp)) continue;
                     }
-                    
+
                     $job->coords = [
                         'lat' => $job->parent->parent_lat ?? 0,
                         'lon' => $job->parent->parent_lon ?? 0
@@ -864,7 +865,7 @@ trait WithLeads
                     }
                     if ($job->experienced_tutor && !$tutor->experienced) {
                         $can_accept_job == false;
-                        $can_accept_job_reason = "You need to complete ".$experienced_limit." lessons to view the details of this job opportunity.";
+                        $can_accept_job_reason = "You need to complete " . $experienced_limit . " lessons to view the details of this job opportunity.";
                     }
                     if (!empty($job->gender) && $job->gender != $tutor->gender) {
                         $can_accept_job == false;
@@ -879,5 +880,33 @@ trait WithLeads
         }
 
         return $jobs;
+    }
+
+    /**
+     * get query for finding tutors in find-tutor page
+     * @param array $search_input : [state => 'NSW', subjects => ['aaa', 'bbb'], suburb => '2083',]
+     * @return Builder
+     */
+    public function findTutorQuery($search_input)
+    {
+        $query =  Tutor::query()
+            ->where('tutor_status', 1);
+        // dd($search_input['state']);
+        if (!empty($search_input['state'])) $query = $query->where('state', $search_input['state']);
+        if (!empty($search_input['subjects'])) $query = $query->whereIn('expert_sub', $search_input['subjects']);
+        if (!empty($search_input['gender'])) $query = $query->where('gender', $search_input['gender']);
+        if (!empty($search_input['vaccinated'])) $query = $query->where('vaccinated', $search_input['vaccinated']);
+        if (!empty($search_input['experienced'])) $query = $query->where('experienced', $search_input['experienced']);
+        if (!empty($search_input['seeking_students'])) $query = $query->where('seeking_students', $search_input['seeking_students']);
+        if (!empty($search_input['non_metro_tutors'])) $query = $query->where('non_metro', $search_input['non_metro_tutors']);
+        if (!empty($search_input['availabilities'])) {
+            $av_str = $this->generateBookingAvailability($search_input['availabilities']);
+            $av_arr = explode(',', $av_str);
+            foreach ($av_arr as $av) {
+                $query = $query->where('availabilities', 'like', '%' . $av . '%');
+            }
+        }
+
+        return $query;
     }
 }

@@ -78,8 +78,6 @@
                             {{ $admins->links() }}
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>

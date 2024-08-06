@@ -1,5 +1,5 @@
 <div>
-    <input type="search" class="form-control" id="search_text" wire:model="search_text" placeholder="Search..." wire:keydown.enter="searchAllMembers">
+    <input type="search" class="form-control" id="search_text"  wire:model="search_text" placeholder="Search..." wire:keydown.enter="searchAllMembers">
     <div class="mt-2">
         @if (!empty($tutor_results) || !empty($parent_results) || !empty($child_results))
         @foreach ($tutor_results as $tutor)
@@ -27,3 +27,4 @@
         <p class="text-center mt-5">There are no results.</p>
         @endif
     </div>
+</div>

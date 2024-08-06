@@ -107,7 +107,7 @@
                     <a href="#">Lead Map</a>
                 </li>
                 <li>
-                    <a href="#">Find Tutor</a>
+                    <a href="{{ route('admin.leads.find-tutor') }}" wire:navigate>Find tutor</a>
                 </li>
                 <li>
                     <a href="{{ route('admin.leads.replacement-tutor') }}" wire:navigate>Replacement tutor</a>

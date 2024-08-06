@@ -139,5 +139,7 @@ label.error {
     background: rgb(63, 88, 114);
 }
 .avail_hours input:checked + label {
-    background-color:#FE9C0E !important ;
+    /* background-color:#FE9C0E !important ; */
+    background-color: var(--ct-primary);
+    color: #fff;
 }

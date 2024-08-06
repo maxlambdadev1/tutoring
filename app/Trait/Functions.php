@@ -622,7 +622,7 @@ trait Functions
 		$b = sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta);
 		
 		$angle = atan2(sqrt($a), $b);
-		return ($angle * $earthRadius)/1000;
+		return number_format(($angle * $earthRadius)/1000, 2, '.', '');
 	}
 
 	/**
