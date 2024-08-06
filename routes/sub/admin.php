@@ -8,7 +8,7 @@ Route::middleware('guest')->group(function () {
     // Volt::route('register', 'admin.auth.register')->name('admin.register');           
     // Volt::route('forgot-password', 'admin.auth.forgot-password')->name('admin.password.request');
     // Volt::route('reset-password/{token}', 'admin.auth.reset-password')->name('admin.password.reset');        
-    Volt::route('login', 'admin.auth.login')->name('login');
+    Volt::route('login', 'admin.auth.login')->name('admin.login');
 });
 
 Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], function () {
