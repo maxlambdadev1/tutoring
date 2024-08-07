@@ -186,9 +186,11 @@ trait WithLeads
 
             $user = User::updateOrCreate(
                 ['email' => $inputData['parent_email']],
-                ['role' => 2]
+                [
+                    'role' => 3,
+                    'password' => bcrypt('password'),
+                ]
             );
-
             $coords = $this->getCoord(urlencode($inputData['address']));
             if (empty($coords['lat'])) $coords['lat'] = 0;
             if (empty($coords['lon'])) $coords['lon'] = 0;
@@ -197,23 +199,49 @@ trait WithLeads
 
             $parent_existed = AlchemyParent::where('parent_email', $inputData['parent_email'])->count() > 0 ? true : false;
 
-            $parent = AlchemyParent::updateOrCreate(
-                ['parent_email' => $inputData['parent_email']],
-                [
-                    'parent_first_name' => ucwords($inputData['parent_first_name']),
-                    'parent_last_name' => ucwords($inputData['parent_last_name']),
-                    'parent_phone' => $inputData['parent_phone'],
-                    'parent_state' => $inputData['state'],
-                    'parent_address' => $coords['address'],
-                    'parent_suburb' => $coords['suburb'],
-                    'parent_postcode' => $inputData['postcode'],
-                    'parent_lat' => $coords['lat'],
-                    'parent_lon' => $coords['lon'],
-                    'user_id' => $user->id,
-                    'subscribe' => 1,
-                    'thirdparty_org_id' => $thirdparty_org_id,
-                ]
-            );
+            if (!$parent_existed) {
+                $parent = AlchemyParent::create(
+                    [
+                        'parent_email' => $inputData['parent_email'],
+                        'parent_first_name' => ucwords($inputData['parent_first_name']),
+                        'parent_last_name' => ucwords($inputData['parent_last_name']),
+                        'parent_phone' => $inputData['parent_phone'],
+                        'parent_state' => $inputData['state'],
+                        'parent_postcode' => $inputData['postcode'],
+                        'parent_address' => $coords['address'],
+                        'parent_suburb' => $coords['suburb'],
+                        'parent_lat' => $coords['lat'],
+                        'parent_lon' => $coords['lon'],
+                        'user_id' => $user->id,
+                        'subscribe' => 1,
+                        'thirdparty_org_id' => $thirdparty_org_id,
+                    ]
+                );
+            } else {
+                $parent = AlchemyParent::updateOrCreate(
+                    ['parent_email' => $inputData['parent_email']],
+                    [
+                        'parent_first_name' => ucwords($inputData['parent_first_name']),
+                        'parent_last_name' => ucwords($inputData['parent_last_name']),
+                        'parent_phone' => $inputData['parent_phone'],
+                        'parent_state' => $inputData['state'],
+                        'parent_postcode' => $inputData['postcode'],
+                        'user_id' => $user->id,
+                        'subscribe' => 1,
+                        'thirdparty_org_id' => $thirdparty_org_id,
+                    ]
+                );
+
+                if (!empty($coords['lat']) && !empty($coords['lon'])) {
+                    $parent->update([
+                        'parent_address' => $coords['address'],
+                        'parent_suburb' => $coords['suburb'],
+                        'parent_lat' => $coords['lat'],
+                        'parent_lon' => $coords['lon'],
+                    ]);
+                }
+            }
+
             $parent->referral_code = strval($parent->id + 10000);
             $parent->save();
 

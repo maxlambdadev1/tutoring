@@ -198,9 +198,9 @@ class CreateLead extends Component
             ]);
             $inputData = $this->inputData;
             $inputData['thirdparty_org_id'] = $this->thirdparty_org_id;
-            $inputData['state'] = State::find($inputData['state_id'])->first()->name;
+            $inputData['state'] = State::find($inputData['state_id'])->name;
             $inputData['address'] = $inputData['address'] . ", " . $inputData['suburb'] . ", " . $inputData['state'] . ' Australia';
-            $inputData['students']['student1']['grade'] = Grade::find($inputData['students']['student1']['grade_id'])->first()->name;
+            $inputData['students']['student1']['grade'] = Grade::find($inputData['students']['student1']['grade_id'])->name;
             $inputData['students']['student1']['date'] = $this->orderAvailabilitiesAccordingToDay($inputData['students']['student1']['availabilities']);
             $inputData['students']['student1']['start_date'] = $inputData['students']['student1']['start_date'] == 'ASAP' ? 'ASAP' : $inputData['students']['student1']['start_date_picker'];
             $inputData['students']['student1']['notes'] = $inputData['students']['student1']['parent_looking'] . " \r\n" . $inputData['students']['student1']['student_doing'] . " \r\n" . $inputData['students']['student1']['additional_details'];

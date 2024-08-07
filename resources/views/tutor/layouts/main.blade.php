@@ -16,6 +16,7 @@
     <!-- Livewire Styles -->
     @livewireStyles
     <!-- App css -->
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=maps,places&key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY&loading=async" async defer></script>
     <link href="{{asset('vendor/bootstrap/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('template/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
@@ -42,7 +43,6 @@
     <link href="{{asset('vendor/toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="{{asset('vendor/toastr/toastr.min.js')}}"></script>
     <script src="{{asset('vendor/jquery.signaturepad.min.js')}}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=maps&key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY&loading=async" async defer></script>
 
     <link href="{{asset('vendor/filepond/assets/filepond.css')}}" rel="stylesheet" />
     <link href="{{asset('vendor/filepond/assets/filepond-plugin-image-preview.min.css')}}" rel="stylesheet" />
