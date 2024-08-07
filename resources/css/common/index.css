@@ -39,7 +39,9 @@ body.custom-body {
 body.custom-body h1 {
     font-size: 2.5rem;
 }
-body.custom-body p, body.custom-body h6 {
+
+body.custom-body p,
+body.custom-body h6 {
     font-size: 1rem;
 }
 
@@ -60,19 +62,23 @@ body.custom-body p, body.custom-body h6 {
     font-size: 16px;
     margin-bottom: .5rem;
 }
+
 label.error {
     display: block;
     font-size: 12px;
     color: #900;
 }
+
 .form-control.error {
     border-color: #900;
 }
+
 .application_subjects li {
     display: inline-block;
     margin-right: 20px !important;
     margin-bottom: 5px;
 }
+
 .custom_style {
     box-sizing: border-box;
     padding: 15px;
@@ -82,12 +88,15 @@ label.error {
     width: 100%;
     word-break: break-word;
 }
+
 .bg-custom-warning {
     background-color: #ffa200;
 }
+
 .bg-custom-warning:hover {
     background-color: #ffa200;
 }
+
 .text-custom-warning {
     color: #ffa200;
 }
@@ -97,13 +106,16 @@ label.error {
     color: #fff;
     padding: 20px;
 }
+
 .hero_text {
     color: #fff;
 }
+
 .hero_text h1 {
     font-size: 3.5rem;
     font-weight: bold;
 }
+
 .hero_image {
     display: flex;
     justify-content: center;
@@ -111,15 +123,18 @@ label.error {
     height: 100vh;
     background-color: #000;
     background-image: url(images/success_hero.jpg);
-    background-position: center center!important;
-    background-size: cover!important;
+    background-position: center center !important;
+    background-size: cover !important;
 }
+
 .hero_desc {
     padding: 50px 50px;
 }
+
 .hero_desc h1 {
     font-weight: 700;
 }
+
 .hero_footer {
     background-color: #000;
     height: 145px;
@@ -127,6 +142,7 @@ label.error {
     justify-content: center;
     align-items: center;
 }
+
 .hero_footer img {
     width: 100px;
     image-rendering: -webkit-optimize-contrast;
@@ -135,11 +151,36 @@ label.error {
 .subject-item label {
     background: rgb(169, 169, 169);
 }
-.subject-item input:checked + label {
+
+.subject-item input:checked+label {
     background: rgb(63, 88, 114);
 }
-.avail_hours input:checked + label {
+
+.avail_hours input:checked+label {
     /* background-color:#FE9C0E !important ; */
     background-color: var(--ct-primary);
     color: #fff;
+}
+
+.sub_label {
+    font-size: 13px !important;
+}
+
+.radio-toolbar label {
+    display: inline-block;
+    background-color: #ddd;
+    padding: 5px 15px;
+    border: 2px solid #444;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+}
+
+.radio-toolbar input[type="radio"]:checked+label {
+    background-color: #bfb;
+    border-color: #4c4;
+}
+
+.btn.bg-custom-warning:disabled {
+    background-color: #bd9755 !important;
 }

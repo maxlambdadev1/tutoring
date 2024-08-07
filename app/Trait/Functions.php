@@ -92,7 +92,8 @@ trait Functions
 		// get latitude and longitude from geocode object
 		$latitude = !empty($geocodeObject->results[0]->geometry->location->lat) ? $geocodeObject->results[0]->geometry->location->lat : 0;
 		$longitude = !empty($geocodeObject->results[0]->geometry->location->lng) ? $geocodeObject->results[0]->geometry->location->lng : 0;
-		if ($geocodeObject->results[0]->address_components[0]->types[0] == 'subpremise') {
+		$type = $geocodeObject->results[0]->address_components[0]->types[0] ?? '';
+		if ($type == 'subpremise') {
 			$add = (!empty($geocodeObject->results[0]->address_components[0]->short_name) ? $geocodeObject->results[0]->address_components[0]->short_name : '') . '/' . (!empty($geocodeObject->results[0]->address_components[1]->short_name) ? $geocodeObject->results[0]->address_components[1]->short_name : '') . ' ' . (!empty($geocodeObject->results[0]->address_components[2]->short_name) ? $geocodeObject->results[0]->address_components[2]->short_name : '');
 			$suburb = !empty($geocodeObject->results[0]->address_components[3]->long_name) ? $geocodeObject->results[0]->address_components[3]->long_name : 0;
 			$state = !empty($geocodeObject->results[0]->address_components[5]->short_name) ? $geocodeObject->results[0]->address_components[5]->short_name : 0;
