@@ -4,10 +4,10 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 export default defineConfig({
     build: {
-        manifest: true,
+        // manifest: true,
         // assetsDir: 'js',
         rtl: true,
-        outDir: 'public/build/',
+        // outDir: 'public/build/',
         cssCodeSplit: true,
         rollupOptions: {
             output: {

@@ -80,26 +80,37 @@ class AcceptWaitingList extends Component
         }
     }
 
-    public function acceptJobFromParent($job_availability){
-
+    public function acceptJobFromParent($job_availability)
+    {
     }
 
-    public function declineJobFromParent(){
-        $body = "Hi " . $this->tutor->first_name . ",<br><br>";
-        $body .= "You recently expressed interest in working with the following student:<br><br>";
-        $body .= "Name: " . $this->child->child_name . "<br>";
-        $body .= "Grade: " . $this->child->child_year . "<br>";
-        $body .= "Subject: " .$this->job->subject . "<br>";
-        if ($this->job->session_type_id == 1) {
-            $body .= "Location: " . $this->job->location . "<br>";
-        } else {
-            $body .= "Location: Online<br>";
+    public function declineJobFromParent()
+    {
+        try {
+            $body = "Hi " . $this->tutor->first_name . ",<br><br>";
+            $body .= "You recently expressed interest in working with the following student:<br><br>";
+            $body .= "Name: " . $this->child->child_name . "<br>";
+            $body .= "Grade: " . $this->child->child_year . "<br>";
+            $body .= "Subject: " . $this->job->subject . "<br>";
+            if ($this->job->session_type_id == 1) {
+                $body .= "Location: " . $this->job->location . "<br>";
+            } else {
+                $body .= "Location: Online<br>";
+            }
+            $body .= "<br>Unfortunately the parent has decided not to go ahead with lessons at this time.<br><br>Don't be disappointed: we have plenty of other opportunities that you would be perfect for in the jobs feed!<br><br>If you have any questions please let us know.<br><br>Team Alchemy";
+
+            $this->sendEmail($this->tutor->tutor_email, 'Re. your recent interest in taking on a student', null, $body);
+
+            // $this->waiting_lead_offer->update(['status' => 1]);
+            $this->mount();
+            return true;
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+            return false;
         }
-        $body .= "<br>Unfortunately the parent has decided not to go ahead with lessons at this time.<br><br>Don't be disappointed: we have plenty of other opportunities that you would be perfect for in the jobs feed!<br><br>If you have any questions please let us know.<br><br>Team Alchemy";
-
-        $this->sendEmail($this->tutor->tutor_email, 'Re. your recent interest in taking on a student', null, $body);
-
-        // $this->
     }
 
     public function render()

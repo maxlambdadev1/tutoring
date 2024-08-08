@@ -54,7 +54,7 @@
                                 <p>Location: {{$job->location}}</p>
                                 <div class="text-center">
                                     <button type="button" class="btn btn-warning text-white fw-bold" id="accept-session" :disabled="job_availability == ''" x-on:click="acceptJobFromParent">Submit</button>
-                                    <p style="margin-top: 20px;"><a href="javascript:void(0)" id="decline-tutor">or decline this tutor but remain on the waiting list</a></p>
+                                    <p style="margin-top: 20px;"><a href="javascript:void(0)" id="decline-tutor" x-on:click="declineJobFromParent">or decline this tutor but remain on the waiting list</a></p>
                                 </div>
                             </div>
                         </div>
