@@ -75,7 +75,7 @@ class Register extends Component
         $url = request()->query('url') ?? '';
         $flag = false;
         if (!empty($url)) {
-            $details = base64_encode($url);
+            $details = base64_decode($url);
             if (!empty($details)) {
                 $exp = explode('&', $details);
                 if (!empty($exp) && count($exp) >= 2) {

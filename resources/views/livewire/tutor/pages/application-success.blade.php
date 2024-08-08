@@ -2,9 +2,9 @@
     @section('title')
     Success // Alchemy Tuition
     @endsection
-    @section('description')    
+    @section('description')
     @endsection
-    
+
     <section id="success_page">
         <div class="hero_image" style="background-image: url(images/success_hero.jpg);">
             <div class="hero_text text-center">
@@ -40,7 +40,7 @@
                     <p>Even if you are unsuccessful in your application to tutor with us, a working with children check looks great in your portfolio and is legally required for any paid work with young people, so we recommend obtaining yours ASAP.</p>
                 </div>
             </div>
-            
+
         </div>
         <div class="hero_footer">
             <img src="images/success_logo.png" alt="LOGO">

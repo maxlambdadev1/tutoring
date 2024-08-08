@@ -816,6 +816,8 @@ trait WithLeads
     public function getAllJobs($tutor_id)
     {
         $tutor = Tutor::find($tutor_id);
+        if (empty($tutor)) return [];
+        
         $under_18 = $tutor->under18 ?? false;
         $experienced_limit = $this->getOption('experience-limit') ?? 50;
 
