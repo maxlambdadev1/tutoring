@@ -16,7 +16,6 @@
     <!-- Livewire Styles -->
     @livewireStyles
     <!-- App css -->
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=maps,places&key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY&loading=async" async defer></script>
     <link href="{{asset('vendor/bootstrap/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('template/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
