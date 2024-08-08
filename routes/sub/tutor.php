@@ -59,4 +59,5 @@ Route::group(['as' => 'pages'], function() {
     Route::get('/book-now', \App\Livewire\Tutor\Pages\BookLead::class)->name('book-now');
     Route::get('/student-opportunity', \App\Livewire\Tutor\Pages\StudentOpportunity::class)->name('student-opportunity');
     Route::get('/taken-student', \App\Livewire\Tutor\Pages\SnatchedStudent::class)->name('taken-student');
+    Route::get('/accept-waiting-list', \App\Livewire\Tutor\Pages\AcceptWaitingList::class)->name('accept-waiting-list');
 });
