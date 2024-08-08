@@ -177,6 +177,8 @@ trait Sessionable
                 $parent = $child->parent;
                 $tutor = $prev_session->tutor;
             }
+            if (empty($tutor->accept_job_status)) throw new \Exception("The tutor don't have permission to create a session.");
+            
             $session_price = $this->calcSessionPrice($parent->id, $session_type_id); 
             $tutor_price = $this->calcTutorPrice($tutor->id, $parent->id, $child->id, $session_type_id); 
             /** add logic for stripe user */

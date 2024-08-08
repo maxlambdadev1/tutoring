@@ -9,13 +9,16 @@ class WaitingLeadOffer extends Model
 {
     use HasFactory;
 
-    protected $table = 'alchemy_waiting_leads_offer';
+    protected $table = 'alchemy_waiting_leads_offer';    
+    protected $guarded = [];
+        
+    public function job()
+    {
+        return $this->belongsTo(Job::class);
+    }
 
-    protected $fillable = [
-        'job_id',
-        'tutor_id',
-        'date',
-        'status',
-        'reminder',
-    ];
+    public function tutor()
+    {
+        return $this->belongsTo(Tutor::class);
+    }
 }
