@@ -8,19 +8,23 @@ use App\Models\ConversionTarget;
 use App\Models\FirstSessionTarget;
 use App\Models\TutorFirstSession;
 use App\Models\User;
+use App\Models\Job;
+use App\Models\ReplacementTutor;
 use App\Models\Tutor;
 use App\Models\Child;
 use App\Models\SecondSession;
 use App\Models\Session;
 use App\Trait\Functions;
 use App\Trait\WithParents;
+use App\Trait\Mailable;
+use App\Trait\WithLeads;
 use App\Trait\PriceCalculatable;
 use Carbon\Carbon;
 
 trait Sessionable
 {
 
-    use Functions, WithParents, PriceCalculatable;
+    use Functions, WithParents, PriceCalculatable, Mailable, WithLeads;
 
     public const NO_SESSION_FILTER_ARRAY = [
         1 => 'Uncategorized',
@@ -178,11 +182,11 @@ trait Sessionable
                 $tutor = $prev_session->tutor;
             }
             if (empty($tutor->accept_job_status)) throw new \Exception("The tutor don't have permission to create a session.");
-            
-            $session_price = $this->calcSessionPrice($parent->id, $session_type_id); 
-            $tutor_price = $this->calcTutorPrice($tutor->id, $parent->id, $child->id, $session_type_id); 
+
+            $session_price = $this->calcSessionPrice($parent->id, $session_type_id);
+            $tutor_price = $this->calcTutorPrice($tutor->id, $parent->id, $child->id, $session_type_id);
             /** add logic for stripe user */
-            
+
             $session = Session::create([
                 'session_status' => $session_status,
                 'tutor_id' => $tutor->id,
@@ -239,7 +243,8 @@ trait Sessionable
         }
     }
 
-    public function sendPaymentInfoEmailToParent($ses_id) {
+    public function sendPaymentInfoEmailToParent($ses_id)
+    {
         try {
             $session = Session::find($ses_id);
             $parent = $session->parent;
@@ -260,14 +265,14 @@ trait Sessionable
                 'comment' => "Sent 'Request payment information' email to parent.",
                 'session_id' => $session->id
             ]);
-
         } catch (\Exception $e) {
             DB::rollBack();
             throw new \Exception($e->getMessage());
         }
     }
 
-    public function sendFirstSessionFollowupEmailToParent($ses_id) {
+    public function sendFirstSessionFollowupEmailToParent($ses_id)
+    {
         try {
             $session = Session::find($ses_id);
             $parent = $session->parent;
@@ -296,7 +301,6 @@ trait Sessionable
                 'comment' => "Sent 'How was your first session?' email to parent.",
                 'session_id' => $session->id
             ]);
-
         } catch (\Exception $e) {
             DB::rollBack();
             throw new \Exception($e->getMessage());
@@ -328,7 +332,7 @@ trait Sessionable
             throw new \Exception($e->getMessage());
         }
     }
-    
+
     public function sendCcSMS($parent_id, $child_id)
     {
         try {
@@ -358,7 +362,8 @@ trait Sessionable
         }
     }
 
-    public function createNextSessionLink($ses_id) {
+    public function createNextSessionLink($ses_id)
+    {
         try {
             $session = Session::find($ses_id);
 
@@ -378,12 +383,12 @@ trait Sessionable
             ], [
                 'unique_link' => $link
             ]);
-            
-            return $this->setRedirect('https://alchemy.team/confirm-session?key=' . $link);
 
+            return $this->setRedirect('https://alchemy.team/confirm-session?key=' . $link);
         } catch (\Exception $e) {
             DB::rollBack();
             throw new \Exception($e->getMessage());
         }
     }
+
 }
