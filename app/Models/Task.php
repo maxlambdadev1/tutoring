@@ -10,15 +10,7 @@ class Task extends Model
     use HasFactory;
 
     protected $table = 'alchemy_tasks';
+    protected $guarded = [];
+    protected  $primaryKey = 'task_id';
 
-    protected $fillable = [
-        'tutor_id',
-        'task_subject',
-        'task_name',
-        'task_content',
-        'task_completed',
-        'task_hidden',
-        'task_date',
-        'task_last_update',
-    ];
 }

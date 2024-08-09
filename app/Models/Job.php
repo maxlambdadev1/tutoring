@@ -84,6 +84,11 @@ class Job extends Model
         return $this->hasMany(WaitingLeadOffer::class);
     }
 
+    public function getLastUpdatedTimestampAttribute() {
+        $dtime = \DateTime::createFromFormat("d/m/Y H:i", $this->last_updated) ?? '';
+        return $dtime->getTimestamp() ?? '';
+    }
+
     public function getAvailabilitiesAttribute() {
         return $this->getAvailabilitiesFromString($this->date);
     }

@@ -22,7 +22,7 @@ Route::group(['middleware' => ['auth', 'role:tutor', 'verified'], 'as' => 'tutor
     //     ->name('verification.verify');
     // Volt::route('confirm-password', 'tutor.auth.confirm-password')->name('password.confirm');
 
-    Route::view('dashboard', 'tutor.dashboard')->name('dashboard');
+    Route::get('/dashboard',  \App\Livewire\Tutor\Dashboard::class)->name('dashboard');
     
     Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function() {
         Route::get('/all-jobs', \App\Livewire\Tutor\Jobs\AllJobs::class)->name('all-jobs');

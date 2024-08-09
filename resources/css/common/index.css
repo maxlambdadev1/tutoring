@@ -213,3 +213,9 @@ label.error {
     40% {transform: translateY(-20px);}
     60% {transform: translateY(-10px);}
 }
+.fc-col-header-cell.fc-day{    
+    padding: 12px 0;
+}
+div.fc-view {
+    margin-top: 0px;
+}
