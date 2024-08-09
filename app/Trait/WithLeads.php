@@ -485,13 +485,19 @@ trait WithLeads
         }
     }
     /**
-     * @param $job_id, $tutor_id, $session_date : '23/05/2024', $session_time : '16:30' 
+     * Accept job and create first session
+     * @param mixed $job_id
+     * @param $session_date : '23/05/2024', 
+     * @param $session_time : '16:30' 
+     * @return void
      */
     public function createSessionFromJob($job_id, $tutor_id, $session_date, $session_time, $converted_by = 'tutor')
     {
         try {
             $job = Job::find($job_id);
             $tutor = Tutor::find($tutor_id);
+            $parent = $job->parent;
+            $child = $job->child;
 
             $job->update([
                 'job_status' => 1,
@@ -501,6 +507,12 @@ trait WithLeads
                 'converted_by' => $converted_by,
             ]);
 
+            $this->addJobHistory([
+                'job_id' => $job->id,
+                'author' => $tutor->tutor_name,
+                'comment' => "Tutor accepted a new student: " . $child->child_name
+            ]);
+
             $tutor->update([
                 'break_count' => 0,
                 'seeking_students' => 0,
@@ -508,54 +520,50 @@ trait WithLeads
             ]);
 
             $datetime = new \DateTime(env('TIMEZONE'));
-            if (!empty($job->job_offer)) {
-                $job_offer = $job->job_offer;
+            $job_offer = $job->job_offer;
+            if (!empty($job_offer)) {
                 if ($job_offer->expiry == 'permanent' || $job_offer->expiry >= $datetime->getTimestamp()) {
-                    $this->addTutorPriceOffer($tutor->id, $job->parent_id, $job->child_id, $job_offer->offer_amount, $job_offer->offer_type);
+                    $this->addTutorPriceOffer($tutor->id, $parent->id, $child->id, $job_offer->offer_amount, $job_offer->offer_type);
                 }
             }
 
             if ($job->job_type == 'creative') {
                 $session_price = 100;
                 if ($job->session_type_id == 1) $tutor_price = 65;
-                else $tutor_price = 50;
+                else  $tutor_price = 50;
             } else {
-                $session_price = $this->calcSessionPrice($job->parent_id, $job->session_type_id);
-                $tutor_price = $this->calcTutorPrice($tutor->id, $job->parent_id, $job->child_id, $job->session_type_id);
+                $session_price = $this->calcSessionPrice($parent->id, $job->session_type_id);
+                $tutor_price = $this->calcTutorPrice($tutor->id, $parent->id, $child->id, $job->session_type_id);
             }
+
             $this->checkTutorFirstSession($tutor->id);
 
-            $session_status = 3;
-            $today = new \DateTime('now');
-            $today->setTimeZone(new \DateTimeZone('Australia/Sydney'));
-            $ses_date = \DateTime::createFromFormat('d/m/Y H:i', $session_date . ' ' . $session_time);
-            $ses_date->setTimeZone(new \DateTimeZone('Australia/Sydney'));
-            if ($today->getTimestamp() >= $ses_date->getTimestamp()) $session_status = 1;
-
             $session = Session::create([
-                'session_status' => $session_status,
+                'type_id' => $job->session_type_id,
+                'session_status' => 3,
                 'tutor_id' => $tutor->id,
-                'parent_id' => $job->parent_id,
-                'child_id' => $job->child_id,
+                'parent_id' => $parent->id,
+                'child_id' => $child->id,
                 'session_date' => $session_date,
                 'session_time' => $session_time,
                 'session_subject' => $job->subject,
                 'session_is_first' => 1,
                 'session_price' => $session_price,
                 'session_tutor_price' => $tutor_price,
-                'session_last_changed' => date('d/m/Y H:i'),
-                'type_id' => $job->session_type_id
+                'session_last_changed' => date('d/m/Y H:i')
             ]);
 
-            $parent = $job->parent;
-            $child = $job->child;
+            $parent_time = Carbon::createFromFormat('G:i', $session_time)->format('g:i A');
+            $tutor_time = $parent_time;
+            $hour_diff = $this->getTimezoneDiffHours($parent->id, $tutor->id);
+            if (!empty($hour_diff)) $tutor_time = $this->calculateTime($parent_time, $hour_diff);
             $params = [
                 'firstname' => $tutor->first_name,
                 'studentname' => $child->child_name,
                 'studentfirstname' => $child->first_name,
                 'grade' => $child->child_year,
                 'date' => $session_date,
-                'time' => $session_time,
+                'time' => $tutor_time,
                 'subject' => $job->subject,
                 'notes' => $job->job_notes,
                 'mainresult' => $job->main_result ?? '-',
@@ -565,82 +573,89 @@ trait WithLeads
                 'personality' => $job->personality ?? '-',
                 'favourite' => $job->favourite ?? '-',
                 'address' => $parent->parent_address . ', ' . $parent->parent_suburb . ', ' . $parent->parent_postcode,
-                'parentname' => $parent->parent_first_name . ' ' . $parent->parent_last_name,
+                'parentname' => $parent->parent_name ?? '',
                 'parentphone' => $parent->parent_phone,
-                'email' => $tutor->user->email,
-                'tutoremail' => $tutor->user->email,
-                'onlineURL' => $tutor->online_url
+                'email' => $tutor->tutor_email,
+                'tutoremail' => $tutor->tutor_email,
+                'onlineURL' => $tutor->online_url,
             ];
 
             if ($job->job_type == 'replacement' && !empty($job->replacement_id)) {
                 $replacement = ReplacementTutor::find($job->replacement_id);
                 if (!empty($replacement)) {
-                    $replacement->update(['replacement_tutor_id' => $tutor_id]);
-                    if ($job->session_type_id == 1) $this->sendEmail($tutor->user->email, 'tutor-first-session-details-replacement-email', $params);
-                    else $this->sendEmail($tutor->user->email, 'tutor-first-online-session-details-email', $params);
+                    $params['tutornotes'] = $replacement->tutor_notes;
+                    $replacement->update([
+                        'replacement_tutor_id' => $tutor->id,
+                    ]);
+                    if ($job->session_type_id == 2) $this->sendEmail($tutor->tutor_email, 'tutor-first-online-session-details-email', $params);
+                    else  $this->sendEmail($tutor->tutor_email, 'tutor-first-session-details-replacement-email', $params);
                 }
             } else {
                 if ($job->job_type == 'creative') {
-                    if ($job->session_type_id == 1) $this->sendEmail($tutor->user->email, 'tutor-creative-session-details-email', $params);
-                    else $this->sendEmail($tutor->user->email, 'tutor-creative-online-session-details-email', $params);
+                    if ($job->session_type_id == 2) $this->sendEmail($tutor->tutor_email, 'tutor-creative-online-session-details-email', $params);
+                    else  $this->sendEmail($tutor->tutor_email, 'tutor-creative-session-details-email', $params);
                 } else {
-                    if ($job->session_type_id == 1) $this->sendEmail($tutor->user->email, 'tutor-first-session-details-email', $params);
-                    else $this->sendEmail($tutor->user->email, 'tutor-first-online-session-details-email', $params);
+                    if ($job->session_type_id == 2) $this->sendEmail($tutor->tutor_email, 'tutor-first-online-session-details-email', $params);
+                    else  $this->sendEmail($tutor->tutor_email, 'tutor-first-session-details-email', $params);
                 }
             }
-
-            $smsParams = array(
-                'phone' => $tutor->tutor_phone,
-                'name' => $tutor->tutor_name
-            );
-            $params1 = [
-                'tutorfirstname' => $tutor->first_name,
-                'studentname' => $child->child_name,
-                'sessiondate' => $session_date,
-                'sessiontime' => $session_time
-            ];
-            if ($job->job_type == 'creative') $this->sendSms($smsParams, 'tutor-creative-session-details-sms', $params1);
-            else $this->sendSms($smsParams, 'tutor-first-session-details-sms', $params1);
-
-            $smsParams = array(
-                'phone' => $parent->parent_phone,
-                'name' => $parent->parent_name
-            );
-            $params1 = [
-                'parentfirstname' => $parent->parent_first_name,
-                'studentfirstname' => $child->child_first_name,
-                'sessiondate' => $session_date,
-                'sessiontime' => $session_time
-            ];
-            if ($job->job_type == 'creative') $this->sendSms($smsParams, 'parent-creative-session-details-sms', $params1);
-            else $this->sendSms($smsParams, 'parent-first-session-detail-sms', $params1);
 
             $params['tutorname'] = $tutor->tutor_name;
             $params['tutorfirstname'] = $tutor->first_name;
+            if ($job->job_type == 'creative') {
+                $sms_body = "Hi " . $params['tutorfirstname'] . "! Your creative writing workshop with " . $params['studentname'] . "  has been confirmed for " . $tutor_time . " on " . $params['date'] . ". You will receive an email with details shortly! Team Alchemy";
+            } else {
+                $sms_body = "Hozzah! Your first session with " . $params['studentname'] . " is confirmed for " . $params['date'] . " at " . $tutor_time . ". Please check your email for details and don’t hesitate to get in touch with any questions!";
+            }
+            $smsParams = [
+                'phone' => $tutor->tutor_phone,
+                'name' => $tutor->tutor_name,
+            ];
+            $this->sendSms($smsParams, $sms_body);
+
+            if ($job->job_type == 'creative') {
+                $sms_body = "Hi " . $parent->parent_first_name . "! Great news - we’ve lined up a creative writing workshop for " . $params['studentfirstname'] . "  on " . $params['date']  . " at " . $parent_time . ". You will receive an email with details shortly! Team Alchemy";
+            } else {
+                $sms_body = "Hi " . $parent->parent_first_name . ", great news! Your first session with an Alchemy Tutor has been confirmed for " . $params['date'] . " at " . $parent_time . ". Please check your email for details!";
+            }
+            $smsParams = [
+                'phone' => $params['parentphone'],
+                'name' => $parent->parent_name,
+            ];
+            $this->sendSms($smsParams, $sms_body);
+
+            $params['time'] = $parent_time;
             $params['parentfirstname'] = $parent->parent_first_name;
             $params['tutorphone'] = $tutor->tutor_phone;
             $params['price'] = $session_price;
-            $params['email'] = $parent->user->email;
-            $params['onlineurl'] = $tutor->online_url;
-            $params['tutorlink'] = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://') . $_SERVER['SERVER_NAME'] . '/tutor/' . $tutor->id;
+            $params['email'] = $parent->parent_email;
+            $params['onlineURL'] = $tutor->online_url;
+            $params['tutorlink'] = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://') . env('TUTOR') . '/tutor/' . $tutor->id;
 
             if ($job->job_type == 'creative') {
-                if ($job->session_type_id == 1) $this->sendEmail($parent->user->email, 'parent-creative-session-details-email', $params);
-                else $this->sendEmail($parent->user->email, 'parent-creative-online-session-details-email', $params);
+                if ($job->session_type_id == 2) $this->sendEmail($parent->parent_email, 'parent-creative-online-session-details-email', $params);
+                else  $this->sendEmail($parent->parent_email, 'parent-creative-session-details-email', $params);
             } else {
-                if ($job->session_type_id == 1) {
-                    if (!empty($job->thirdparty_org)) $this->sendEmail($parent->user->email, 'third-party-first-lesson-details-f2f', $params);
-                    else  $this->sendEmail($parent->user->email, 'parent-first-session-detail-email', $params);
+                if ($job->session_type_id == 2) {
+                    if (!empty($job->thirdparty_org))  $this->sendEmail($parent->parent_email, 'third-party-first-lesson-details-online', $params);
+                    else  $this->sendEmail($parent->parent_email, 'parent-first-online-session-detail-email', $params);
                 } else {
-                    if (!empty($job->thirdparty_org)) $this->sendEmail($parent->user->email, 'third-party-first-lesson-details-online', $params);
-                    else  $this->sendEmail($parent->user->email, 'parent-first-online-session-detail-email', $params);
+                    if (!empty($job->thirdparty_org))  $this->sendEmail($parent->parent_email, 'third-party-first-lesson-details-f2f', $params);
+                    else  $this->sendEmail($parent->parent_email, 'parent-first-session-detail-email', $params);
                 }
             }
+            if (!empty($job->thirdparty_org)) {
+                $params['email'] = $job->thirdparty_org->primary_contact_email;
+                $params['thirdpartyorgname'] = $job->thirdparty_org->organisation_name;
+                $params['thirdpartyorgcontactfirstname'] = $job->thirdparty_org->primary_contact_first_name;
+                $this->sendEmail($params['email'], 'third-party-organisation-first-lesson-details', $params);
+            }
 
-            $this->deleteJobReschedule($job_id, $tutor->id);
+            $this->deleteJobReschedule($job->id, $tutor->id);
 
             $job->update([
                 'session_id' => $session->id,
+                'accepted_on' => date('d/m/Y H:i'),
                 'last_updated' => date('d/m/Y H:i'),
             ]);
 
@@ -651,7 +666,7 @@ trait WithLeads
             } else {
                 $send_to = 'alecks.annear@alchemytuition.com.au';
                 $params = [
-                    'parentname' => $parent->parent_first_name . ' ' . $parent->parent_last_name,
+                    'parentname' => $parent->parent_name,
                     'studentname' => $child->child_name,
                     'studentbirthday' => $child->child_birthday,
                     'vouchernumber' => $job->voucher_number

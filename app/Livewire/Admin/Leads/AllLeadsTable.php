@@ -470,7 +470,7 @@ class AllLeadsTable extends PowerGridComponent
                 'comment' => 'Admin allowed your request for sepcial-requirement job(job-id=' . $job->id .')'
             ]);
 
-            $ses_date = $this->generateSessionDate($job->tutor_suggested_session_date, $job->start_date);
+            $ses_date = $this->generateSessionDate($job->tutor_suggested_session_date, $job->start_date, false);
 
             $this->createSessionFromJob($job_id, $job->tutor->id, $ses_date['date'], $ses_date['time']);
 

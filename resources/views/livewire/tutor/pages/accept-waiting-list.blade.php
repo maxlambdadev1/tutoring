@@ -5,7 +5,7 @@
     @section('description')
     @endsection
 
-    <div class="text-center" style="height:100vh;" x-data="accept_waiting_list_init">
+    <div class="text-center" x-data="accept_waiting_list_init">
         <div class="container">
             @if (empty($waiting_lead_offer))
             <h1 class="py-4 text-center">Oops - this tutor opportunity has expired</h1>
@@ -62,10 +62,10 @@
                 </div>
             </template>
             <template x-if="!!is_accepted">
-                <h2 class="mt-4">Thank you, your first lesson details will be emailed to you shortly.</h2>
+                <h2 class="mt-5">Thank you, your first lesson details will be emailed to you shortly.</h2>
             </template>
             <template x-if="!!is_declined">
-                <div class="pt-4">
+                <div class="pt-5">
                     <h2>Thank you!</h2>
                     <h3>You will remain on our priority waiting list and we will be in touch as soon as a new tutor becomes available</h3>
                 </div>
@@ -76,20 +76,43 @@
 </div>
 
 <script>
+    let formatted_date = @json($job->formatted_date);
+
     document.addEventListener('alpine:init', () => {
         Alpine.data('accept_waiting_list_init', () => ({
             job_availability: '',
             is_accepted: false,
             is_declined: false,
             async acceptJobFromParent() {
-                let result = await @this.call('acceptJobFromParent', this.job_availability);
-                if (!!result) this.is_accepted = true;
-                else toastr.error('Error - Something went wrong.')
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Are you sure?',
+                    text: 'Your first session will be on ' + formatted_date[this.job_availability].full_date,
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Yes, sure!'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        let result = await @this.call('acceptJobFromParent', this.job_availability);
+                        if (!!result) this.is_accepted = true;
+                        else toastr.error('Error - Something went wrong.')
+                    }
+                });
             },
-            async declineJobFromParent() {
-                let result = await @this.call('declineJobFromParent');
-                if (!!result) this.is_declined = true;
-                else toastr.error('Error - Something went wrong.')
+            declineJobFromParent() {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Are you sure?',
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Yes, sure!'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        let result = await @this.call('declineJobFromParent');
+                        if (!!result) this.is_declined = true;
+                        else toastr.error('Error - Something went wrong.')
+                    }
+                });
             }
         }))
     })
