@@ -41,6 +41,7 @@
     <script src="{{asset('vendor/jquery.validate.min.js')}}"></script>
     <link href="{{asset('vendor/toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="{{asset('vendor/toastr/toastr.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('vendor/fullCalendar.min.js')}}"></script>
 
     <!-- include FilePond library -->
     <!-- <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script> -->

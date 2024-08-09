@@ -17,7 +17,8 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], functio
     //     ->name('verification.verify');
     // Volt::route('confirm-password', 'admin.auth.confirm-password')->name('password.confirm');
 
-    Route::view('dashboard', 'admin.dashboard')->name('dashboard');
+    Route::get('/dashboard',  \App\Livewire\Admin\Dashboard::class)->name('dashboard');
+    
     Route::middleware('can:action-owner')->group(function() {     
         Route::get('/users', \App\Livewire\Admin\User\Index::class)->name('users');
         Route::get('/users/create', \App\Livewire\Admin\User\Create::class)->name('users.create');
