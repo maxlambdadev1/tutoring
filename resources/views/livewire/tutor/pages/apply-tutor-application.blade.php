@@ -256,7 +256,7 @@
                             </li>
                             @endforeach
                         </ul>
-                        <label for="tutor_application_subjects" class="error subject_error" x-ref="tutor_application_subjects_error" style="display:none;">This field is required</label>
+                        <label for="tutor_application_subjects" class="error subject_error" x-show="tutor_application_subjects.length == 0" >This field is required</label>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -415,7 +415,7 @@
                         <div class="check_rule">
                             <input type="checkbox" name="wwcc_check" id="wwcc_check" wire:model="wwcc_check" x-model="wwcc_check">
                             <label for="wwcc_check">Yes, I understand</label>
-                            <label for="" class="error" x-ref="wwcc_check_error" style="display:none;">This field is required.</label>
+                            <label for="" class="error" x-show="!wwcc_check" >This field is required.</label>
                         </div>
                         <p class="mt-2" style="font-size: 13px;">If you are under 18, you will be prompted to apply for your WWCC 2 weeks before your 18th birthday.</p>
                     </div>
@@ -426,7 +426,7 @@
                         <div class="check_rule">
                             <input type="checkbox" name="abn_check" id="abn_check" wire:model="abn_check" x-model="abn_check">
                             <label for="abn_check">Yes, I understand</label>
-                            <label for="" class="error" x-ref="abn_check_error" style="display:none;">This field is required.</label>
+                            <label for="" class="error" x-show="!abn_check">This field is required.</label>
                         </div>
                     </div>
                 </div>
@@ -673,7 +673,6 @@
             abn_check: false,
             submit_result: true,
             loading: false,
-
             init() {
                 this.goStep(1);
             },
@@ -720,11 +719,8 @@
             },
             toStep5() {
                 if (this.tutor_application_subjects.length > 0) {
-                    this.$refs.tutor_application_subjects_error.style.display = 'none';
                     this.goStep(5);
-                } else {
-                    this.$refs.tutor_application_subjects_error.style.display = 'block';
-                }
+                } 
             },
             toStep6() {
                 this.goStep(6);
@@ -758,11 +754,6 @@
                 }
             },
             toStep8() {
-                if (this.wwcc_check) {
-                    this.$refs.wwcc_check_error.style.display = 'none';
-                } else {
-                    this.$refs.wwcc_check_error.style.display = 'block';
-                }
                 if (this.abn_check) {
                     this.$refs.abn_check_error.style.display = 'none';
                 } else {

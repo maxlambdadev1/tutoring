@@ -7,6 +7,7 @@ use App\Models\PriceTutorIncrease;
 use App\Models\PriceParent;
 use App\Models\PriceParentDiscount;
 use App\Models\PriceTutorOffer;
+use App\Models\SessionProgressReport;
 
 trait PriceCalculatable
 {
@@ -125,5 +126,65 @@ trait PriceCalculatable
      */
     public function getCoreSessionPrice($session_type_id) {
         return SessionType::find($session_type_id)->session_price;
+    }
+    /**
+     * update tutor price increasement accoding to session progress reports. 
+     * @param mixed $tutor_id
+     * @param mixed $parent_id
+     * @param mixed $child_id
+     * @return void
+     */
+    public function addTutorPriceIncrease($tutor_id, $parent_id, $child_id) {
+        $increase = 1;
+        $online_increase = 1;
+        $ref_date = new \DateTime('2022-02-01');
+
+        $price_tutor = PriceTutor::getInstance($tutor_id, $parent_id, $child_id);
+        $created_date = new \DateTime($price_tutor->created_at);
+        $price_tutor_increase = PriceTutorIncrease::getInstance($tutor_id, $parent_id, $child_id);
+        if (!empty($price_tutor_increase->increase_amount)) {
+            if (($price_tutor_increase->increase_amount < 5)) {
+                $last_report = SessionProgressReport::where('tutor_id', $tutor_id)->where('parent_id', $parent_id)->where('child_id', $child_id)->orderBy('session_count', 'DESC')->first();
+                if (!empty($last_report)) {
+                    if ($last_report->session_count == 10) {
+                        $increase = 1;
+                        $online_increase = 1;
+                        if ($created_date < $ref_date) $online_increase = 3;
+                    } else if ($last_report->session_count == 20) {
+                        $increase = 2;
+                        $online_increase = 2;
+                        if ($created_date < $ref_date) $online_increase = 3;
+                    } else if ($last_report->session_count == 30) {
+                        $increase = 3;
+                        $online_increase = 3;
+                    } else if ($last_report->session_count == 40) {
+                        $increase = 4;
+                        $online_increase = 4;
+                    } else if ($last_report->session_count == 50) {
+                        $increase = 5;
+                        $online_increase = 5;
+                    }
+
+                    PriceTutorIncrease::updateOrCreate([
+                        'tutor_id' => $tutor_id,
+                        'parent_id' => $parent_id,
+                        'child_id' => $child_id,
+                        'increase_amount' => $increase,
+                        'online_increase_amount' => $online_increase,
+                    ]);
+                }                
+            }
+        } else {            
+            if ($created_date < $ref_date) {
+                $online_increase = 3;
+            }
+            PriceTutorIncrease::create([
+                'tutor_id' => $tutor_id,
+                'parent_id' => $parent_id,
+                'child_id' => $child_id,
+                'increase_amount' => $increase,
+                'online_increase_amount' => $online_increase,
+            ]);
+        }
     }
 }

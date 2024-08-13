@@ -60,4 +60,6 @@ Route::group(['as' => 'pages'], function() {
     Route::get('/student-opportunity', \App\Livewire\Tutor\Pages\StudentOpportunity::class)->name('student-opportunity');
     Route::get('/taken-student', \App\Livewire\Tutor\Pages\SnatchedStudent::class)->name('taken-student');
     Route::get('/accept-waiting-list', \App\Livewire\Tutor\Pages\AcceptWaitingList::class)->name('accept-waiting-list');
+    Route::get('/progress-report', \App\Livewire\Tutor\Pages\ProgressReport::class)->name('progress-report');
+    Route::get('/tutor-review', \App\Livewire\Tutor\Pages\TutorReview::class)->name('tutor-review');
 });
