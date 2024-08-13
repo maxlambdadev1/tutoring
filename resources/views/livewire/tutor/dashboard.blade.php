@@ -120,7 +120,7 @@
         calendar.render();
     };
 
-    document.addEventListener('alpine:init', () => {
+    var dashboard_init = function () {
         Alpine.data('dashboard_init', () => ({
             init() {
                 schedule_sessions_event_init();
@@ -141,5 +141,11 @@
                 });
             }
         }))
-    })
+    }
+    
+    if (typeof Alpine == 'undefined') {
+        document.addEventListener('alpine:init', () => { dashboard_init(); });
+    } else {
+        dashboard_init();
+    }
 </script>

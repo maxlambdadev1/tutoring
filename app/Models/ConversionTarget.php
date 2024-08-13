@@ -10,11 +10,6 @@ class ConversionTarget extends Model
     use HasFactory;
     
     protected $table = 'alchemy_conversion_target';
+    protected $guarded = [];
 
-    protected $fillable = [
-        'job_id',
-        'session_id',
-        'converted_by',
-        'conversion_date',
-    ];
 }

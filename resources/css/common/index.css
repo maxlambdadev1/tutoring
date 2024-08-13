@@ -219,3 +219,6 @@ label.error {
 div.fc-view {
     margin-top: 0px;
 }
+a[href*="?unlicensed"] {
+    display: none!important;
+}
