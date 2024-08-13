@@ -83,8 +83,11 @@
                 this.loading = true;
                 let result = await @this.call('submitReport', this.rating);
                 if (result) this.result = result;
+                else setTimeout(() => {
+                    location.reload();
+                }, 2000);
                 this.loading = false;
-                $('#report-modal').modal('hide');
+                $('#report-modal').modal('hide');                
             },
             getRating() {
                 this.rating = $('#rating').rateit('value');
