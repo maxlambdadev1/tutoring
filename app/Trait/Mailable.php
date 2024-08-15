@@ -131,4 +131,54 @@ trait Mailable
         return $content;
     }
 
+    public function generateUniqueSms()
+    {
+
+        $entry_template = array(
+            'Hi %%tutorfirstname%%! ',
+            'Hey %%tutorfirstname%%! ',
+            'Hi there %%tutorfirstname%%! ',
+            'G\'day %%tutorfirstname%%! ',
+            'Hey %%tutorfirstname%% - it\'s your lucky day! ',
+            'Hi %%tutorfirstname%% - here\'s something exciting for you! ',
+            'Hello %%tutorfirstname%%! ',
+            'Hi %%tutorfirstname%%, today is your day! ',
+            'Hey %%tutorfirstname%%, hope you have had a great week! ',
+            'Hey %%tutorfirstname%% - here\'s one that we think you\'d be great for! ',
+            'Hi %%tutorfirstname%%, hope you are living the dream! ',
+            'Hi %%tutorfirstname%%, it\'s a great day to take on a new student! ',
+            'Hi %%tutorfirstname%%, we\'ve got something exciting for you! ',
+            'Hey %%tutorfirstname%%, you look amazing today! ',
+            'Hey %%tutorfirstname%%, this one ticks all your boxes! ',
+            'Howdy %%tutorfirstname%%! '
+        );
+        $mid_template = array(
+            'We have a year %%grade%% student looking for help with %%subject%% in %%suburb%%. ',
+            'We\'ve got a year %%grade%% student in %%suburb%% looking for help with %%subject%% that we think you\'d be perfect for! ',
+            'There is a year %%grade%% student in %%suburb%% looking for support with %%subject%%. ',
+            'We\'ve got a year %%grade%% student in %%suburb%% looking for help with %%subject%%. ',
+            'We have a year %%grade%% student looking for help with %%subject%% in %%suburb%% with matching availabilities to you. ',
+            'We have the perfect student for you - year %%grade%% in %%suburb%% looking for help with %%subject%%. ',
+            'There is a new year %%grade%% student located in %%suburb%%, looking for help with %%subject%% that matches your availabilities! ',
+            'We have a great student opportunity for you: year %%grade%% %%subject%% in %%suburb%%. ',
+            'There is a year %%grade%% student looking for help with %%subject%% in %%suburb%%. ',
+            'There\'s a new student near you: year %%grade%% %%subject%% in %%suburb%%. '
+        );
+        $end_template = array(
+            'Learn more here: %%link%% ',
+            'Check out the details here: %%link%%',
+            'Take a look here: %%link%%',
+            'View more and accept here: %%link%%',
+            'Can you take them on? Learn more here: %%link%%',
+            'Could you work with them? Learn more here: %%link%%',
+            'Get started here: %%link%%',
+            'What an opportunity! Check it here: %%link%%',
+            'See the details here: %%link%%',
+            'To view details and accept this student click here: %%link%%',
+        );
+
+        $sms_template = $entry_template[rand(0, (count($entry_template) - 1))] . $mid_template[rand(0, (count($mid_template) - 1))] . $end_template[rand(0, (count($end_template) - 1))];
+
+        return $sms_template;
+    }
 }

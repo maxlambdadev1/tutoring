@@ -9,6 +9,7 @@ use App\Models\UniqueUrl;
 use App\Models\JobHistory;
 use App\Models\ChildHistory;
 use App\Models\SessionHistory;
+use App\Models\JobAutomationHistory;
 use App\Models\FailedPaymentHistory;
 use App\Models\HolidayTutorHistory;
 use App\Models\HolidayStudentHistory;
@@ -143,6 +144,7 @@ trait Functions
 		$arr = explode(',', $str);
 		if (!empty($arr) && count($arr) > 0) {
 			foreach ($arr as $item) { //item : tp530...
+				if (empty($item)) continue;
 				$day = $this::DAY_SHOUTCUT[substr($item, 0, 1)]; //tue
 				$ampm = $this::AMPM_SHORTCUT[substr($item, 1, 1)]; //
 				$time = substr($item, 2); //530
@@ -307,6 +309,20 @@ trait Functions
 		if (empty($post['author'])) $post['author'] = 'System';
 
 		JobHistory::create([
+			'job_id' => $post['job_id'],
+			'author' => $post['author'],
+			'comment' => $post['comment'],
+			'date' => date('d/m/Y H:i')
+		]);
+	}
+	/**
+	 * @param $post = ['job_id' => , 'author' =>, 'comment' =>]
+	 */
+	public function addJobAutomationHistory($post)
+	{
+		if (empty($post['author'])) $post['author'] = 'System';
+
+		JobAutomationHistory::create([
 			'job_id' => $post['job_id'],
 			'author' => $post['author'],
 			'comment' => $post['comment'],
@@ -653,8 +669,8 @@ trait Functions
 		$tutor = Tutor::find($tutor_id);
 		if (empty($parent) || empty($tutor)) return 0;
 
-		$daylight = $this->getOption('daylight');
-		$parent_state = $parent->state ?? null;
+		$daylight = $this->getOption('daylight') ?? 0;
+		$parent_state = $parent->parent_state ?? null;
 		$tutor_state = $tutor->state ?? null;
 		if (empty($tutor_state) || empty($parent_state) || empty($daylight)) return 0;
 
