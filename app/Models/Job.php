@@ -55,6 +55,11 @@ class Job extends Model
     {
         return $this->hasMany(Session::class, 'job_id');
     }
+    
+    public function job_match()
+    {
+        return $this->hasOne(JobMatch::class, 'job_id');
+    }
 
     public function visited_tutors() {
         return $this->hasMany(JobVisit::class, 'job_id');

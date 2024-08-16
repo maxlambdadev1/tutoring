@@ -60,9 +60,12 @@ Route::group(['as' => 'pages'], function() {
     Route::get('/student-opportunity', \App\Livewire\Tutor\Pages\StudentOpportunity::class)->name('student-opportunity');
     Route::get('/taken-student', \App\Livewire\Tutor\Pages\SnatchedStudent::class)->name('taken-student');
     Route::get('/accept-waiting-list', \App\Livewire\Tutor\Pages\AcceptWaitingList::class)->name('accept-waiting-list');
+    Route::get('/reject-waiting-list', \App\Livewire\Tutor\Pages\RejectWaitingList::class)->name('reject-waiting-list');
+    Route::get('/update-availabilities', \App\Livewire\Tutor\Pages\UpdateJobAvailabilities::class)->name('update-availabilities');
     Route::get('/progress-report', \App\Livewire\Tutor\Pages\ProgressReport::class)->name('progress-report');
     Route::get('/tutor-review', \App\Livewire\Tutor\Pages\TutorReview::class)->name('tutor-review');
     Route::get('/tutorvote', \App\Livewire\Tutor\Pages\TutorVote::class)->name('tutorvote');
     Route::get('/reference', \App\Livewire\Tutor\Pages\Reference::class)->name('reference');
     Route::get('/thankyou-parent', \App\Livewire\Tutor\Pages\ThankyouParent::class)->name('thankyou-parent');
+    Route::get('/feedback', \App\Livewire\Tutor\Pages\Feedback::class)->name('feedback');
 });

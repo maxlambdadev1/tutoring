@@ -49,6 +49,10 @@ class Tutor extends Model
         return $this->hasOne(TutorWwcc::class);
     }
     
+    public function rejected_jobs() {
+        return $this->hasOne(RejectedJob::class);
+    }
+    
     public function wwcc_validate() {
         return $this->hasOne(TutorWwccValidate::class);
     }

@@ -229,20 +229,4 @@ class CreateLead extends Component
         return view('livewire.admin.components.create-lead', compact('states', 'session_types', 'sources', 'offer_valid_list', 'grades', 'total_availabilities'));
     }
 
-    /**
-     * Order array from mon - sun
-     * @param ['tue-6:30 PM', 'mon-7:00 AM'...]
-     * @return ['mon-7:00 AM', 'tue-6:30 PM'...]
-     */
-    private function orderAvailabilitiesAccordingToDay($avail_arr) {
-        $total_availabilities = Availability::get();
-        $orderedAvailabilities = [];
-        foreach ($total_availabilities as $item) {
-            foreach ($item->getAvailabilitiesName() as $ele) {
-                $avail_hour = $item->short_name . '-' . $ele;
-                if (in_array($avail_hour, $avail_arr)) $orderedAvailabilities[] = $avail_hour;
-            }
-        }
-        return $orderedAvailabilities;
-    }
 }

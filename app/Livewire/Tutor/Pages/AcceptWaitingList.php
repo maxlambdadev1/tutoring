@@ -66,6 +66,12 @@ class AcceptWaitingList extends Component
         if (!$flag) $this->redirect(env('MAIN_SITE'));
     }
 
+    /**
+     * get formatted date from job, tutor
+     * @param mixed $job_id
+     * @param mixed $tutor_id
+     * @return array<mixed|string>[] : [['full_date' => '25/06/2024 6:00PM' , 'date' => 'Sunday 6:00PM'], ...]
+     */
     private function getFormattedDateFromJob($job_id, $tutor_id) {
         $job = Job::find($job_id);
         $hour_diff = $this->getTimezoneDiffHours($job->parent_id, $tutor_id);

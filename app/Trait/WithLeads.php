@@ -12,10 +12,12 @@ use App\Models\Session;
 use App\Models\User;
 use App\Models\RejectedJob;
 use App\Models\Job;
+use App\Models\TutorOfferVolume;
 use App\Models\JobReschedule;
 use App\Models\JobIgnore;
+use App\Models\Availability;
 use App\Models\JobOffer;
-use App\Models\ParentReferrer;
+use App\Models\JobVolumeCount;
 use App\Models\PriceParentDiscount;
 use App\Models\SessionType;
 use App\Models\ThirdpartyOrganisation;
@@ -832,7 +834,7 @@ trait WithLeads
     {
         $tutor = Tutor::find($tutor_id);
         if (empty($tutor)) return [];
-        
+
         $under_18 = $tutor->under18 ?? false;
         $experienced_limit = $this->getOption('experience-limit') ?? 50;
 
@@ -953,5 +955,92 @@ trait WithLeads
         }
 
         return $query;
+    }
+
+    /**
+     * Order array from mon - sun
+     * @param ['tue-6:30 PM', 'mon-7:00 AM'...]
+     * @return ['mon-7:00 AM', 'tue-6:30 PM'...]
+     */
+    public function orderAvailabilitiesAccordingToDay($avail_arr)
+    {
+        $total_availabilities = Availability::get();
+        $orderedAvailabilities = [];
+        foreach ($total_availabilities as $item) {
+            foreach ($item->getAvailabilitiesName() as $ele) {
+                $avail_hour = $item->short_name . '-' . $ele;
+                if (in_array($avail_hour, $avail_arr)) $orderedAvailabilities[] = $avail_hour;
+            }
+        }
+        return $orderedAvailabilities;
+    }
+
+    /**
+     * add job_id to tutor offer volume.
+     * @param mixed $tutor_id
+     * @param mixed $job_id
+     * @return void
+     */
+    public function addJobVolumeOffer($tutor_id, $job_id)
+    {
+        $job_volume_count = JobVolumeCount::where('job_id', $job_id)->where('tutor_id', $tutor_id)->first();
+        if (empty($job_volume_count)) {
+            JobVolumeCount::create([
+                'job_id' => $job_id,
+                'tutor_id' => $tutor_id,
+                'date' => (new \DateTime('now'))->format('d/m/Y H:i')
+            ]);
+            Tutor::where('id', $tutor_id)->increment('break_count');
+        }
+
+        $tutor_offer_volume = TutorOfferVolume::where('tutor_id')->first();
+        $job_ids = $job_id;
+        $offers = 1;
+        if (!empty($tutor_offer_volume)) {
+            if (!in_array($job_id, $tutor_offer_volume->job_ids_array)) {
+                $job_ids = $tutor_offer_volume->job_ids . ";" . $job_id;
+                $offers = $tutor_offer_volume->offers + 1;
+                TutorOfferVolume->create([
+                    'job_id' => $job_id,
+                    'tutor_id' => $tutor_id,
+                ], [
+                    'job_ids' => $job_ids,
+                    'offers' => $offers,
+                    'date_lastupdate' => (new \DateTime('now'))->format('d/m/Y H:i')
+                ]);
+            }
+        } else {
+            TutorOfferVolume->create([
+                'job_id' => $job_id,
+                'tutor_id' => $tutor_id,
+                'job_ids' => $job_id,
+                'offers' => 1,
+                'date_lastupdate' => (new \DateTime('now'))->format('d/m/Y H:i')
+            ]);
+        }
+    }
+    /**
+     * Upsert job offer
+     * @param int $job_id
+     * @param array $diff ;['time' => 86400, 'amount' => 5]
+     * @return void
+     */
+    public function upsertJobOffer($job_id, $diff) {
+        $job_offer = JobOffer::where('job_id', $job_id)->first();
+        if (empty($job_offer) || !empty($job_offer) && $job_offer->expiry == 'permanent') {
+            JobOffer::updateOrCreate([
+                'job_id' => $job_id,
+            ], [
+                'offer_amount' => $diff['amount'],
+                'offer_type' => 'fixed',
+                'expiry' => 'permanent'
+            ]);
+
+            $time = $diff['time'] / 60 / 60;
+            $this->addJobHistory([
+                'job_id' => $job_id,
+                'comment' => 'Added \$' . $diff['amount'] . ' offer after ' . $time . ' hours'
+            ]);
+        }
     }
 }

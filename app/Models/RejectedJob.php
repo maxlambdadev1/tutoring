@@ -12,4 +12,8 @@ class RejectedJob extends Model
     protected $table = 'alchemy_rejected_jobs';
     protected $guarded = [];
     
+    public function getRejectedAttribute() {
+        return explode(",", $this->job_ids) ?? [];
+    }
+    
 }
