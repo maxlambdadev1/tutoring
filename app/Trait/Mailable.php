@@ -74,6 +74,7 @@ trait Mailable
         if (isset($params['grade']))                $content = str_replace('%%grade%%', $params['grade'], $content);
         if (isset($params['favourite']))            $content = str_replace('%%favourite%%', $params['favourite'], $content);
         if (isset($params['jobdate']))              $content = str_replace('%%jobdate%%', $params['jobdate'], $content);
+        if (isset($params['lastsessiondate']))      $content = str_replace('%%lastsessiondate%%', $params['lastsessiondate'], $content);
         if (isset($params['length']))               $content = str_replace('%%length%%', $params['length'], $content);
         if (isset($params['link']))                 $content = str_replace('%%link%%', $params['link'], $content);
         if (isset($params['mainresult']))           $content = str_replace('%%mainresult%%', $params['mainresult'], $content);

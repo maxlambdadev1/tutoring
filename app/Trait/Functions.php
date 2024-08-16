@@ -252,6 +252,12 @@ trait Functions
 		return $return;
 	}
 
+	/**
+	 * Get graduation year according to current grade year.
+	 * @param int $child_year ; Pre-K, K, 1,2, 
+	 * @param string $booking_day ; Y-m-d H:i:s
+	 * @return int|null
+	 */
 	public function getGraduationYear($child_year, $booking_day = NULL)
 	{
 		if (empty($booking_day)) {

@@ -14,7 +14,32 @@ trait Automationable
 {
     use Mailable, Functions, WithLeads;
 
-    public function findTutorForJob($job_id) {}
+    /**
+     * Automation for the job.
+     * @param int $job_id
+     * @return void
+     */
+    public function findTutorForJob($job_id) {
+        $job = Job::find($job_id);
+        if (!empty($job)) {
+            if ($job->session_type_id == 1) $this->findTutorForF2F($job_id);
+            else $this->findTutorForOnline($job_id);
+        } 
+    }    
+
+    /**
+     * Automation for f2f job
+     * @param int $job_id
+     * @return void
+     */
+    public function findTutorForF2F($job_id) {}    
+    
+    /**
+     * Automation for online job
+     * @param int $job_id
+     * @return void
+     */
+    public function findTutorForOnline($job_id) {}
 
     public function sendOnlineTutoringEmail($job_id)
     {

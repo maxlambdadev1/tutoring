@@ -104,9 +104,10 @@ class BookLead extends Component
         $this->grades = Grade::get();
     }
 
-    public function submitParentBooking()
+    public function submitParentBooking($address)
     {
         try {
+            $this->address = $address;
             $this->validate([
                 'parent_first_name'     => 'required|max:255',
                 'parent_last_name'      => 'required|max:255',
