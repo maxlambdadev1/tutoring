@@ -69,4 +69,5 @@ Route::group(['as' => 'pages'], function() {
     Route::get('/thankyou-parent', \App\Livewire\Tutor\Pages\ThankyouParent::class)->name('thankyou-parent');
     Route::get('/feedback', \App\Livewire\Tutor\Pages\Feedback::class)->name('feedback');
     Route::get('/replacement-tutor', \App\Livewire\Tutor\Pages\ReplacementTutor::class)->name('replacement-tutor');
+    Route::get('/confirm-session', \App\Livewire\Tutor\Pages\ConfirmSession::class)->name('confirm-session');
 });

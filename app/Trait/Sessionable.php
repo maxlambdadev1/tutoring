@@ -391,4 +391,15 @@ trait Sessionable
         }
     }
 
+    public function makeChildActive($child_id) {
+        $child = Child::find($child_id);
+        if (!empty($child)) {
+            $child->update(['child_status' => 0]);
+            $this->addStudentHistory([
+                'child_id' => $child_id,
+                'comment' => 'Sent student to active since they are confirming a session.'
+            ]);
+        }
+    }
+
 }
