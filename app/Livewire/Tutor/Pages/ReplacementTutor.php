@@ -45,31 +45,31 @@ class ReplacementTutor extends Component
 
     public function mount()
     {
-        // $url = request()->query('key') ?? '';
-        // $flag = false;
-        // if (!empty($url)) {
-        //     $details = unserialize(base64_decode($url));
-        //     if (!empty($details)) {
-        //         $replacement_id = $details['replacement_id'] ?? '';
-        //         $type = $details['type'] ?? '';
-        //         $tutor_id = $details['tutor_id'] ?? '';
-        //         $parent_id = $details['parent_id'] ?? '';
-        //         $child_id = $details['child_id'] ?? '';
-        //         if (!empty($type) && !empty($replacement_id)) {
-        // $this->type = $type;
-        //             $this->parent = AlchemyParent::find($parent_id);
-        //             $this->child = Child::find($child_id);
-        //             $this->tutor = Tutor::find($tutor_id);
-        //             if (!empty($this->parent) && !empty($this->child) && !empty($this->tutor)) $flag = true;
-        //         }
-        //     }
-        // }
-        // if (!$flag) $this->redirect(env('MAIN_SITE'));
-        $this->parent = AlchemyParent::find(2889);
-        $this->child = Child::find(3381);
-        $this->tutor = Tutor::find(1062);
-        $this->type = 'replacement-tutor';
-        $this->replacement_id = 343;
+        $url = request()->query('key') ?? '';
+        $flag = false;
+        if (!empty($url)) {
+            $details = unserialize(base64_decode($url));
+            if (!empty($details)) {
+                $replacement_id = $details['replacement_id'] ?? '';
+                $type = $details['type'] ?? '';
+                $tutor_id = $details['tutor_id'] ?? '';
+                $parent_id = $details['parent_id'] ?? '';
+                $child_id = $details['child_id'] ?? '';
+                if (!empty($type) && !empty($replacement_id)) {
+        $this->type = $type;
+                    $this->parent = AlchemyParent::find($parent_id);
+                    $this->child = Child::find($child_id);
+                    $this->tutor = Tutor::find($tutor_id);
+                    if (!empty($this->parent) && !empty($this->child) && !empty($this->tutor)) $flag = true;
+                }
+            }
+        }
+        if (!$flag) $this->redirect(env('MAIN_SITE'));
+        // $this->parent = AlchemyParent::find(2889);
+        // $this->child = Child::find(3381);
+        // $this->tutor = Tutor::find(1062);
+        // $this->type = 'replacement-tutor';
+        // $this->replacement_id = 343;
 
         $this->availabilities = $this->job->availabilities ?? [];
         $this->total_availabilities = Availability::get();
