@@ -1043,7 +1043,7 @@
             },
             async submitParentBooking() {
                 this.loading = true;
-                let result = await @this.call('submitParentBooking');
+                let result = await @this.call('submitParentBooking', $('#address').val());
                 this.loading = false;
                 this.result = result;
             }
