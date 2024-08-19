@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="text-center mb-3">
-                        @if (!!$job->automation)
+                        @if (!$job->automation)
                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateAvailabilitiesModal{{$job->id}}">Edit time</button>
                         @else
                         <div class="alert alert-danger text-center">

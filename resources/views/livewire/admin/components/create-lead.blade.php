@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" x-data="create_lead_init">
     <div class="col-12">
         <div class="card mb-3">
             <div class="card-body">
@@ -29,36 +29,36 @@
         <div class="card">
             <div class="card-body">
                 <x-session-alert />
-                <form id="store_lead">
+                <form id="store_lead" action="#">
                     @csrf
                     <div id="lead_wizard">
-                        <ul class="nav nav-pills nav-justified form-wizard-header mb-3" data-step="{{$current_step}}">
+                        <ul class="nav nav-pills nav-justified form-wizard-header mb-3 mx-0">
                             <li class="nav-item">
-                                <a href="#parent" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2 @if ($current_step == 0) active @endif">
+                                <a href="#parent" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2" :class="{'active' : current_step == 0}">
                                     <i class="mdi mdi-account-question me-1"></i>
                                     <span class="d-none d-sm-inline">Parent</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#location" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2 @if ($current_step == 1) active @endif">
+                                <a href="#location" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2" :class="{'active' : current_step == 1}">
                                     <i class="mdi mdi-map-marker-radius me-1"></i>
                                     <span class="d-none d-sm-inline">Location</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#student" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2 @if ($current_step == 2) active @endif">
+                                <a href="#student" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2" :class="{'active' : current_step == 2}">
                                     <i class="mdi mdi-account-tie-hat me-1"></i>
                                     <span class="d-none d-sm-inline">Student</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#lessons" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2 @if ($current_step == 3) active @endif">
+                                <a href="#lessons" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2" :class="{'active' : current_step == 3}">
                                     <i class="mdi mdi-briefcase-edit-outline me-1"></i>
                                     <span class="d-none d-sm-inline">Lessons</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#admin" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2 @if ($current_step == 4) active @endif">
+                                <a href="#admin" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2" :class="{'active' : current_step == 4}">
                                     <i class="mdi mdi-account me-1"></i>
                                     <span class="d-none d-sm-inline">Admin</span>
                                 </a>
@@ -66,7 +66,7 @@
                         </ul>
 
                         <div class="tab-content b-0 mb-0">
-                            <div class="tab-pane @if ($current_step == 0) active @endif" id="parent">
+                            <div class="tab-pane" :class="{'active' : current_step == 0}" id="parent">
                                 <div class="row">
                                     <div class="col-12">
                                         <x-form-input wire:model="inputData.parent_first_name" name="parent_first_name" type="text" label="Parent first name" placeholder="First name" autocomplete="parent_first_name" />
@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane @if ($current_step == 1) active @endif" id="location">
+                            <div class="tab-pane" :class="{'active' : current_step == 1}" id="location">
                                 <div class="row">
                                     <div class="col-12" x-data="{showAddressSuburb : @entangle('session_type_id') === 1}">
                                         <x-form-select wire:model="inputData.session_type_id" name="session_type_id" :items="$session_types" label="Session Type" x-on:change="showAddressSuburb = ($event.target.value === '1')" />
@@ -90,7 +90,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane @if ($current_step == 2) active @endif" id="student">
+                            <div class="tab-pane" :class="{'active' : current_step == 2}" id="student">
                                 <div class="row">
                                     <div class="col-12">
                                         <x-form-input wire:model="inputData.students.student1.student_first_name" name="student_first_name" type="text" label="Student first name" placeholder="First name" autocomplete="student_first_name" />
@@ -100,7 +100,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane @if ($current_step == 3) active @endif" id="lessons" x-data="{showStartDatePicker: @entangle('start_date') === 'DATE'}">
+                            <div class="tab-pane" :class="{'active' : current_step == 3}" id="lessons" x-data="{showStartDatePicker: @entangle('start_date') === 'DATE'}">
                                 <x-form-select-origin wire:model="inputData.students.student1.start_date" name="start_date" :items="['ASAP', 'DATE']" label="Start date" x-on:change="showStartDatePicker = ($event.target.value === 'DATE')" />
                                 <div x-show="showStartDatePicker">
                                     <x-form-input wire:model="inputData.students.student1.start_date_picker" name="start_date_picker" type="text" label="Select a date" autocomplete="start_date_picker" />
@@ -110,14 +110,21 @@
                                 @endif
                                 <div class="mb-3">
                                     <label for="" class="form-label">{{__('Availabilities')}}</label>
-                                    <div class="availabilities_wrapper">
+                                    <div class="availabilities_wrapper mb-4 px-3">
                                         <div class="row">
+                                            @php $i = 0; @endphp
                                             @foreach ($total_availabilities as $item)
                                             <div class="col-md text-center" data-day="{{$item->name}}">
                                                 <h5>{{$item->name}}</h5>
                                                 @forelse ($item->getAvailabilitiesName() as $ele)
-                                                @php $avail_hour = $item->short_name . '-' . $ele; @endphp
-                                                <div class="avail_hours @if(in_array($avail_hour, $inputData['students']['student1']['availabilities'])) active @endif" wire:click="toggleAvailItemStatus('{{$avail_hour}}')">{{$ele}}</div>
+                                                @php
+                                                $avail_hour = $item->short_name . '-' . $ele;
+                                                $i++;
+                                                @endphp
+                                                <div class="avail_hours p-0 w-100">
+                                                    <input type="checkbox" class="d-none" id="availability-{{$i}}" value="{{$avail_hour}}" wire:model="inputData.students.student1.availabilities" />
+                                                    <label for="availability-{{$i}}" class="text-center py-1 w-100">{{$ele}}</label>
+                                                </div>
                                                 @empty
                                                 <div>Not exist</div>
                                                 @endforelse
@@ -137,7 +144,7 @@
                                 <x-form-select-origin wire:model="inputData.students.student1.student_personality" name="student_personality" label="How would you describe their personality?" :items="['Shy','Outgoing','Somewhere in between']" />
                                 <x-form-input wire:model="inputData.students.student1.student_favourite" name="student_favourite" label="What are their 3 favourite things to do (ie. video games, soccer, swimming)" />
                             </div>
-                            <div class="tab-pane @if ($current_step == 4) active @endif" id="admin">
+                            <div class="tab-pane" :class="{'active' : current_step == 4}" id="admin">
                                 <div class="row">
                                     <div class="col-12" x-data="{tutorApplyOffer: false, parentApplyDiscount: false, isSpecialRequest: false}">
                                         <x-form-select-origin wire:model="inputData.prefered_gender" name="prefered_gender" label="Preferred gender" :items="['Male','Female']" />
@@ -192,7 +199,7 @@
                                         <div x-show="parentApplyDiscount == true" class="apply_discount" style="display: none;">
                                             <div class="mb-3">
                                                 <label for="inputData.discount_type" class="form-label">Discount type</label>
-                                                <select class="form-select" wire:model="discount_type" id="discount_type">
+                                                <select class="form-select" wire:model="inputData.discount_type" id="discount_type">
                                                     <option value="">Please select</option>
                                                     <option value="percentage">Percent</option>
                                                 </select>
@@ -214,13 +221,13 @@
                             </div>
 
                             <ul class="list-inline wizard mb-0">
-                                <li class="previous list-inline-item @if ($current_step == 0) opacity-50 @endif">
-                                    <a href="javascript:void(0);" class="btn btn-info">Previous</a>
+                                <li class="previous list-inline-item">
+                                    <button type="button" class="btn btn-info" x-on:click="toPrevStep" :disabled="current_step == 0">Previous</button>
                                 </li>
-                                <li class="next list-inline-item @if ($current_step == 4) opacity-50 @endif">
-                                    <a href="javascript:void(0);" class="btn btn-info">Next</a>
+                                <li class="next list-inline-item">
+                                    <button type="button" class="btn btn-info" x-on:click="toNextStep" :disabled="current_step == 4">Next</button>
                                 </li>
-                                <li class="finish list-inline-item @if ($current_step !== 4) d-none @endif"><a href="javascript:;" class="btn btn-success">Finish</a></li>
+                                <li class="finish list-inline-item" x-show="current_step == 4"><a href="javascript:;" class="btn btn-success" x-on:click="finish">Finish</a></li>
                             </ul>
                         </div>
                     </div>
@@ -228,108 +235,84 @@
             </div>
         </div>
     </div>
-    <div x-data="{ init(){
-        $(function() {
-            $.validator.setDefaults({
-                debug: true,
-                onsubmit: false,
-                errorPlacement: function(error, element) {
-                    return true;
-                },
-                highlight: function(element, errorClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element) {
-                    $(element).removeClass('is-invalid');
-                },
-            });
-            var $validator = $('#store_lead').validate({
-                rules: {
-                    parent_first_name: 'required',
-                    parent_last_name: 'required',
-                    parent_phone: 'required',
-                    parent_email: {
-                        required: true,
-                        email: true,
-                    },
-                    session_type_id: 'required',
-                    state_id: 'required',
-                    address: 'required',
-                    suburb: 'required',
-                    postcode: {
-                        required: true,
-                        rangelength: [4, 4]
-                    },
-                    student_first_name: 'required',
-                    student_last_name: 'required',
-                    grade_id: 'required',
-                    start_date: 'required',
-                    start_date_picker: 'required',
-                    subject: 'required',
-                    offer_amount: {
-                        required: true,
-                        number: true,
-                    },
-                    offer_valid: 'required',
-                    discount_type: 'required',
-                    discount_amount: {
-                        required: true,
-                        number: true,
-                    },
-                }
-            });
+</div>
 
-            $('#lead_wizard .next').click(function() {
-                let $valid = $('#store_lead').valid();
-                if (!$valid) {
-                    $validator.focusInvalid();
-                    return false;
-                }
-                let index = parseInt($('#lead_wizard ul').attr('data-step'));
-                if (index == 3 && $('.availabilities_wrapper .active').length == 0) {
-                    $('.availabilities_wrapper').addClass('is-invalid')
-                    return false;
-                }
-                $('.availabilities_wrapper').removeClass('is-invalid');
-                if (index < 4) @this.set('current_step', index + 1);
-            })
-            $('#lead_wizard .previous').click(function() {
-                let index = parseInt($('#lead_wizard ul').attr('data-step'));
-                if (index == 3 && $('.availabilities_wrapper .active').length == 0) {
-                    $('.availabilities_wrapper').addClass('is-invalid')
-                    return false;
-                }
-                $('.availabilities_wrapper').removeClass('is-invalid');
-                if (index > 0) @this.set('current_step', index - 1);
-            })
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('create_lead_init', () => ({
+            current_step: 0,
+            init() {
+                $('#state_id, #grade_id').on('change', function() {
+                    @this.call('getSubjectsFromStateAndGrade');
+                })
 
-
-            $('#lead_wizard .finish').click(function(e) {
-                let $valid = $('#store_lead').valid();
-                if (!$valid) {
-                    $validator.focusInvalid();
-                    return false;
-                }
-                @this.call('finish');
+                $('#start_date_picker').datepicker({
+                    autoclose: true,
+                    format: 'dd/mm/yyyy',
+                    startDate: new Date(),
+                    todayHighlight: true,
+                }).on('changeDate', function(e) {
+                    var selectedDate = e.format(0, 'dd/mm/yyyy');
+                    @this.set('inputData.students.student1.start_date_picker', selectedDate);
+                });
+            },
+            goStep(step) {
+                this.current_step = step;
+            },
+            toNextStep() {
+                if (this.form_validate()) this.goStep(this.current_step + 1);
+            },
+            toPrevStep() {
+                this.goStep(this.current_step - 1);
+            },
+            async finish() {
+                if (!this.form_validate()) return;
+                await @this.call('finish');
+                this.current_step = 0;
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
                 });
-            });
-
-            $('#state_id, #grade_id').on('change', function() {
-                @this.call('getSubjectsFromStateAndGrade');
-            })
-
-            $('#start_date_picker').datepicker({
-                autoclose: true,
-                format: 'dd/mm/yyyy',
-                startDate: new Date(),
-                todayHighlight: true,
-            }).on('changeDate', function(e) {
-                var selectedDate = e.format(0, 'dd/mm/yyyy');
-                @this.set('inputData.students.student1.start_date_picker', selectedDate);
-            });
-
-        }); }}"></div>
-</div>
+            },
+            form_validate() {
+                $('#store_lead').validate({
+                    rules: {
+                        parent_first_name: 'required',
+                        parent_last_name: 'required',
+                        parent_phone: 'required',
+                        parent_email: {
+                            required: true,
+                            email: true,
+                        },
+                        session_type_id: 'required',
+                        state_id: 'required',
+                        address: 'required',
+                        suburb: 'required',
+                        postcode: {
+                            required: true,
+                            rangelength: [4, 4]
+                        },
+                        student_first_name: 'required',
+                        student_last_name: 'required',
+                        grade_id: 'required',
+                        start_date: 'required',
+                        start_date_picker: 'required',
+                        subject: 'required',
+                        offer_amount: {
+                            required: true,
+                            number: true,
+                        },
+                        offer_valid: 'required',
+                        discount_type: 'required',
+                        discount_amount: {
+                            required: true,
+                            number: true,
+                        },
+                    }
+                });
+                if ($('#store_lead').valid()) return true;
+                else return false;
+            }
+        }))
+    })
+</script>
