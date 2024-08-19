@@ -21,6 +21,14 @@ class CreateLead extends Component
     public $thirdparty_org_id;
     public $inputData = array();
 
+    /**  extra */
+    public $search_str_for_tutors = "";
+    public $searched_tutors = []; //tutors
+    public $search_str_for_parent_child = "";
+    public $searched_parents_children = [];
+    public $subjects; //according to state, grade_id
+
+
     public function mount($thirdparty_org_id)
     {
         $this->thirdparty_org_id = $thirdparty_org_id;
@@ -84,19 +92,8 @@ class CreateLead extends Component
         $this->searched_tutors = [];
         $this->search_str_for_parent_child = "";
         $this->searched_parents_children = [];
-        $this->current_step = 0;
         $this->subjects = [];
     }
-
-    /**  extra */
-    public $search_str_for_tutors = "";
-    public $searched_tutors = []; //tutors
-    public $search_str_for_parent_child = "";
-    public $searched_parents_children = [];
-
-
-    public $subjects; //according to state, grade_id
-    public $current_step = 0; // 0 - 4
 
     public function searchTutorsForIgnore()
     {
@@ -157,17 +154,6 @@ class CreateLead extends Component
         if (!empty($this->inputData['state_id']) && !empty($this->inputData['students']['student1']['grade_id'])) {
             $this->subjects = Subject::where('state_id', $this->inputData['state_id'])->whereJsonContains('grades', ['id' => $this->inputData['students']['student1']['grade_id']])->pluck('name');
         } else $this->subjects = null;
-    }
-
-    public function toggleAvailItemStatus($avail_hour)
-    {
-        if (in_array($avail_hour, $this->inputData['students']['student1']['availabilities'])) {
-            $this->inputData['students']['student1']['availabilities'] = array_filter($this->inputData['students']['student1']['availabilities'], function ($value) use ($avail_hour) {
-                return $value !== $avail_hour;
-            });
-        } else {
-            array_push($this->inputData['students']['student1']['availabilities'], $avail_hour);
-        }
     }
 
     public function finish()
