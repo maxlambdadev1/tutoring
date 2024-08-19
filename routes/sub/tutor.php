@@ -71,4 +71,5 @@ Route::group(['as' => 'pages'], function() {
     Route::get('/replacement-tutor', \App\Livewire\Tutor\Pages\ReplacementTutor::class)->name('replacement-tutor');
     Route::get('/confirm-session', \App\Livewire\Tutor\Pages\ConfirmSession::class)->name('confirm-session');
     Route::get('/paymentcc', \App\Livewire\Tutor\Pages\PaymentCc::class)->name('paymentcc');
+    Route::get('/tutor/{tutor_id}', \App\Livewire\Tutor\Pages\TutorProfile::class)->name('tutor-profile');
 });
