@@ -158,7 +158,7 @@
                         <p class="fw-bold mb-1">This booking has a special requirement from the parent</p>
                         <p class="">{{$job->special_request_content}}</p>
                         <hr />
-                        <label for="achivement" class="form-label">To ensure you are the right tutor for this student, please explain how you meet the requirements listed above</label>
+                        <label for="special_request_response" class="form-label">To ensure you are the right tutor for this student, please explain how you meet the requirements listed above</label>
                         <textarea class="form-control" wire:model="special_request_response" id="special_request_response" rows="3" x-model="special_request_response"></textarea>
                     </div>
                     @endif

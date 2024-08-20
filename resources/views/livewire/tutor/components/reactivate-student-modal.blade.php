@@ -32,7 +32,7 @@
 </div>
 
 <script>
-    document.addEventListener('alpine:init', () => {
+    var reactivate_student_modal_init_{{$child->id}} = () => {
         Alpine.data('reactivate_student_modal_init_{{$child->id}}', () => ({
             session_date: '',
             session_time: '',
@@ -63,5 +63,11 @@
                 this.loading = false;
             },
         }))
-    })
+    }
+    
+    if (typeof Alpine == 'undefined') {
+        document.addEventListener('alpine:init', () => { reactivate_student_modal_init_{{$child->id}}(); });
+    } else {
+        reactivate_student_modal_init_{{$child->id}}();
+    }
 </script>
