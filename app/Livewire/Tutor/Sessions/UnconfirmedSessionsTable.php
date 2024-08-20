@@ -15,6 +15,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
+use Jenssegers\Agent\Agent;
 
 
 class UnconfirmedSessionsTable extends PowerGridComponent
@@ -27,7 +28,6 @@ class UnconfirmedSessionsTable extends PowerGridComponent
     {
         return [
             Header::make()
-                ->showToggleColumns()
                 ->showSearchInput(),
 
             Footer::make()
@@ -78,12 +78,20 @@ class UnconfirmedSessionsTable extends PowerGridComponent
 
     public function columns(): array
     {
-        return [
-            Column::add()->title('ID')->field('id')->sortable()->hidden(isHidden: true, isForceHidden: false),
+        $is_phone = (new Agent())->isPhone();
+        
+        if (!$is_phone) $columns = [
+            Column::add()->title('ID')->field('id')->sortable(),
             Column::add()->title('Student name')->field('child_name')->sortable()->searchable(),
             Column::add()->title('Session Date')->field('session_date'),
-            Column::add()->title('Lesson type')->field('type_id')->sortable()->hidden(isHidden: true, isForceHidden: false),
-        ];
+            Column::add()->title('Lesson type')->field('type_id')->sortable(),
+        ]; 
+        else $columns = [
+            Column::add()->title('Student name')->field('child_name')->sortable()->searchable(),
+            Column::add()->title('Session Date')->field('session_date'),
+        ]; 
+
+        return $columns;
     }
 
 }
