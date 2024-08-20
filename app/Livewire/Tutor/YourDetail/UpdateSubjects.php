@@ -23,20 +23,9 @@ class UpdateSubjects extends Component
         $this->subjects = explode(',', $tutor->expert_sub) ?? [];
     }
 
-    public function changeSubject($subject) {
-        if (in_array($subject, $this->subjects)) {
-            // Correctly return the comparison result to actually filter the array
-            $this->subjects = array_filter($this->subjects, function ($value) use ($subject) {
-                return $value != $subject; // Return the negation of the comparison
-            });
-        } else {
-            // Directly add the subject to $this->subjects, no need for an intermediate variable
-            $this->subjects[] = $subject;
-        }
-    }
-
-    public function updateSubjects() {
+    public function updateSubjects($subjects) {
         try {
+            $this->subjects = $subjects;
             $subject_str = implode(',', $this->subjects);
             $this->tutor->update([
                 'expert_sub' => $subject_str,
