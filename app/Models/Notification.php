@@ -10,11 +10,5 @@ class Notification extends Model
     use HasFactory;
 
     protected $table = 'alchemy_notifications';
-
-    protected $fillable = [
-        'user_id',
-        'notification_text',
-        'notification_level',
-        'notification_seen',
-    ];
+    protected $guarded = [];
 }
