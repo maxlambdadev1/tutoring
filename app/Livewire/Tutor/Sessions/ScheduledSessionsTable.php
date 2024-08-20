@@ -8,6 +8,7 @@ use Illuminate\Contracts\Database\Query\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Detail;
+use Illuminate\View\View;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
@@ -15,6 +16,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
+use Jenssegers\Agent\Agent;
 
 
 class ScheduledSessionsTable extends PowerGridComponent
@@ -27,16 +29,12 @@ class ScheduledSessionsTable extends PowerGridComponent
     {
         return [
             Header::make()
-                ->showToggleColumns()
                 ->showSearchInput(),
 
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
 
-            Detail::make()
-            ->view('livewire.tutor.components.previous-session-detail')
-            ->showCollapseIcon()
         ];
     }
 
@@ -78,12 +76,27 @@ class ScheduledSessionsTable extends PowerGridComponent
 
     public function columns(): array
     {
-        return [
-            Column::add()->title('ID')->field('id')->sortable()->hidden(isHidden: true, isForceHidden: false),
+        $is_phone = (new Agent())->isPhone();
+        
+        if (!$is_phone) $columns = [
+            Column::add()->title('ID')->field('id')->sortable(),
             Column::add()->title('Student name')->field('child_name')->sortable()->searchable(),
             Column::add()->title('Session Date')->field('session_date'),
-            Column::add()->title('Lesson type')->field('type_id')->sortable()->hidden(isHidden: true, isForceHidden: false),
-        ];
+            Column::add()->title('Lesson type')->field('type_id')->sortable(),
+            Column::action('Action'),
+        ]; 
+        else $columns = [
+            Column::add()->title('Student name')->field('child_name')->sortable()->searchable(),
+            Column::add()->title('Session Date')->field('session_date'),
+            Column::action('Action'),
+        ]; 
+
+        return $columns;
+    }
+
+    public function actionsFromView($row): View
+    {
+        return view('livewire.tutor.components.reschedule-lesson-action-view', ['row' => $row]);
     }
 
 }
