@@ -74,7 +74,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-warning text-white" x-on:click="submit" x-show="!loading" data-bs-dismiss="modal" :disabled="!no_session_scheduled && (!session_date || !session_time) || !!no_session_scheduled && (!no_session_scheduled_reason || !no_session_scheduled_additional_info)">Submit</button>
+                    <button type="button" class="btn btn-warning text-white" x-on:click="submit" x-show="!loading" data-bs-dismiss="modal" :disabled="!no_session_scheduled && (!session_date || !session_time) || !!no_session_scheduled && (!no_session_scheduled_reason && !no_session_scheduled_additional_info)">Submit</button>
                     <button type="button" class="btn btn-warning text-white" x-show="loading" disabled>
                         <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                         Submitting...</button>
