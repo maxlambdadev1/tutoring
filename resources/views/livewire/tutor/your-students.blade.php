@@ -78,7 +78,7 @@
                                             <textarea class="form-control " x-ref="cancellation_fee_reason{{$student->id}}" id="cancellation_fee_reason{{$student->id}}" rows="5"></textarea>
                                         </div>
                                         <div class="text-center">
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" 
+                                            <button type="button" class="btn btn-outline-secondary btn-sm"
                                                 wire:click="submitCancellationFee({{$student->last_session->id}}, $refs.cancellation_fee_reason{{$student->id}}.value)">Charge</button>
                                         </div>
                                     </div>
@@ -97,9 +97,12 @@
                     <h4 class="mb-3">Previous Students</h4>
                     <div class="row">
                         @forelse ($prev_students as $student)
-                        <div class="col-md-6">
-                            <div class="bg-light p-2 mb-3">
-                            {{$student->child_name ?? '-'}}
+                        <div class="col-md-6 mb-3">
+                            <div class=" bg-light p-2 d-md-flex justify-content-between align-items-center text-center">
+                                <div class="mb-2 mb-md-0">
+                                    {{$student->child_name ?? '-'}}
+                                </div>
+                                <button type="button" class="btn btn-warning btn-sm waves-effect waves-light ms-auto" data-bs-toggle="modal" data-bs-target="#reactivateStudentModal{{$student->id}}">Reactivate and schedule a lesson</button>
                             </div>
                         </div>
                         @empty
@@ -110,4 +113,8 @@
             </div>
         </div>
     </div>
+    @forelse ($prev_students as $student)
+    <livewire:tutor.components.reactivate-student-modal child_id="{{$student->id}}" key="{{$student->id}}" />
+    @empty
+    @endforelse
 </div>
