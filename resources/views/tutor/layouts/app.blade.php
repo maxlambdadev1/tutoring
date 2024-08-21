@@ -26,6 +26,7 @@
 
     {{-- Script --}}
     <script src="{{asset('vendor/jquery/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{asset('vendor/jquery.rateit.min.js')}}"></script>
     <script src="{{asset('vendor/bootstrap/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('vendor/select2/select2.min.js')}}"></script>
     <script src="{{asset('vendor/bootstrap-timepicker.js')}}"></script>
