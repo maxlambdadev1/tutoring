@@ -8,6 +8,7 @@ use Illuminate\Contracts\Database\Query\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Detail;
+use Illuminate\View\View;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
@@ -34,9 +35,6 @@ class UnconfirmedSessionsTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
 
-            Detail::make()
-            ->view('livewire.tutor.components.previous-session-detail')
-            ->showCollapseIcon()
         ];
     }
 
@@ -85,13 +83,19 @@ class UnconfirmedSessionsTable extends PowerGridComponent
             Column::add()->title('Student name')->field('child_name')->sortable()->searchable(),
             Column::add()->title('Session Date')->field('session_date'),
             Column::add()->title('Lesson type')->field('type_id')->sortable(),
+            Column::action('Action'),
         ]; 
         else $columns = [
             Column::add()->title('Student name')->field('child_name')->sortable()->searchable(),
             Column::add()->title('Session Date')->field('session_date'),
+            Column::action('Action'),
         ]; 
 
         return $columns;
     }
 
+    public function actionsFromView($row): View
+    {
+        return view('livewire.tutor.components.reschedule-lesson-action-view', ['row' => $row]);
+    }
 }

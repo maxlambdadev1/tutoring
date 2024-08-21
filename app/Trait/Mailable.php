@@ -69,10 +69,15 @@ trait Mailable
         if (isset($params['amount']))               $content = str_replace('%%amount%%', $params['amount'], $content);
         if (isset($params['cdate']))                $content = str_replace('%%cdate%%', $params['cdate'], $content);
         if (isset($params['currentyear']))          $content = str_replace('%%currentyear%%', $params['currentyear'], $content);
+        if (isset($params['chargedate']))           $content = str_replace('%%chargedate%%', $params['chargedate'], $content);
+        if (isset($params['chargetime']))           $content = str_replace('%%chargetime%%', $params['chargetime'], $content);
         if (isset($params['date']))                 $content = str_replace('%%date%%', $params['date'], $content);
         if (isset($params['email']))                $content = str_replace('%%email%%', $params['email'], $content);
+        if (isset($params['engagementrating']))     $content = str_replace('%%engagementrating%%', $params['engagementrating'], $content);
         if (isset($params['grade']))                $content = str_replace('%%grade%%', $params['grade'], $content);
         if (isset($params['favourite']))            $content = str_replace('%%favourite%%', $params['favourite'], $content);
+        if (isset($params['feedback']))             $content = str_replace('%%feedback%%', $params['feedback'], $content);
+        if (isset($params['feedbackurl']))          $content = str_replace('%%feedbackurl%%', $params['feedbackurl'], $content);
         if (isset($params['jobdate']))              $content = str_replace('%%jobdate%%', $params['jobdate'], $content);
         if (isset($params['lastsessiondate']))      $content = str_replace('%%lastsessiondate%%', $params['lastsessiondate'], $content);
         if (isset($params['length']))               $content = str_replace('%%length%%', $params['length'], $content);
@@ -83,8 +88,12 @@ trait Mailable
         if (isset($params['nolink']))               $content = str_replace('%%nolink%%', $params['nolink'], $content);
         if (isset($params['nextsessiondate']))      $content = str_replace('%%nextsessiondate%%', $params['nextsessiondate'], $content);
         if (isset($params['nextsessiontime']))      $content = str_replace('%%nextsessiontime%%', $params['nextsessiontime'], $content);
+        if (isset($params['nextdate']))             $content = str_replace('%%nextdate%%', $params['nextdate'], $content);
+        if (isset($params['nexttime']))             $content = str_replace('%%nexttime%%', $params['nexttime'], $content);
         if (isset($params['onlinesessionurl']))     $content = str_replace('%%onlinesessionurl%%', $params['onlinesessionurl'], $content);
+        if (isset($params['onlinelimitnumber']))    $content = str_replace('%%onlinelimitnumber%%', $params['onlinelimitnumber'], $content);
         if (isset($params['onlineURL']))            $content = str_replace('%%onlineURL%%', $params['onlineURL'], $content);
+        if (isset($params['overallrating']))        $content = str_replace('%%overallrating%%', $params['overallrating'], $content);
         if (isset($params['parentname']))           $content = str_replace('%%parentname%%', $params['parentname'], $content);
         if (isset($params['parentfirstname']))      $content = str_replace('%%parentfirstname%%', $params['parentfirstname'], $content);
         if (isset($params['parentnumber']))         $content = str_replace('%%parentnumber%%', $params['parentnumber'], $content);
@@ -125,6 +134,7 @@ trait Mailable
         if (isset($params['tutoremail']))           $content = str_replace('%%tutoremail%%', $params['tutoremail'], $content);
         if (isset($params['tutorphone']))           $content = str_replace('%%tutorphone%%', $params['tutorphone'], $content);
         if (isset($params['userfirstname']))        $content = str_replace('%%userfirstname%%', $params['userfirstname'], $content);
+        if (isset($params['understandingrating']))  $content = str_replace('%%understandingrating%%', $params['understandingrating'], $content);
         if (isset($params['username']))             $content = str_replace('%%username%%', $params['username'], $content);
         if (isset($params['useremail']))            $content = str_replace('%%useremail%%', $params['useremail'], $content);
         if (isset($params['vouchernumber']))        $content = str_replace('%%vouchernumber%%', $params['vouchernumber'], $content);

@@ -22,6 +22,11 @@ class AlchemyParent extends Model
         return $this->hasMany(Child::class, 'parent_id');
     }
 
+    public function thirdparty_org()
+    {
+        return $this->belongsTo(ThirdpartyOrganisation::class, 'thirdparty_org_id');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
