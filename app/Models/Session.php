@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Trait\ModelSelectable;
 use Carbon\Carbon;
+use Carbon\Exceptions\InvalidFormatException;
 
 class Session extends Model
 {
@@ -46,8 +47,11 @@ class Session extends Model
     public function getSessionTimeAmpmAttribute() {
         return Carbon::createFromFormat('H:i', $this->session_time)->format('h:i A');
     }
-    public function getSessionDateYmdAttribute() {
-        if (empty($this->session_date)) return '';
-        else return Carbon::createFromFormat('d/m/Y', $this->session_date)->format('Y-m-d') ?? '';
+    public function getSessionDateAttribute() {
+        try {
+            return Carbon::createFromFormat(config('app.original_date_formt'), $this->session_date);
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
