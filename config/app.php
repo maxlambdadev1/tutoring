@@ -69,7 +69,9 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('TIMEZONE', 'UTC'),
+    'display_date_formt' => env('DISPLAY_DATE_FORMAT', 'd/m/Y'),
+    'original_date_formt' => env('ORIGINAL_DATE_FORMAT', 'Y-m-d'),
 
     /*
     |--------------------------------------------------------------------------

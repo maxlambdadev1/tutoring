@@ -23,6 +23,7 @@ use App\Models\TutorApplicationHistory;
 use App\Models\TutorApplicationReferenceHistory;
 use App\Models\TutorSpecialReferralEmail;
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 
 trait Functions
 {
@@ -561,6 +562,7 @@ trait Functions
 	 * @return string : ex: '3 weeks 2 days' or '3 days 5 hours'..
 	 */
 	public function formatSeconds($seconds) {
+		// return CarbonInterval::seconds($seconds)->cascade()->forHumans();
 		$seconds = (int)$seconds;
         if ( $seconds === 0 ) {
             return '0 secs';
@@ -714,5 +716,28 @@ trait Functions
 			$arr[] = $day . '-'. $converted_time;
 		}
 		return $this->generateBookingAvailability($arr);
+	}
+
+	/**
+	 * Validate Australia Business Number
+	 */
+	public function validateABN($abn)
+	{
+		$weights = array(10, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19);
+
+		// strip anything other than digits
+		$abn = preg_replace("/[^\d]/","",$abn);
+
+		// check length is 11 digits
+		if (strlen($abn)==11) {
+			// apply ato check method 
+			$sum = 0;
+			foreach ($weights as $position=>$weight) {
+				$digit = $abn[$position] - ($position ? 0 : 1);
+				$sum += $weight * $digit;
+			}
+			return ($sum % 89)==0;
+		} 
+		return false;
 	}
 }

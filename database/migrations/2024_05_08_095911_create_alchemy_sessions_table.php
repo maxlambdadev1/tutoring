@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('session_date', 50)->nullable();
             $table->string('session_time', 50)->nullable();
             $table->text('session_subject');
-            $table->integer('session_is_first')->default(0);
+            $table->boolean('session_is_first')->default(0);
             $table->text('session_first_question1')->nullable();
             $table->text('session_first_question2')->nullable();
             $table->text('session_first_question3')->nullable();
@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string('session_transfer_id')->nullable();
             $table->string('session_invoice_id')->nullable();
             $table->string('session_bill_id')->nullable();
-            $table->integer('session_manual_marked_paid')->default(0);
+            $table->boolean('session_manual_marked_paid')->default(0);
             $table->unsignedBigInteger('session_next_session_id')->nullable();
             $table->string('session_next_session_tutor_date', 100)->nullable();
             $table->string('session_next_session_tutor_time', 100)->nullable();
