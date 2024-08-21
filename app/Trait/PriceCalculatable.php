@@ -3,6 +3,7 @@
 namespace App\Trait;
 use App\Models\SessionType;
 use App\Models\PriceTutor;
+use App\Models\Session;
 use App\Models\PriceTutorIncrease;
 use App\Models\PriceParent;
 use App\Models\PriceParentDiscount;
@@ -186,5 +187,19 @@ trait PriceCalculatable
                 'online_increase_amount' => $online_increase,
             ]);
         }
+    }
+    /**
+     * Check payment status according session id.
+     * @param int $session_id
+     * @return string ; "Awaiting payment info" or "Manual payment required" or "Payment scheduled"
+     */
+    public function checkPaymentStatus($session_id) {
+        $session = Session::find($session_id);
+        $parent = $session->parent;
+        if (empty($parent->stripe_customer_id)) $payment_status = 'Awaiting payment info';
+        else if (stripos($parent->stripe_customer_id, 'manual') !== false) $payment_status = 'Manual payment required';
+        else $payment_status = "Payment scheduled";
+
+        return $payment_status;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Trait;
 
 trait TutoringXero
 {
+
     public function addInvoice()
     {
 
@@ -13,4 +14,11 @@ trait TutoringXero
     {
         
     }
+
+    //
+    public function updateInXero() {
+
+    }
+    
+
 }
