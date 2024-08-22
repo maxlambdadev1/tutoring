@@ -13,6 +13,13 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('app:make-charge')->everyThirtyMinutes();
+        $schedule->command('app:session-reminder')->everyFifteenMinutes();
+        $schedule->command('app:change-session-status')->everyThirtyMinutes();
+        $schedule->command('app:tutor-stripe-account-error')->cron("0 11 */2 * *");
+        $schedule->command('app:parent-first-session-followup')->everyThirtyMinutes();
+        $schedule->command('app:parent-first-session-reminder')->everyThirtyMinutes();
+        $schedule->command('app:tutor-confirm-session-reminder')->everyThirtyMinutes();
+        $schedule->command('app:payment-info-followup')->cron("0 17 * * *");
     }
 
     /**
