@@ -49,7 +49,7 @@ class Session extends Model
     }
     public function getSessionDateAttribute() {
         try {
-            return Carbon::createFromFormat(config('app.original_date_formt'), $this->session_date);
+            return Carbon::createFromFormat(config('app.database_date_formt'), $this->session_date);
         } catch (\Exception $e) {
             return false;
         }
