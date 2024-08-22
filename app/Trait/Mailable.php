@@ -93,6 +93,7 @@ trait Mailable
         if (isset($params['onlinesessionurl']))     $content = str_replace('%%onlinesessionurl%%', $params['onlinesessionurl'], $content);
         if (isset($params['onlinelimitnumber']))    $content = str_replace('%%onlinelimitnumber%%', $params['onlinelimitnumber'], $content);
         if (isset($params['onlineURL']))            $content = str_replace('%%onlineURL%%', $params['onlineURL'], $content);
+        if (isset($params['onlineurl']))            $content = str_replace('%%onlineurl%%', $params['onlineurl'], $content);
         if (isset($params['overallrating']))        $content = str_replace('%%overallrating%%', $params['overallrating'], $content);
         if (isset($params['parentname']))           $content = str_replace('%%parentname%%', $params['parentname'], $content);
         if (isset($params['parentfirstname']))      $content = str_replace('%%parentfirstname%%', $params['parentfirstname'], $content);

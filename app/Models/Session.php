@@ -47,11 +47,11 @@ class Session extends Model
     public function getSessionTimeAmpmAttribute() {
         return Carbon::createFromFormat('H:i', $this->session_time)->format('h:i A');
     }
-    public function getSessionDateAttribute() {
+    public function getSessionDateYmdAttribute() {
         try {
-            return Carbon::createFromFormat(config('app.database_date_formt'), $this->session_date);
+            return Carbon::createFromFormat(config('app.database_date_formt'), $this->session_date)->format('Y-m-d');
         } catch (\Exception $e) {
-            return false;
+            return "";
         }
     }
 }
