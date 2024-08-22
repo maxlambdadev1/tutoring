@@ -77,11 +77,11 @@
                                         <h3>Your next session</h3>
                                         <div x-show="!no_session_scheduled">
                                             <div class="d-flex">
-                                                <div class="mb-2 flex-grow-1" id="container_session_date">
+                                                <div class="mb-3 flex-grow-1" id="container_session_date">
                                                     <label for="session_date" class="custom_label">Session Date: <span style="color: red;">*</span></label>
                                                     <input type="text" name="session_date" class="form-control session_date" id="session_date" x-model="session_date">
                                                 </div>
-                                                <div class="mb-2 flex-grow-1" id="container_session_time">
+                                                <div class="mb-3 flex-grow-1" id="container_session_time">
                                                     <label for="session_time" class="custom_label">Session Time: <span style="color: red;">*</span></label>
                                                     <input type="text" name="session_time" class="form-control session_time" id="session_time" x-model="session_time">
                                                 </div>

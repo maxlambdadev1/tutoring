@@ -11,8 +11,6 @@ class ParentPodiumReview extends Model
 
     protected $table = 'alchemy_parent_podium_review';
 
-    protected $fillable = [
-        'parent_id',
-        'reminder',
-    ];
+    protected $guarded = [];
+    
 }
