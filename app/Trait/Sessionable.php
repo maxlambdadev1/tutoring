@@ -7,8 +7,11 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ConversionTarget;
 use App\Models\FirstSessionTarget;
 use App\Models\TutorFirstSession;
-use App\Models\User;
-use App\Models\Job;
+use App\Models\GlassdoorReview;
+use App\Models\Task;
+use App\Models\Notification;
+use App\Models\SessionProgressReport;
+use App\Models\ParentPodiumReview;
 use App\Models\ReplacementTutor;
 use App\Models\Tutor;
 use App\Models\Child;
@@ -390,7 +393,11 @@ trait Sessionable
             throw new \Exception($e->getMessage());
         }
     }
-
+    /**
+     * Make the student as active
+     * @param int $child_id
+     * @return void
+     */
     public function makeChildActive($child_id) {
         $child = Child::find($child_id);
         if (!empty($child)) {
@@ -402,4 +409,96 @@ trait Sessionable
         }
     }
 
+    public function calculateSessions($session_id) {
+        $session = Session::find($session_id);
+		$ten_confirmed_session_check = false;
+        $tutor = $session->tutor;
+        $parent = $session->parent;
+        $child = $session->child;
+
+        $sessions = Session::where('tutor_id', $tutor->id)->count();
+        if ($sessions > 9 && $sessions % 10 == 0) $ten_confirmed_session_check = true;
+
+        $confirmed_sessions = Session::where('tutor_id', $tutor->id)->where('parent_id', $parent->id)->where('child_id', $child->id)
+            ->where(function ($query) {
+                $query->where('session_status', 2)->orWhere('session_status', 4);
+            })
+            ->where(function ($query) {
+                $query->whereNotNull('session_length')->orWhere('session_status', '>', 0);
+            })->count();
+
+        if ($parent->{'5_sessions_podium_review'} == 0 && $confirmed_sessions == 5) {
+            $checker_reminder = ParentPodiumReview::where('parent_id', $parent->id)->count();
+            if ($checker_reminder < 1) {
+                $smsParams = [
+                    'name' => $parent->parent_name,
+                    'phone' => $parent->parent_phone,
+                ];
+                //add - send switchboard invitation function
+
+                $parent->update(['5_sessions_podium_review' => 1]);
+                ParentPodiumReview::create([
+                    'parent_id' => $parent->id
+                ]);
+            }
+        }
+
+        if ($confirmed_sessions > 0 && $confirmed_sessions %10 == 0 && $confirmed_sessions <= 50) {
+            $check_report = SessionProgressReport::where('tutor_id', $tutor->id)->where('parent_id', $parent->id)->where('child_id', $child->id)->where('session_count', $confirmed_sessions)->get();
+            if (empty($check_report)) {
+                $report = SessionProgressReport::create([
+                    'tutor_id' => $tutor->id,
+                    'parent_id' => $parent->id,
+                    'child_id' => $child->id,
+                    'session_count' => $confirmed_sessions,
+                    'unique_key' => '0',
+                    'date_lastupdated' => (new \DateTime('now'))->format('d/m/Y H:i')
+                ]);
+                $ukey = base64_encode(serialize([
+                    'tutor_id' => $tutor->id,
+                    'parent_id' => $parent->id,
+                    'child_id' => $child->id,
+                    'parent_name' => $parent->parent_name,
+                    'count' => $confirmed_sessions,
+                    'id' => $report->id,
+                    'session_type_id' => $session->type_id,
+                ]));
+                $report->update(['unique_key' => $ukey]);
+
+                Task::create([
+                    'tutor_id' => $tutor->id,
+                    'task_subject' => 'progress',
+                    'task_name' => "Submit progress report for " . $child->child_name,
+                    'task_content' => "progress-report?key=" . $ukey,
+                    'task_date' => (new \DateTime('now'))->format('d/m/Y H:i'),
+                    'task_last_update' => (new \DateTime('now'))->format('d/m/Y H:i'),
+                ]);
+                Notification::create([
+                    'user_id' => $tutor->user->id,
+                    'notification_level' => 0,
+                    'notification_text' => 'Submit progress report for ' . $child->child_name,
+                ]);
+
+                $params = [
+                    'email' => $tutor->tutor_email,
+                    'studentname' => $child->child_name,
+                    'studentfirstname' => $child->first_name,
+                    'link' => $this->setRedirect("https://" . env('TUTOR') . "/progress-report?key=" . $ukey)
+                ];
+                $this->sendEmail($params['email'], "tutor-" . $confirmed_sessions . "-sessions-email", $params);
+
+                return;
+            }
+        }
+
+        if ($confirmed_sessions >= 5) {
+            if (empty($tutor->glassdoor)) {
+                GlassdoorReview::create([
+                    'tutor_id' => $tutor->id,
+                    'date' => date('d/m/Y')
+                ]);
+                $tutor->update(['glassdoor' => 1]);
+            }
+        }
+    }
 }
