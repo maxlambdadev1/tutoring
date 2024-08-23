@@ -29,21 +29,21 @@ trait Mailable
     }
     /**
      * send template sms when template is not null, else send $title as sms content
-     * @param $smsParams=['name' => , 'phone' => ], $title : string, $params = ['a' => , 'b..' => ..], $type : true or false
+     * @param $sms_params=['name' => , 'phone' => ], $title : string, $params = ['a' => , 'b..' => ..], $type : true or false
      */
-    public function sendSms($smsParams, $title, $params = [], $type = false)
+    public function sendSms($sms_params, $title, $params = [], $type = false)
     {
-        if (empty($smsParams['phone'])) return;
-        if (empty($smsParams['name'])) $smsParams['name'] = 'Contact';
-        if (strpos($smsParams['phone'], '+61') == false) $smsParams['phone'] = '+61' . $smsParams['phone'];
+        if (empty($sms_params['phone'])) return;
+        if (empty($sms_params['name'])) $sms_params['name'] = 'Contact';
+        if (strpos($sms_params['phone'], '+61') == false) $sms_params['phone'] = '+61' . $sms_params['phone'];
 
-        $smsParams['locationUid'] = $type ? config('services.podium.locationUidSecond') : config('services.podium.locationUidFirst');
-        $smsParams['body'] = $this->getFilteredContent($this->getSmsTemplate($title), $params);
+        $sms_params['locationUid'] = $type ? config('services.podium.locationUidSecond') : config('services.podium.locationUidFirst');
+        $sms_params['body'] = $this->getFilteredContent($this->getSmsTemplate($title), $params);
         $fields = [
-            'locationUid' => $smsParams['locationUid'],
-            'customerName' => $smsParams['name'],
-            'customerPhoneNumber' => $smsParams['phone'],
-            'message' => $smsParams['body'],
+            'locationUid' => $sms_params['locationUid'],
+            'customerName' => $sms_params['name'],
+            'customerPhoneNumber' => $sms_params['phone'],
+            'message' => $sms_params['body'],
         ];
 
         // $response = Http::withToken(config('services.podium.key'))->post(config('services.podium.url'), $fields);

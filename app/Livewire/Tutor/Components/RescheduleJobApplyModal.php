@@ -65,12 +65,12 @@ class RescheduleJobApplyModal extends Component
             ];
             $this->sendEmail($params['email'], 'waiting-list-parent-offer-email', $params);
 
-            $smsParams = [
+            $sms_params = [
                 'phone' => $parent->parent_phone,
                 'name' => $parent->parent_name,
             ];
             $sms_body = "Hi " . $parent->parent_first_name . ", we have had a great tutor for " . $child->first_name . " become available! Please check your email for details or to opt out - Team Alchemy";
-            $this->sendSms($smsParams, $sms_body);
+            $this->sendSms($sms_params, $sms_body);
 
             $this->dispatch('showToastrMessage', [
                 'status' => 'success',

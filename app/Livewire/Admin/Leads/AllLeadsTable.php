@@ -331,11 +331,11 @@ class AllLeadsTable extends PowerGridComponent
                     'email' => $parent->parent_email
                 ];
                 $this->sendEmail($parent->parent_email, 'parent-welcome-call-email', $params);
-                $smsParams = [
+                $sms_params = [
                     'phone' => $parent->parent_phone,
                     'name' => $parent->parent_name,
                 ];
-                $this->sendSms($smsParams, 'parent-welcome-call-sms', $params);
+                $this->sendSms($sms_params, 'parent-welcome-call-sms', $params);
             }
 
             $this->dispatch('showToastrMessage', [

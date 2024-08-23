@@ -48,27 +48,27 @@ class SessionReminder extends Command
                 $job = Job::where('parent_id', $parent->id)->where('child_id', $child->id)->where('accepted_by', $tutor->id)->where('session_id', $session->id)->first();
                 if (!empty($job)) {
                     if ($job->job_type == 'creative') {
-                        $smsParams = [
+                        $sms_params = [
                             'name' => $tutor->tutor_name,
                             'phone' => $tutor->tutor_phone
                         ];
                         $body = "Reminder: Creative Writing workshop with ".$child->child_name." is scheduled for tomorrow at ".$session->session_time.". Be sure to do your training in Tutorhub beforehand! You’ve got this! Team Alchemy";
-                        $this->sendSms($smsParams, $body, null, true);
+                        $this->sendSms($sms_params, $body, null, true);
                         
-                        $smsParams = [
+                        $sms_params = [
                             'name' => $parent->parent_name,
                             'phone' => $parent->parent_phone
                         ];
                         $body = "Reminder: The Alchemy Creative Writing workshop for ".$child->child_name." is happening tomorrow at ".$session->session_time.". If you have any questions please don’t hesitate to get in touch!";
-                        $this->sendSms($smsParams, $body, null, true);
+                        $this->sendSms($sms_params, $body, null, true);
                     }
                 } else {
-                    $smsParams = [
+                    $sms_params = [
                         'name' => $tutor->tutor_name,
                         'phone' => $tutor->tutor_phone
                     ];
                     $body = "Get pumped! Your first session with ".$child->child_name." is happening tomorrow at ".$session->session_time.". If you need any help preparing just reach out to us via live chat in your dashboard and we will be more than happy to help!";
-                    $this->sendSms($smsParams, $body, null, true);
+                    $this->sendSms($sms_params, $body, null, true);
 
                     $params = [
                         'phone' => $tutor->tutor_phone,

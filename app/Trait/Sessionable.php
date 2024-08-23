@@ -343,7 +343,7 @@ trait Sessionable
             $child = Child::find($child_id);
             $admin = auth()->user()->admin;
 
-            $smsParams = [
+            $sms_params = [
                 'phone' => $parent->parent_phone,
                 'name' => $parent->parent_first_name . ' ' . $parent->parent_last_name
             ];
@@ -352,7 +352,7 @@ trait Sessionable
                 'studentname' => $child->first_name,
                 'link' => $this->setRedirect('https://alchemy.team/paymentcc?email=' . $parent->parent_email),
             ];
-            $this->sendSMS($smsParams, 'parent-payment-details-sms', $params);
+            $this->sendSMS($sms_params, 'parent-payment-details-sms', $params);
 
             $this->addParentHistory([
                 'author' => $admin->admin_name,
@@ -430,7 +430,7 @@ trait Sessionable
         if ($parent->{'5_sessions_podium_review'} == 0 && $confirmed_sessions == 5) {
             $checker_reminder = ParentPodiumReview::where('parent_id', $parent->id)->count();
             if ($checker_reminder < 1) {
-                $smsParams = [
+                $sms_params = [
                     'name' => $parent->parent_name,
                     'phone' => $parent->parent_phone,
                 ];

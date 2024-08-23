@@ -49,12 +49,12 @@ class ParentFirstSessionFollowup extends Command
             if (!empty($tutor) && !empty($parent) && !empty($child)) {
                 $session->update(['session_parent_reminder' => 1]);
                 $link = $this->createNextSessionLink($session->id);
-                $smsParams = [
+                $sms_params = [
                     'name' => $parent->parent_name,
                     'phone' => $parent->parent_phone,
                 ];
                 $body = "Hi " . $parent->parent_first_name . ", we really hope the first session went well! If you’d like to continue with regular lessons you can schedule in your next lesson and submit payment details here (takes just 2 minutes and you only do it once): " . $link . ". If you’d prefer to chat, please check your email and we’ll find a time to talk :) - Team Alchemy";
-                $this->sendSms($smsParams, $body);
+                $this->sendSms($sms_params, $body);
 
                 $params = [
                     'tutorfirstname' => $tutor->first_name,

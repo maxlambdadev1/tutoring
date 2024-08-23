@@ -77,11 +77,11 @@ trait WithTutors {
             if ($app_status == 2) { //'Scheduling interview'
                 $this->sendEmail($app->tutor_email, 'tutor-application-interview', $params);
 
-                $smsParams = [
+                $sms_params = [
                     'name' => $app->tutor_first_name . ' ' . $app->tutor_last_name,
                     'phone' => $app->tutor_phone,
                 ];
-                $this->sendSms($smsParams, '', $params);
+                $this->sendSms($sms_params, '', $params);
             } else if ($app_status == 4) { //'Awaiting to register'
                 $params['email'] = 'tutor-application-register';
                 $this->tutorApplicationQueue($params);
