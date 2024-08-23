@@ -55,7 +55,7 @@ class Replacement extends Component
 
                         $link = $this->setRedirect('https://alchemy.team/replacement-tutor?key=' . $replacement_tutor->parent_link);
                         $no_link = $this->setRedirect('https://alchemy.team/thankyou-parent?key=' . base64_encode($holiday_replacement->id));
-                        $smsParams = [
+                        $sms_params = [
                             'name' => $parent->parent_first_name . ' ' . $parent->parent_last_name,
                             'phone' => $parent->parent_phone
                         ];
@@ -64,7 +64,7 @@ class Replacement extends Component
                             'link' => $link,
                             'nolink' => $no_link
                         ];
-                        $this->sendSms($smsParams, 'new-year-replacement-to-parent-sms', $params);
+                        $this->sendSms($sms_params, 'new-year-replacement-to-parent-sms', $params);
 
                         $this->addHolidayReplacementHistory([
                             'holiday_id' => $holiday_replacement->id,

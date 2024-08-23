@@ -12,5 +12,9 @@ class GlassdoorReview extends Model
     protected $table = 'alchemy_glassdoor_review';
     
     protected $guarded = [];
+    
+    public function tutor() {
+        return $this->belongsTo(Tutor::class);
+    }
 
 }

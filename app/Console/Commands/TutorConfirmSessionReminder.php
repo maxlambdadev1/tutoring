@@ -92,12 +92,12 @@ class TutorConfirmSessionReminder extends Command
             if (!empty($tutor) && !empty($parent) && !empty($child)) {
                 $session->update(['session_after_session_reminder_42h' => 1]);
 
-                $smsParams = [
+                $sms_params = [
                     'name' => $tutor->tutor_name,
                     'phone' => $tutor->tutor_phone,
                 ];
                 $body = "Hi " . $tutor->first_name . ", your session with " . $child->first_name . " on " . $session->session_date . " is yet to be confirmed. Please do this in Dashboard ASAP (so you can be paid!), or if there are any issues please reply and let us know so we can help.";
-                $this->sendSms($smsParams, $body, null, 1);
+                $this->sendSms($sms_params, $body, null, 1);
             }
         }
     }

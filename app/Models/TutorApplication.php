@@ -31,4 +31,9 @@ class TutorApplication extends Model
     public function getDateSubmittedAmpmAttribute() {
         return Carbon::createFromFormat('d/m/Y H:i', $this->date_submitted)->format('d/m/Y h:i A');
     }
+    
+    public function getTutorNameAttribute()
+    {
+        return ucfirst($this->tutor_first_name) . ' ' . ucfirst($this->tutor_last_name);
+    }
 }

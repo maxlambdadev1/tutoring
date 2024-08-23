@@ -87,7 +87,7 @@ class NewYearTutor extends Component
                         ]);
                     }
 
-                    $smsParams = [
+                    $sms_params = [
                         'name' => $tutor->tutor_name,
                         'phone' => $tutor->tutor_phone,
                     ];
@@ -95,7 +95,7 @@ class NewYearTutor extends Component
                         'tutorfirstname' => $tutor->first_name,
                         'onlineURL' => 'https://alchemy.team/newyear?url=' .$short_url
                     ];
-                    $this->sendSms($smsParams, 'new-year-holiday-tutor-sms', $params);
+                    $this->sendSms($sms_params, 'new-year-holiday-tutor-sms', $params);
 
                     if ($tutor->accept_job_status == 1) {
                         $tutor->update([
@@ -129,7 +129,7 @@ class NewYearTutor extends Component
             if (!empty($holiday_tutors)) {
                 foreach($holiday_tutors as $holiday_tutor) {
                     $tutor = $holiday_tutor->tutor;
-                    $smsParams = [
+                    $sms_params = [
                         'name' => $tutor->tutor_name,
                         'phone' => $tutor->tutor_phone
                     ];
@@ -138,8 +138,8 @@ class NewYearTutor extends Component
                         'tutorfirstname' => $tutor->first_name,
                         'date' => date('Y')
                     ];
-                    if (!$final) $this->sendSms($smsParams, 'tutor-survey-follow-up-sms', $params);
-                    else $this->sendSms($smsParams, 'tutor-survey-follow-up-final-sms', $params);
+                    if (!$final) $this->sendSms($sms_params, 'tutor-survey-follow-up-sms', $params);
+                    else $this->sendSms($sms_params, 'tutor-survey-follow-up-final-sms', $params);
 
                     $comment = 'Sent end of holiday SMS reminder to ' . $tutor->tutor_name . ' for ' . date('Y');
                     if ($final) $comment = 'Sent end of holiday final SMS reminder to ' . $tutor->tutor_name . ' for ' . date('Y');
@@ -216,12 +216,12 @@ class NewYearTutor extends Component
                         'comment' => "Sent to inactive.  Reason: Don't respond to end of holiday " . date('Y') . " message"
                     ]);
                     
-                    $smsParams = [
+                    $sms_params = [
                         'name' => $tutor->tutor_name,
                         'phone' => $tutor->tutor_phone
                     ];
                     $params = [];
-                    $this->sendSms($smsParams, 'tutor-deactivate-cron-sms', $params);
+                    $this->sendSms($sms_params, 'tutor-deactivate-cron-sms', $params);
 
                     if ($tutor->state == 'QLD') {
                         $params = [

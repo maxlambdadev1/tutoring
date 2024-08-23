@@ -61,12 +61,12 @@ class PaymentInfoFollowup extends Command
                     $parent->update(['follow_up' => 1]);
                     $comment = "Sent request payment email to " . $parent->parent_email;
                 } else {
-                    $smsParams = [
+                    $sms_params = [
                         'name' => $parent->parent_name,
                         'phone' => $parent->parent_phone,
                     ];
                     $body = "Hi " . $parent->parent_first_name . ", please submit your payment details ahead of your next lesson - you only need to do this once and will take less than a minute: https://" . env('TUTOR') . "/paymentcc?email=" . $parent->parent_email . ". Team Alchemy";
-                    $this->sendSms($smsParams, $body);
+                    $this->sendSms($sms_params, $body);
                     $parent->update(['follow_up' => 0]);
                     $comment = "Sent request payment sms to " . $parent->parent_email;
                 }

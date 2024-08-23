@@ -84,7 +84,7 @@ class FirstSessionActionDetail extends Component
             $session = Session::find($ses_id);
             $session->update(['session_penalty' => 5]);
 
-            $smsParams = [
+            $sms_params = [
                 'name' => $session->tutor->tutor_name,
                 'phone' => $session->tutor->tutor_phone
             ];
@@ -92,7 +92,7 @@ class FirstSessionActionDetail extends Component
                 'sessiondate' => $session->session_date,
                 'studentname' => $session->child->child_name
             ];
-            $this->sendSms($smsParams, 'add-penalty-notification-to-tutor-sms', $params);
+            $this->sendSms($sms_params, 'add-penalty-notification-to-tutor-sms', $params);
 
             $this->addSessionHistory([
                 'session_id' => $ses_id,
@@ -147,7 +147,7 @@ class FirstSessionActionDetail extends Component
         try {
             $session = Session::find($ses_id);
 
-            $smsParams = [
+            $sms_params = [
                 'name' => $session->tutor->tutor_name,
                 'phone' => $session->tutor->tutor_phone
             ];
@@ -156,7 +156,7 @@ class FirstSessionActionDetail extends Component
                 'studentname' => $session->child->child_name,
                 'sessiondate' => $session->session_date,
             ];
-            $this->sendSms($smsParams, 'tutor-unconfirmed-warning-sms', $params);
+            $this->sendSms($sms_params, 'tutor-unconfirmed-warning-sms', $params);
 
             $this->addSessionHistory([
                 'session_id' => $ses_id,
@@ -257,7 +257,7 @@ class FirstSessionActionDetail extends Component
         try { 
             $session = Session::find($ses_id);
 
-            $smsParams = [
+            $sms_params = [
                 'name' => $session->tutor->tutor_name,
                 'phone' => $session->tutor->tutor_phone
             ];
@@ -265,7 +265,7 @@ class FirstSessionActionDetail extends Component
                 'tutorfirstname' => $session->tutor->first_name,
                 'studentname' => $session->child->child_name
             ];
-            $this->sendSms($smsParams, 'first-session-tutor-update-sms', $params);
+            $this->sendSms($sms_params, 'first-session-tutor-update-sms', $params);
 
             $this->addSessionHistory([
                 'session_id' => $ses_id,

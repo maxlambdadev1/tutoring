@@ -262,12 +262,12 @@ class Register extends Component
                 'tutor_id' => $tutor->id
             ]);
 
-            $smsParams = [
+            $sms_params = [
                 'name' => $this->first_name,
                 'phone' => $this->phone
             ];
             $title = "Hi " . $this->first_name . ", welcome to Alchemy! Please save this number in your phone in case you need anything. You can text us at any time and a member of our team will respond ASAP! Let's do this!";
-            $this->sendSms($smsParams, $title);
+            $this->sendSms($sms_params, $title);
 
             TutorApplicationStatus::where('application_id', $this->application->id ?? '')->update([
                 'application_status' => 5

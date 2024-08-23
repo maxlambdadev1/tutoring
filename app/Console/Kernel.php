@@ -20,6 +20,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:parent-first-session-reminder')->everyThirtyMinutes();
         $schedule->command('app:tutor-confirm-session-reminder')->everyThirtyMinutes();
         $schedule->command('app:payment-info-followup')->cron("0 17 * * *");
+        $schedule->command('app:glassdoor-review')->cron("0 17 * * *");
+        $schedule->command('app:online-lesson-automation')->everyMinute();
+        $schedule->command('app:f2f-lesson-automation')->everyMinute();
+        $schedule->command('app:tutor-application-queue')->cron("*/30 7-21 * * *");
     }
 
     /**
