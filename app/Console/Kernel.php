@@ -24,6 +24,14 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:online-lesson-automation')->everyMinute();
         $schedule->command('app:f2f-lesson-automation')->everyMinute();
         $schedule->command('app:tutor-application-queue')->cron("*/30 7-21 * * *");
+        $schedule->command('app:tutor-application-followup')->cron("*/30 7-21 * * *");
+        $schedule->command('app:break-offer-for-tutor')->cron("0 13 * * *");
+        $schedule->command('app:recover-offer-for-tutor')->cron("0 9 * * *");
+        $schedule->command('app:daily-report')->cron("0 7-21 * * *");
+        $schedule->command('app:tutor-special-referral')->cron("0 9 * * *");
+        $schedule->command('app:tutor-jobs-offer-volume')->cron("0 18 * * *");
+        $schedule->command('app:tutor-make-inactive-schedule')->cron("0 9 * * *");
+        $schedule->command('app:tutor-welcome-email')->cron("0 9 * * *");
     }
 
     /**

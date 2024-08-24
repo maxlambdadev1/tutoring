@@ -105,8 +105,11 @@ trait Mailable
         if (isset($params['q2']))                   $content = str_replace('%%q2%%', $params['q2'], $content);
         if (isset($params['q3']))                   $content = str_replace('%%q3%%', $params['q3'], $content);
         if (isset($params['q4']))                   $content = str_replace('%%q4%%', $params['q4'], $content);
+        if (isset($params['referralcode']))         $content = str_replace('%%referralcode%%', $params['referralcode'], $content);
+        if (isset($params['referralprice']))        $content = str_replace('%%referralprice%%', $params['referralprice'], $content);
         if (isset($params['reschedulejobdate']))    $content = str_replace('%%reschedulejobdate%%', $params['reschedulejobdate'], $content);
         if (isset($params['referencefirstname']))   $content = str_replace('%%referencefirstname%%', $params['referencefirstname'], $content);
+        if (isset($params['referralspecialprice'])) $content = str_replace('%%referralspecialprice%%', $params['referralspecialprice'], $content);
         if (isset($params['reason']))               $content = str_replace('%%reason%%', $params['reason'], $content);
         if (isset($params['reasonlink']))           $content = str_replace('%%reasonlink%%', $params['reasonlink'], $content);
         if (isset($params['studentname']))          $content = str_replace('%%studentname%%', $params['studentname'], $content);

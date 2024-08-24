@@ -10,9 +10,11 @@ class TutorInactiveSchedule extends Model
     use HasFactory;
 
     protected $table = 'alchemy_tutor_inactive_schedule';
+    protected $guarded = [];
+    
+    public function tutor()
+    {
+        return $this->belongsTo(Tutor::class);
+    }
 
-    protected $fillable = [
-        'tutor_id',
-        'timestamp',
-    ];
 }

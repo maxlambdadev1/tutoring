@@ -10,11 +10,11 @@ class TutorSpecialReferralEmail extends Model
     use HasFactory;
 
     protected $table = 'alchemy_tutor_special_referral_email';
+    protected $guarded = [];
+    
 
-    protected $fillable = [
-        'tutor_id',
-        'reminder1',
-        'reminder2',
-        'reminder3',
-    ];
+    public function tutor()
+    {
+        return $this->belongsTo(Tutor::class);
+    }
 }
