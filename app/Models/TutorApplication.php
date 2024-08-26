@@ -16,6 +16,10 @@ class TutorApplication extends Model
         return $this->hasMany(TutorApplicationHistory::class, 'application_id');
     }
     
+    public function reference() {
+        return $this->hasMany(TutorApplicationReference::class, 'application_id');
+    }
+
     public function reference_history() {
         return $this->hasMany(TutorApplicationReferenceHistory::class, 'application_id');
     }

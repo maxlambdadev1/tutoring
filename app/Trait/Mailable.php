@@ -83,6 +83,7 @@ trait Mailable
         if (isset($params['length']))               $content = str_replace('%%length%%', $params['length'], $content);
         if (isset($params['link']))                 $content = str_replace('%%link%%', $params['link'], $content);
         if (isset($params['mainresult']))           $content = str_replace('%%mainresult%%', $params['mainresult'], $content);
+        if (isset($params['matchcontent']))         $content = str_replace('%%matchcontent%%', $params['matchcontent'], $content);
         if (isset($params['mind']))                 $content = str_replace('%%mind%%', $params['mind'], $content);
         if (isset($params['notes']))                $content = str_replace('%%notes%%', $params['notes'], $content);
         if (isset($params['nolink']))               $content = str_replace('%%nolink%%', $params['nolink'], $content);
@@ -110,6 +111,10 @@ trait Mailable
         if (isset($params['reschedulejobdate']))    $content = str_replace('%%reschedulejobdate%%', $params['reschedulejobdate'], $content);
         if (isset($params['referencefirstname']))   $content = str_replace('%%referencefirstname%%', $params['referencefirstname'], $content);
         if (isset($params['referralspecialprice'])) $content = str_replace('%%referralspecialprice%%', $params['referralspecialprice'], $content);
+<<<<<<< HEAD
+        if (isset($params['referenceremindersubject'])) $content = str_replace('%%referenceremindersubject%%', $params['referenceremindersubject'], $content);
+=======
+>>>>>>> 267b843f1cae45284aafc9bbf4c401d6a9f2f514
         if (isset($params['reason']))               $content = str_replace('%%reason%%', $params['reason'], $content);
         if (isset($params['reasonlink']))           $content = str_replace('%%reasonlink%%', $params['reasonlink'], $content);
         if (isset($params['studentname']))          $content = str_replace('%%studentname%%', $params['studentname'], $content);
@@ -142,6 +147,7 @@ trait Mailable
         if (isset($params['username']))             $content = str_replace('%%username%%', $params['username'], $content);
         if (isset($params['useremail']))            $content = str_replace('%%useremail%%', $params['useremail'], $content);
         if (isset($params['vouchernumber']))        $content = str_replace('%%vouchernumber%%', $params['vouchernumber'], $content);
+        if (isset($params['yeslink']))              $content = str_replace('%%yeslink%%', $params['yeslink'], $content);
 
         return $content;
     }

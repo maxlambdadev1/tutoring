@@ -10,10 +10,10 @@ class BlockFromJob extends Model
     use HasFactory;
 
     protected $table = 'alchemy_block_from_jobs';
+    protected $guarded = [];
 
-    protected $fillable = [
-        'tutor_id',
-        'not_continue_number',
-        'type'
-    ];
+    public function tutor()
+    {
+        return $this->belongsTo(Tutor::class);
+    }
 }

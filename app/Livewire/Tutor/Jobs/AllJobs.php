@@ -25,12 +25,8 @@ class AllJobs extends Component
     {
         $tutor = auth()->user()->tutor;
 
-        $today = new \DateTime('now');
-        $birth = \DateTime::createFromFormat('d/m/Y', trim($tutor->birthday));
-        $interval = $today->diff($birth);
-        if ($interval->y < 18) $this->under_18 = true;
-
         $this->tutor = $tutor;
+        $this->under_18 = $tutor->under18;
 
         $this->getJobs();
     }

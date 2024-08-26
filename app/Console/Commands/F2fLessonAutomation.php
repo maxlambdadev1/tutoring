@@ -16,7 +16,7 @@ class F2fLessonAutomation extends Command
      *
      * @var string
      */
-    protected $signature = 'app:f2f-lesson-automation';
+    protected $signature = 'app:f2f-lesson-automation according to the distance with tutor and parent.';
 
     /**
      * The console command description.

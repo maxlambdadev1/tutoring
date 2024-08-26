@@ -13,4 +13,10 @@ class TutorFirstSession extends Model
 
     protected $guarded = [];
     
+    public function tutor()
+    {
+        return $this->belongsTo(Tutor::class);
+    }
+
+    
 }
