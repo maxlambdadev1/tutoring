@@ -35,7 +35,8 @@ trait Automationable
      * @param int $job_id
      * @return void
      */
-    public function findTutorForF2F($job_id) {
+    public function findTutorForF2F($job_id)
+    {
         $distances = unserialize($this->getOption('job-min-distance')) ?? [];
         $max_distance = max($distances) ?? 0;
         $job = Job::where('job_status', 0)->where('hidden', 0)->where('automation', 1)
@@ -82,7 +83,7 @@ trait Automationable
                     foreach ($tutors as $tutor) {
                         if ($tutor->distance > $min_dist || $tutor->distance < $min_dist - 1) continue;
                         if (in_array($tutor->id, $tutor_ids)) continue;
-                        
+
                         $check = $this->checkRejectedAndAvailabilities($job, $tutor, $parent);
                         if (!$check) continue;
 
@@ -102,7 +103,7 @@ trait Automationable
                                 $comment = "SMS sent for hot lead to " . $tutor->tutor_name . "(" . $tutor->tutor_phone . " - " . $tutor->distance . " km away)";
                             } else $comment = "SMS sent to " . $tutor->tutor_name . "(" . $tutor->tutor_phone . " - " . $tutor->distance . " km away)";
                         }
-                        
+
                         $params = [
                             'subject' => $job->subject,
                             'suburb' => $parent->parent_suburb,
@@ -123,12 +124,12 @@ trait Automationable
                                 'job_id' => $job->id,
                                 'distance' => $min_dist,
                                 'tutor_ids' => implode(';', $tutor_ids),
-                                'last_updated' =>  (new \DateTime('now'))->format('d/m/Y H:i'),
+                                'last_updated' => (new \DateTime('now'))->format('d/m/Y H:i'),
                             ]);
                         } else $job_match->update([
                             'distance' => $min_dist,
                             'tutor_ids' => implode(';', $tutor_ids),
-                            'last_updated' =>  (new \DateTime('now'))->format('d/m/Y H:i'),
+                            'last_updated' => (new \DateTime('now'))->format('d/m/Y H:i'),
                         ]);
 
                         break;
@@ -177,8 +178,8 @@ trait Automationable
                 else if ($timediff < 2 * 86400)  $tutor_query = $tutor_query->whereRaw("TIMESTAMPDIFF(HOUR, created_at, NOW()) >= 720")
                     ->orderBy('non_metro', 'DESC')->orderBy('seeking_students', 'DESC')->orderBy('created_at', 'DESC')->orderBy('seeking_students_timestamp', 'DESC');
                 else $tutor_query = $tutor_query->orderBy('non_metro', 'DESC')->orderBy('seeking_students', 'DESC')->orderBy('online_automation_timestamp', 'ASC')->orderBy('seeking_students_timestamp', 'DESC');
-                
-                $temp_tutors = $tutor_query->get(); 
+
+                $temp_tutors = $tutor_query->get();
                 if (!empty($temp_tutors)) {
                     foreach ($temp_tutors as $tutor) {
                         if (in_array($tutor->id, $tutor_ids)) continue;
@@ -193,7 +194,7 @@ trait Automationable
                         $this->addJobVolumeOffer($tutor->id, $job->id);
                         $link = $this->setRedirect("https://" . env('TUTOR') . "/student-opportunity?url=" . base64_encode("job_id=" . $job->id . "&tutor_id=" . $tutor->id));
                         if ($job->job_type == 'creative') {
-                            $body = "Hi " . $tutor->first_name . "! We have an online Creative Writing Workshop opportunity that we think you'd be great for. The student is in year " . $child->child_year ." and this workshop would be ONLINE. This is a one-off 1.5 hour lesson. Learn more here: " . $link;
+                            $body = "Hi " . $tutor->first_name . "! We have an online Creative Writing Workshop opportunity that we think you'd be great for. The student is in year " . $child->child_year . " and this workshop would be ONLINE. This is a one-off 1.5 hour lesson. Learn more here: " . $link;
                             $comment = "SMS sent to " . $tutor->tutor_name . "(" . $tutor->tutor_phone . ") for creative kids.";
                         } else {
                             $body = "New ONLINE opportunity: Year " . $child->child_year . " student looking for help with " . $job->subject . ". Check it out here: " . $link;
@@ -209,7 +210,7 @@ trait Automationable
                             'job_id' => $job->id,
                             'comment' => $comment,
                         ]);
-                        
+
                         $check_number_tutors++;
                         if ($check_number_tutors >= $number_tutors) break;
                     }
@@ -217,7 +218,6 @@ trait Automationable
             } else {
                 $job_match = $job->job_match;
                 if (!empty($job_match) || !empty($online_limit) && $online_limit->update_avail_action_handled > 0) {
-
                 } else {
                     if ($timediff - 3 * 86400 > 86400 * $online_limit->update_avail_status) {
                         $online_limit->increment('update_avail_status');
@@ -539,5 +539,58 @@ trait Automationable
         $hour = $datetime->format('H');
         if ($hour < 7 || $hour >= 22) return false;
         return true;
+    }
+    /**
+     * Get jobs array for the tutor.
+     * @param int $tutor_id
+     * @param int $session_type_id
+     * @param  int $length
+     * @return array 
+     */
+    public function getJobsForTutor($tutor_id, $session_type_id = 1, $length = null)
+    {
+        $result = [];
+        $tutor = Tutor::find($tutor_id);
+        $jobs = [];
+        $temp_jobs = Job::where('job_status', 0)->where('hidden', 0)->where('automation', 1)->where('session_type_id', $session_type_id)->get();
+
+        foreach ($temp_jobs as $job) {
+            $ignored_tutors = $this->getIgnoredTutorsForJob($job->id);
+            if (!empty($ignored_tutors) && in_array($tutor->id, $ignored_tutors)) continue;
+
+            if (empty($job->date)) continue;
+            $parent = $job->parent;
+            if ($tutor->state != $parent->parent_state) continue;
+            if (!!$job->experienced_tutor && !$tutor->experienced) continue;
+            if (!empty($job->prefered_gender) && $job->prefered_gender != $tutor->gender) continue;
+
+            $check = $this->checkRejectedAndAvailabilities($job, $tutor, $parent);
+            if (!$check) continue;
+
+            if ($session_type_id == 1) {
+                if (!!$tutor->under18) continue;
+
+                if (!!$job->vaccinated && !$tutor->vaccinated) continue;
+
+                $tutor_lat = $tutor->lat ?? 0;
+                $tutor_lon = $tutor->lon ?? 0;
+                $child_lat = $parent->parent_lat ?? 0;
+                $child_lon = $parent->parent_lon ?? 0;
+                $distance = $this->calcDistance($child_lat, $child_lon, $tutor_lat, $tutor_lon);
+                $job->distance = $distance;
+            }
+            $jobs[] = $job;
+        }
+        if (!empty($jobs)) {
+            if ($session_type_id == 1) {
+                uasort($jobs, function ($a, $b) {
+                    return ($a->distance >= $b->distance) ? 1 : -1;
+                });
+            }
+            if (!empty($length)) $result = array_slice($jobs, 0, $length);
+            else $result = $jobs;
+        }
+
+        return $result;
     }
 }
