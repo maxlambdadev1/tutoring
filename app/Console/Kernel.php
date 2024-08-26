@@ -33,7 +33,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:tutor-jobs-offer-volume')->cron("0 18 * * *");
         $schedule->command('app:tutor-make-inactive-schedule')->cron("0 9 * * *");
         $schedule->command('app:tutor-welcome-email')->cron("0 9 * * *");
-<<<<<<< HEAD
         $schedule->command('app:tutor-first-session-call')->cron("0 9 * * *");
         $schedule->command('app:wwcc-app-check')->cron("0 10 * * *");
         $schedule->command('app:wwcc-birth-check')->cron("30 10 * * *");
@@ -42,8 +41,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:tutor-reference-reminder')->everyMinute();
         $schedule->command('app:waiting-list-job-reminder')->cron("10,40 * * * *");
         $schedule->command('app:reject-autoreject-application')->cron("0 14 * * *");
-=======
->>>>>>> 267b843f1cae45284aafc9bbf4c401d6a9f2f514
     }
 
     /**

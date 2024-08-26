@@ -4,20 +4,13 @@ namespace App\Console\Commands;
 
 use App\Models\Tutor;
 use App\Models\Job;
-<<<<<<< HEAD
 use App\Trait\Automationable;
-=======
->>>>>>> 267b843f1cae45284aafc9bbf4c401d6a9f2f514
 use App\Trait\Mailable;
 use Illuminate\Console\Command;
 
 class TutorWelcomeEmail extends Command
 {
-<<<<<<< HEAD
     use Mailable, Automationable;
-=======
-    use Mailable;
->>>>>>> 267b843f1cae45284aafc9bbf4c401d6a9f2f514
     /**
      * The name and signature of the console command.
      *
@@ -38,7 +31,6 @@ class TutorWelcomeEmail extends Command
     public function handle()
     {
         //
-<<<<<<< HEAD
         $now = new \DateTime();
         $yesterday = $now->modify("-1 day")->format('d/m/Y');
         $tutors = Tutor::where('tutor_creat', $yesterday)->get();
@@ -68,7 +60,5 @@ class TutorWelcomeEmail extends Command
                 "comment" => "Sent 'Welcome email' 24 hours after registering in system."
             ]);
         }
-=======
->>>>>>> 267b843f1cae45284aafc9bbf4c401d6a9f2f514
     }
 }

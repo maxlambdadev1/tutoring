@@ -111,10 +111,7 @@ trait Mailable
         if (isset($params['reschedulejobdate']))    $content = str_replace('%%reschedulejobdate%%', $params['reschedulejobdate'], $content);
         if (isset($params['referencefirstname']))   $content = str_replace('%%referencefirstname%%', $params['referencefirstname'], $content);
         if (isset($params['referralspecialprice'])) $content = str_replace('%%referralspecialprice%%', $params['referralspecialprice'], $content);
-<<<<<<< HEAD
         if (isset($params['referenceremindersubject'])) $content = str_replace('%%referenceremindersubject%%', $params['referenceremindersubject'], $content);
-=======
->>>>>>> 267b843f1cae45284aafc9bbf4c401d6a9f2f514
         if (isset($params['reason']))               $content = str_replace('%%reason%%', $params['reason'], $content);
         if (isset($params['reasonlink']))           $content = str_replace('%%reasonlink%%', $params['reasonlink'], $content);
         if (isset($params['studentname']))          $content = str_replace('%%studentname%%', $params['studentname'], $content);
