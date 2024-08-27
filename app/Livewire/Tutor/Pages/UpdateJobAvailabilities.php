@@ -77,7 +77,7 @@ class UpdateJobAvailabilities extends Component
                             $tutor_ids_full[] = $tutor->id;
 
                             $sms_body = $this->generateUniqueSms();
-                            $smsParams = [
+                            $sms_params = [
                                 'name' => $tutor->tutor_name,
                                 'phone' => $tutor->tutor_phone,
                             ];
@@ -88,7 +88,7 @@ class UpdateJobAvailabilities extends Component
                                 'tutorfirstname' => $tutor->first_name,
                                 'link' => $this->setRedirect("https://" . env('TUTOR') . "/student-opportunity?url=" . base64_encode("job_id=" . $job->id . "&tutor_id=" . $tutor->id))
                             ];
-                            $this->sendSms($smsParams, $sms_body, $params);
+                            $this->sendSms($sms_params, $sms_body, $params);
 
                             if ($job->job_type == 'creative') $comment = "SMS sent to extra tutor - " . $tutor->tutor_name . "(" . $tutor->tutor_phone . " - " . $tutor->distance . " km away) for Creative Kids";
                             else $comment = "SMS sent to extra tutor - " . $tutor->tutor_name . "(" . $tutor->tutor_phone . " - " . $tutor->distance . " km away)";

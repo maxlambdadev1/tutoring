@@ -84,6 +84,10 @@ class Job extends Model
     public function job_offer() {
         return $this->hasOne(JobOffer::class);
     }
+    
+    public function online_automation_limit() {
+        return $this->hasOne(OnlineAutomationLimit::class);
+    }
 
     public function waiting_lead_offer() {
         return $this->hasMany(WaitingLeadOffer::class);

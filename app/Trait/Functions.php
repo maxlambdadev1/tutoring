@@ -67,7 +67,11 @@ trait Functions
 		's' => 'Saturday',
 		'S' => 'Sunday',
 	);
-
+	/**
+	 * Get option value according to option name in option table.
+	 * @param string $option_name
+	 * @return string
+	 */
 	public function getOption($option_name)
 	{
 		$option = Option::where('option_name', $option_name)->first();

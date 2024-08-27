@@ -29,21 +29,21 @@ trait Mailable
     }
     /**
      * send template sms when template is not null, else send $title as sms content
-     * @param $smsParams=['name' => , 'phone' => ], $title : string, $params = ['a' => , 'b..' => ..], $type : true or false
+     * @param $sms_params=['name' => , 'phone' => ], $title : string, $params = ['a' => , 'b..' => ..], $type : true or false
      */
-    public function sendSms($smsParams, $title, $params = [], $type = false)
+    public function sendSms($sms_params, $title, $params = [], $type = false)
     {
-        if (empty($smsParams['phone'])) return;
-        if (empty($smsParams['name'])) $smsParams['name'] = 'Contact';
-        if (strpos($smsParams['phone'], '+61') == false) $smsParams['phone'] = '+61' . $smsParams['phone'];
+        if (empty($sms_params['phone'])) return;
+        if (empty($sms_params['name'])) $sms_params['name'] = 'Contact';
+        if (strpos($sms_params['phone'], '+61') == false) $sms_params['phone'] = '+61' . $sms_params['phone'];
 
-        $smsParams['locationUid'] = $type ? config('services.podium.locationUidSecond') : config('services.podium.locationUidFirst');
-        $smsParams['body'] = $this->getFilteredContent($this->getSmsTemplate($title), $params);
+        $sms_params['locationUid'] = $type ? config('services.podium.locationUidSecond') : config('services.podium.locationUidFirst');
+        $sms_params['body'] = $this->getFilteredContent($this->getSmsTemplate($title), $params);
         $fields = [
-            'locationUid' => $smsParams['locationUid'],
-            'customerName' => $smsParams['name'],
-            'customerPhoneNumber' => $smsParams['phone'],
-            'message' => $smsParams['body'],
+            'locationUid' => $sms_params['locationUid'],
+            'customerName' => $sms_params['name'],
+            'customerPhoneNumber' => $sms_params['phone'],
+            'message' => $sms_params['body'],
         ];
 
         // $response = Http::withToken(config('services.podium.key'))->post(config('services.podium.url'), $fields);
@@ -83,6 +83,7 @@ trait Mailable
         if (isset($params['length']))               $content = str_replace('%%length%%', $params['length'], $content);
         if (isset($params['link']))                 $content = str_replace('%%link%%', $params['link'], $content);
         if (isset($params['mainresult']))           $content = str_replace('%%mainresult%%', $params['mainresult'], $content);
+        if (isset($params['matchcontent']))         $content = str_replace('%%matchcontent%%', $params['matchcontent'], $content);
         if (isset($params['mind']))                 $content = str_replace('%%mind%%', $params['mind'], $content);
         if (isset($params['notes']))                $content = str_replace('%%notes%%', $params['notes'], $content);
         if (isset($params['nolink']))               $content = str_replace('%%nolink%%', $params['nolink'], $content);
@@ -93,6 +94,7 @@ trait Mailable
         if (isset($params['onlinesessionurl']))     $content = str_replace('%%onlinesessionurl%%', $params['onlinesessionurl'], $content);
         if (isset($params['onlinelimitnumber']))    $content = str_replace('%%onlinelimitnumber%%', $params['onlinelimitnumber'], $content);
         if (isset($params['onlineURL']))            $content = str_replace('%%onlineURL%%', $params['onlineURL'], $content);
+        if (isset($params['onlineurl']))            $content = str_replace('%%onlineurl%%', $params['onlineurl'], $content);
         if (isset($params['overallrating']))        $content = str_replace('%%overallrating%%', $params['overallrating'], $content);
         if (isset($params['parentname']))           $content = str_replace('%%parentname%%', $params['parentname'], $content);
         if (isset($params['parentfirstname']))      $content = str_replace('%%parentfirstname%%', $params['parentfirstname'], $content);
@@ -104,8 +106,12 @@ trait Mailable
         if (isset($params['q2']))                   $content = str_replace('%%q2%%', $params['q2'], $content);
         if (isset($params['q3']))                   $content = str_replace('%%q3%%', $params['q3'], $content);
         if (isset($params['q4']))                   $content = str_replace('%%q4%%', $params['q4'], $content);
+        if (isset($params['referralcode']))         $content = str_replace('%%referralcode%%', $params['referralcode'], $content);
+        if (isset($params['referralprice']))        $content = str_replace('%%referralprice%%', $params['referralprice'], $content);
         if (isset($params['reschedulejobdate']))    $content = str_replace('%%reschedulejobdate%%', $params['reschedulejobdate'], $content);
         if (isset($params['referencefirstname']))   $content = str_replace('%%referencefirstname%%', $params['referencefirstname'], $content);
+        if (isset($params['referralspecialprice'])) $content = str_replace('%%referralspecialprice%%', $params['referralspecialprice'], $content);
+        if (isset($params['referenceremindersubject'])) $content = str_replace('%%referenceremindersubject%%', $params['referenceremindersubject'], $content);
         if (isset($params['reason']))               $content = str_replace('%%reason%%', $params['reason'], $content);
         if (isset($params['reasonlink']))           $content = str_replace('%%reasonlink%%', $params['reasonlink'], $content);
         if (isset($params['studentname']))          $content = str_replace('%%studentname%%', $params['studentname'], $content);
@@ -138,6 +144,7 @@ trait Mailable
         if (isset($params['username']))             $content = str_replace('%%username%%', $params['username'], $content);
         if (isset($params['useremail']))            $content = str_replace('%%useremail%%', $params['useremail'], $content);
         if (isset($params['vouchernumber']))        $content = str_replace('%%vouchernumber%%', $params['vouchernumber'], $content);
+        if (isset($params['yeslink']))              $content = str_replace('%%yeslink%%', $params['yeslink'], $content);
 
         return $content;
     }

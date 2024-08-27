@@ -16,6 +16,10 @@ class TutorApplication extends Model
         return $this->hasMany(TutorApplicationHistory::class, 'application_id');
     }
     
+    public function reference() {
+        return $this->hasMany(TutorApplicationReference::class, 'application_id');
+    }
+
     public function reference_history() {
         return $this->hasMany(TutorApplicationReferenceHistory::class, 'application_id');
     }
@@ -30,5 +34,10 @@ class TutorApplication extends Model
 
     public function getDateSubmittedAmpmAttribute() {
         return Carbon::createFromFormat('d/m/Y H:i', $this->date_submitted)->format('d/m/Y h:i A');
+    }
+    
+    public function getTutorNameAttribute()
+    {
+        return ucfirst($this->tutor_first_name) . ' ' . ucfirst($this->tutor_last_name);
     }
 }

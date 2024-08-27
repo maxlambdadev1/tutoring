@@ -609,22 +609,22 @@ trait WithLeads
             } else {
                 $sms_body = "Hozzah! Your first session with " . $params['studentname'] . " is confirmed for " . $params['date'] . " at " . $tutor_time . ". Please check your email for details and don’t hesitate to get in touch with any questions!";
             }
-            $smsParams = [
+            $sms_params = [
                 'phone' => $tutor->tutor_phone,
                 'name' => $tutor->tutor_name,
             ];
-            $this->sendSms($smsParams, $sms_body);
+            $this->sendSms($sms_params, $sms_body);
 
             if ($job->job_type == 'creative') {
                 $sms_body = "Hi " . $parent->parent_first_name . "! Great news - we’ve lined up a creative writing workshop for " . $params['studentfirstname'] . "  on " . $params['date']  . " at " . $parent_time . ". You will receive an email with details shortly! Team Alchemy";
             } else {
                 $sms_body = "Hi " . $parent->parent_first_name . ", great news! Your first session with an Alchemy Tutor has been confirmed for " . $params['date'] . " at " . $parent_time . ". Please check your email for details!";
             }
-            $smsParams = [
+            $sms_params = [
                 'phone' => $params['parentphone'],
                 'name' => $parent->parent_name,
             ];
-            $this->sendSms($smsParams, $sms_body);
+            $this->sendSms($sms_params, $sms_body);
 
             $params['time'] = $parent_time;
             $params['parentfirstname'] = $parent->parent_first_name;
@@ -1000,18 +1000,14 @@ trait WithLeads
             if (!in_array($job_id, $tutor_offer_volume->job_ids_array)) {
                 $job_ids = $tutor_offer_volume->job_ids . ";" . $job_id;
                 $offers = $tutor_offer_volume->offers + 1;
-                TutorOfferVolume->create([
-                    'job_id' => $job_id,
-                    'tutor_id' => $tutor_id,
-                ], [
+                $tutor_offer_volume->update([
                     'job_ids' => $job_ids,
                     'offers' => $offers,
                     'date_lastupdate' => (new \DateTime('now'))->format('d/m/Y H:i')
                 ]);
             }
         } else {
-            TutorOfferVolume->create([
-                'job_id' => $job_id,
+            TutorOfferVolume::create([
                 'tutor_id' => $tutor_id,
                 'job_ids' => $job_id,
                 'offers' => 1,

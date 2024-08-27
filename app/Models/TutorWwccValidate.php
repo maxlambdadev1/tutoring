@@ -10,12 +10,10 @@ class TutorWwccValidate extends Model
     use HasFactory;
 
     protected $table = 'alchemy_tutor_wwcc_validate';
+    protected $guarded = [];
 
-    protected $fillable = [
-        'tutor_id',
-        'timestamp',
-        '4w_reminder',
-        '5w_reminder',
-        '6w_reminder',
-    ];
+    public function tutor()
+    {
+        return $this->belongsTo(Tutor::class);
+    }
 }

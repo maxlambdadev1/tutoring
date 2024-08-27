@@ -5,6 +5,7 @@ namespace App\Trait;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Tutor;
+use App\Models\TutorApplicationStatus;
 use App\Models\TutorWwcc;
 use App\Models\TutorWwccValidate;
 use App\Models\Child;
@@ -77,11 +78,11 @@ trait WithTutors {
             if ($app_status == 2) { //'Scheduling interview'
                 $this->sendEmail($app->tutor_email, 'tutor-application-interview', $params);
 
-                $smsParams = [
+                $sms_params = [
                     'name' => $app->tutor_first_name . ' ' . $app->tutor_last_name,
                     'phone' => $app->tutor_phone,
                 ];
-                $this->sendSms($smsParams, '', $params);
+                $this->sendSms($sms_params, '', $params);
             } else if ($app_status == 4) { //'Awaiting to register'
                 $params['email'] = 'tutor-application-register';
                 $this->tutorApplicationQueue($params);
@@ -96,7 +97,7 @@ trait WithTutors {
             $status =  $this::APPLICATION_STATUS[$app_status] ?? '';
             $this->addTutorApplicationHistory([
                 'application_id' => $app->id,
-                'author' => auth()->user()->admin->admin_name,
+                'author' => auth()->user()->admin->admin_name ?? 'Syetem',
                 'comment' => "Changed status to " .$status
             ]);
             
@@ -180,5 +181,36 @@ trait WithTutors {
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+    }
+
+    /**
+     * update tutor application followup counter.
+     * @param int $application_id
+     * @return void
+     */
+    public function updateTutorApplicationFollowup($application_id, $counter, $type) {
+        TutorApplicationStatus::where('application_id', $application_id)
+            ->update([
+                'date_follow_up' => gmdate('d/m/Y H:i'),
+                'followup_counter' => $counter ?? 0,
+            ]);
+
+        $this->addTutorApplicationHistory([
+            'application_id' => $application_id,
+            'comment' => "Sent " . $type . " follow up.",
+        ]);
+    }
+
+    /**
+     * Close the tutor application due to lack of response from tutor.
+     * @param int $application_id
+     * @return void
+     */
+    public function closeTutorApplication($application_id) {
+        TutorApplicationStatus::where('application_id', $application_id)->update(['application_status' => 9]);
+        $this->addTutorApplicationHistory([
+            'application_id' => $application_id,
+            'comment' => "Closed application due to the lack of response from tutor."
+        ]);
     }
 }

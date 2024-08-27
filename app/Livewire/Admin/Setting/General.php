@@ -109,11 +109,11 @@ class General extends Component
 
                 $tutors = $query->get();
                 foreach ($tutors as $tutor) {
-                    $smsParams = [
+                    $sms_params = [
                         'name' => $tutor->tutor_name,
                         'phone' => $tutor->tutor_phone
                     ];
-                    $this->sendSms($smsParams, $this->tutor_sms_announcement_text);
+                    $this->sendSms($sms_params, $this->tutor_sms_announcement_text);
                     usleep(100000); //100ms
                 }
                 $this->tutor_sms_flag = false;
@@ -176,11 +176,11 @@ class General extends Component
 
                 $parents = $query->get();
                 foreach ($parents as $parent) {
-                    $smsParams = [
+                    $sms_params = [
                         'name' => $parent->parent_name,
                         'phone' => $parent->parent_phone
                     ];
-                    $this->sendSms($smsParams, $this->parent_sms_announcement_text);
+                    $this->sendSms($sms_params, $this->parent_sms_announcement_text);
                     usleep(100000); //100ms
                 }
                 $this->parent_sms_flag = false;

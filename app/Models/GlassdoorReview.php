@@ -10,9 +10,11 @@ class GlassdoorReview extends Model
     use HasFactory;
     
     protected $table = 'alchemy_glassdoor_review';
+    
+    protected $guarded = [];
+    
+    public function tutor() {
+        return $this->belongsTo(Tutor::class);
+    }
 
-    protected $fillable = [
-        'tutor_id',
-        'date',
-    ];
 }

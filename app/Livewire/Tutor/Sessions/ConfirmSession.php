@@ -5,6 +5,7 @@ namespace App\Livewire\Tutor\Sessions;
 use App\Models\Session;
 use App\Models\SessionFilter;
 use App\Models\ThirdpartyOrganisation;
+use App\Models\TutorFirstSession;
 use App\Trait\Functions;
 use Carbon\Carbon;
 use App\Trait\Sessionable;
@@ -26,8 +27,13 @@ class ConfirmSession extends Component
     public $session_date;
     public $session_time;
     public $no_session_scheduled = false;
-    public $no_session_scheduled_reason;
-    public $no_session_scheduled_additional_info;
+    public $no_session_scheduled_reason = '';
+    public $no_session_scheduled_additional_info = '';
+
+    public $question_1;
+    public $question_2;
+    public $question_3;
+    public $question_4;
 
     public function mount($session_id)
     {
@@ -77,6 +83,7 @@ class ConfirmSession extends Component
                     'session_time' => $session_time,
                 ]);
             }
+            $this->calculateSessions($session->id);
 
             if (empty($tutor->online_acceptable_status)) {
                 $online_limit = $this->getOption('online-limit');
@@ -99,11 +106,11 @@ class ConfirmSession extends Component
             }
 
             // $this->updateInXero();
-            
+
             $date = \DateTime::createFromFormat('d/m/Y H:i', $session->session_last_changed);
-            $date->setTimeZone( new \DateTimeZone('Australia/Sydney'));
+            $date->setTimeZone(new \DateTimeZone('Australia/Sydney'));
             $date->add(new \DateInterval('P1D'));
-            $secret = sha1($session->id . env('SHARED_SECRET')); 
+            $secret = sha1($session->id . env('SHARED_SECRET'));
             $params = [
                 'length' => $session_length,
                 'date' => $session->session_date,
@@ -138,6 +145,80 @@ class ConfirmSession extends Component
             else  $this->sendEmail($params['email'], "tutor-session-confirmation-email", $params);
 
             SessionFilter::where('tutor_id', $tutor->id)->where('parent_id', $parent->id)->where('child_id', $child->id)->delete();
+
+            $this->dispatch('showToastrMessage', [
+                'status' => 'success',
+                'message' => 'You confirmed this session.'
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            $this->dispatch('showToastrMessage', [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+            return false;
+        }
+    }
+
+    public function confirmFirstSession($session_date, $session_time)
+    {
+        try {
+            if (empty($this->session_type_id)) throw new \Exception("Please select sessin type");
+
+            $session_length = $this->session_hours + $this->session_minutes;
+            $session = $this->session;
+            $parent = $session->parent;
+            $child = $session->child;
+            $tutor = auth()->user()->tutor;
+
+            $this->makeChildActive($child->id);
+            $session_price = $this->calcSessionPrice($parent->id, $this->session_type_id);
+            $tutor_price = $this->calcTutorPrice($tutor->id, $parent->id, $child->id, $this->session_type_id);
+            $payment_status = $this->checkPaymentStatus($session->id);
+
+            $session->update([
+                'session_length' => $session_length,
+                'session_status' => 2,
+                'session_first_question1' => $this->question_1,
+                'session_first_question2' => $this->question_2,
+                'session_first_question3' => $this->question_3,
+                'session_first_question4' => $this->question_4,
+                'type_id' => $this->session_type_id,
+                'session_next_session_tutor_date' => $session_date,
+                'session_next_session_tutor_time' => $session_time,
+                'session_price' => $session_price,
+                'session_tutor_price' => $tutor_price,
+                'session_charge_status' => $payment_status,
+                'session_last_changed' => date('d/m/Y H:i'),
+            ]);
+
+            TutorFirstSession::where('tutor_id', $tutor->id)->whereNot('status', 5)->update(['status' => 4]);
+            $this->addTutorHistory([
+                'tutor_id' => $tutor->id,
+                'comment' => "Changed status to 'Awaiting follow up' after confirming their first session"
+            ]);
+            $this->calculateSessions($session->id);
+
+            // $this->updateInXero();
+
+            $date = \DateTime::createFromFormat('d/m/Y H:i', $session->session_last_changed);
+            $date->setTimeZone(new \DateTimeZone('Australia/Sydney'));
+            $date->add(new \DateInterval('P1D'));
+            $secret = sha1($session->id . env('SHARED_SECRET'));
+            $params = [
+                'email' => $parent->parent_email,
+                'parentfirstname' => $parent->parent_first_name,
+                'tutorfirstname' => $tutor->first_name,
+                'studentname' => $child->child_name,
+                'STUDENTNAME' => strtoupper($child->first_name),
+                'q1' => $this->question_1,
+                'q2' => $this->question_2,
+                'q3' => $this->question_3,
+                'q4' => $this->question_4,
+                'link' => $this->createNextSessionLink($session->id),
+            ];
+
+            $this->sendEmail($params['email'], "parent-after-first-session-email", $params);
 
             $this->dispatch('showToastrMessage', [
                 'status' => 'success',
