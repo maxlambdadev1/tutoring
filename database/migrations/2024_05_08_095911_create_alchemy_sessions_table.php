@@ -34,6 +34,7 @@ return new class extends Migration
             $table->decimal('session_penalty', 4, 2)->default(0.00);
             $table->string('session_charge_time', 50)->nullable();
             $table->string('session_transfer_time', 250)->nullable();
+            $table->string('session_payment_intent_id')->nullable();
             $table->string('session_charge_id')->nullable();
             $table->string('session_transfer_id')->nullable();
             $table->string('session_invoice_id')->nullable();

@@ -740,4 +740,9 @@ trait Functions
 		} 
 		return false;
 	}
+
+	public function convertDateFormatString($dateFormat)
+	{
+		return str_replace(['d', 'm', 'Y'], ['%d', '%m', '%Y'], $dateFormat);
+	}
 }
