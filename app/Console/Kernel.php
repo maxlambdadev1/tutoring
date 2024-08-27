@@ -41,6 +41,11 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:tutor-reference-reminder')->everyMinute();
         $schedule->command('app:waiting-list-job-reminder')->cron("10,40 * * * *");
         $schedule->command('app:reject-autoreject-application')->cron("0 14 * * *");
+        $schedule->command('app:deactivate-seeking-students-status')->cron("8 10 * * *");
+        $schedule->command('app:sequence-parent')->cron("0 10 * * *");
+        $schedule->command('app:new-year-no-lesson-scheduled')->cron("0 11 * * *");
+        $schedule->command('app:new-year-replacement-parent')->cron("15 11 * * *");
+        $schedule->command('app:new-year-reach-parent')->cron("25 11 * * *");
     }
 
     /**

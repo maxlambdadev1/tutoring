@@ -73,4 +73,8 @@ Route::group(['as' => 'pages'], function() {
     Route::get('/confirm-session', \App\Livewire\Tutor\Pages\ConfirmSession::class)->name('confirm-session');
     Route::get('/paymentcc', \App\Livewire\Tutor\Pages\PaymentCc::class)->name('paymentcc');
     Route::get('/tutor/{tutor_id}', \App\Livewire\Tutor\Pages\TutorProfile::class)->name('tutor-profile');
+    Route::get('/opt-out', \App\Livewire\Tutor\Pages\OptOut::class)->name('opt-out');
+    Route::get('/reference-require', \App\Livewire\Tutor\Pages\ReferenceRequire::class)->name('reference-require');
+    Route::get('/character-references', \App\Livewire\Tutor\Pages\CharacterReferences::class)->name('character-references');
+    Route::get('/booking-update', \App\Livewire\Tutor\Pages\BookingUpdate::class)->name('booking-update');
 });
