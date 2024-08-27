@@ -132,7 +132,7 @@ class TutorReferenceReminder extends Command
                 $secret = sha1($application->id . env('SHARED_SECRET'));
                 $params['email'] = $application->tutor_email;
                 $params['tutorfirstname'] = $application->tutor_first_name;
-                $params['link'] = "https://" . env('TUTOR') . "/reference-require?url=" . base64_encode("secret=" . $secret . "&application_id" . $application->id . "&number=1&column=no");
+                $params['link'] = "https://" . env('TUTOR') . "/reference-require?url=" . base64_encode("secret=" . $secret . "&application_id" . $application->id . "&number=2&column=no");
                 $this->sendEmail($params['email'], "tutor-reference-request-email", $params);
             }
             $application->increment('reference_reminder_96h');
