@@ -5,7 +5,7 @@
     @section('description')
     @endsection
     @section('script')
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=maps,places,marker&key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY&loading=async&callback=student_opportunity" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=maps,places,marker&key={{ env('GOOGLE_MAPS_GEOCODING_API_KEY') }}&loading=async&callback=student_opportunity" async defer></script>
     @endsection
 
     <div class="text-center" style="height:100vh;" x-data="student_opportunity_init">

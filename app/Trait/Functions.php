@@ -88,7 +88,7 @@ trait Functions
 	public function getCoord($address)
 	{
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, "https://maps.googleapis.com/maps/api/geocode/json?address={$address}&key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY");
+		curl_setopt($ch, CURLOPT_URL, "https://maps.googleapis.com/maps/api/geocode/json?address={$address}&key={ env('GOOGLE_MAPS_GEOCODING_API_KEY') }");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$geocodeObject = json_decode(curl_exec($ch));
 		// file_put_contents('coord.txt', print_r($geocodeObject, true));

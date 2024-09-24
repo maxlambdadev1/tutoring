@@ -5,7 +5,7 @@
     @endphp
     <x-custom-header :title="$title" :breadcrumbs="$breadcrumbs" />
 
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOIopVJmkbjQFH8B9Sy3RpZLJzUQGjHnY&libraries=places&loading=async" async defer></script> -->
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_GEOCODING_API_KEY') }}&libraries=places&loading=async" async defer></script> -->
     <div class="row" x-data="job_detail_init">
         <div class="col-12">
             <div class="card mb-3">
